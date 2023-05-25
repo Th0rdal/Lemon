@@ -25,6 +25,7 @@ user Table:
     identifier:
         userID int
         userName str
+        password str
 
     creation:
         creationDate
