@@ -1,0 +1,49 @@
+recipe Table
+    identifier:
+        recipeID int
+
+    recipe Info:
+        Title str
+        method array [str]
+        ingredients/amount dict {str:int}
+
+    creation Info:
+        creator userID
+        creationDate date
+
+    extra:
+        nutrition values array [int]
+        tags array [str]
+
+    community:
+        ratingStars int
+        ratingAmount int
+        comments(Amount) int
+
+user Table:
+
+    identifier:
+        userID int
+        userName str
+
+    creation:
+        creationDate
+
+    recipe:
+        postedRecipes array[int]
+
+    settings:
+        showNutritionValue: bool
+
+rating Table
+
+    recipeID int
+    userID int
+    ratingStar int
+
+comments Table
+
+    recipeID int
+    userID int
+    comment str
+    creationDate date
