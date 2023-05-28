@@ -1,8 +1,9 @@
 const express = require("express")
+
 const router = express.Router()
 const {user} = require("../database/database")
 const userDB = new user();
-
+const {sendResponse} = require('../tools')
 const NotImplementedException = require("../server_exceptions");
 
 router.route("/:userID")
@@ -21,7 +22,7 @@ router.route("/:userID")
         }).catch(err => {
             res.sendStatus(500);
         })
-    })
+    }, sendResponse)
     .put(function (req, res) {
         /*
         query: username (string), password (string), showNutritionValue (boolean)

@@ -1,7 +1,7 @@
 const Datastore = require("nedb");
 const mutex = require("./mutex");
 const path = require('path');
-const getProjectDirectory = require('../tools');
+const {getProjectDirectory} = require('../tools');
 
 // abstract Database class
 class Database {

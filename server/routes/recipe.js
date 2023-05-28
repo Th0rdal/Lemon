@@ -1,13 +1,13 @@
-const express = require("express")
+const express = require("express");
 
-const router = express.Router()
-const NotImplementedException = require("../server_exceptions");
-const {recipe} = require("../database/database")
-const recipeDB = new recipe()
-const {rating} = require("../database/database")
+const router = express.Router();
+const {recipe} = require("../database/database");
+const recipeDB = new recipe();
+const {rating} = require("../database/database");
 const ratingDB = new rating();
-const {comments} = require("../database/database")
+const {comments} = require("../database/database");
 const commentsDB = new comments();
+const {sendResponse} = require("../tools");
 let recipeOfTheDay = {"title": "recipeOfTheDay"}
 router.get("/ofTheDay", function (req, res) {
     res.json(recipeOfTheDay);
@@ -30,7 +30,7 @@ router.put("/", function (req, res) {
     })
 
 router.route("/:recipeID")
-    .get(function (req, res) {
+    .get(function (req, res, next) {
         /*
         send: json data of the recipe
         send 404: if the recipe does not exist
@@ -41,11 +41,13 @@ router.route("/:recipeID")
                 res.sendStatus(404);
                 return;
             }
-            res.json(resolve);
+            res.data = resolve;
+            next();
         }).catch(err => {
+            console.log(err);
             res.sendStatus(500);
         })
-    })
+    }, sendResponse)
     .patch(function (req, res) {
         /*
         query: whatever should be updated
@@ -62,6 +64,7 @@ router.route("/:recipeID")
                 res.sendStatus(500);
             }
         }).catch(err => {
+            console.log(err);
             res.sendStatus(500);
         })
     })
@@ -93,6 +96,7 @@ router.route("/:recipe/comment")
         commentsDB.insert(Object.assign({"_id":req.params.recipeID}, req.query)).then(() =>
             res.sendStatus(204)
         ).catch(err => {
+            console.log(err);
             res.sendStatus(500);
         })
     })
@@ -115,18 +119,19 @@ router.route("/:recipe/comment")
         })
     })
 
-router.get("/:recipeID/comments", function (req, res) {
+router.get("/:recipeID/comments", function (req, res, next) {
     /*
     send: json data of the comments of the recipe
     send 500: if there was an error retrieving the data
      */
     commentsDB.find({"recipeID":req.params.recipeID}).then(resolve => {
-            res.json(resolve);
+            res.data = resolve;
+            next()
     }).catch(err => {
         console.log(err);
         res.sendStatus(500);
     })
-})
+}, sendResponse)
 
 router.put("/:recipeID/comments", function(req, res)  {
     /*#
@@ -134,7 +139,7 @@ router.put("/:recipeID/comments", function(req, res)  {
     send 204: if request was successful
     send 500: if there was an error retrieving the data
      */
-    commentsDB.insert(Object.assign({"recipeID":req.params.recipeID}, req.query)).then(resolve => {
+    commentsDB.insert(Object.assign({"recipeID":req.params.recipeID}, req.query)).then(() => {
         res.sendStatus(204);
     }).catch(err => {
         console.log(err);
@@ -142,13 +147,14 @@ router.put("/:recipeID/comments", function(req, res)  {
     })
 });
 
-router.get("/:recipeID/ratings", function (req, res) {
+router.get("/:recipeID/ratings", function (req, res, next) {
     /*
     send: json data of the ratings of the recipe
     send 500: if there was an error retrieving the data
      */
     ratingDB.find({"recipeID":req.params.recipeID}).then(resolve => {
-        res.json(resolve);
+        res.data = resolve;
+        next();
     }).catch(err => {
         console.log(err)
         res.sendStatus(500);
