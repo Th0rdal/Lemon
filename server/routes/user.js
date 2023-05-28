@@ -23,12 +23,34 @@ router.route("/:userID")
         })
     })
     .put(function (req, res) {
-        //implement
-        throw new NotImplementedException();
+        /*
+        query: username (string), password (string), showNutritionValue (boolean)
+        send 204: if the request was successful
+        send 500: if there was an error with the database access
+         */
+        userDB.insert(req.query).then(() => {
+            res.sendStatus(204);
+        }).catch(err => {
+            console.log(err);
+            res.sendStatus(500);
+        })
     })
     .patch(function (req, res) {
-        //implement
-        throw new NotImplementedException();
+        /*
+        query: whatever should be updated
+        send 204: if updated without problem
+        send 404: if the user could not be found
+        send 500: if there was an error with the database
+         */
+        userDB.update({"_id":req.params.userID}, req.query, {}).then(resolve => {
+            if (resolve === 1) {
+                res.sendStatus(204);
+            }else if (resolve === 0) {
+                res.sendStatus(404);
+            }else {
+                res.sendStatus(500);
+            }
+        })
     }).delete(function (req, res) {
         /*
         send 204: if removed without problem
