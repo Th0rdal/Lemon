@@ -12,7 +12,7 @@ router.get("/ofTheDay", function (req, res) {
     res.json(recipeOfTheDay);
 })
 
-router.route("/:recipeID")
+router.route("/")
     .get(function (req, res) {
         /*
         send: json data of the recipe
@@ -30,12 +30,38 @@ router.route("/:recipeID")
         })
     })
     .put(function (req, res) {
-        //implement
-        throw new NotImplementedException();
+        /*
+        query: title (str), method (array(string)), ingredients (object(string,number)), creator(string)
+                , nutrition (object(string,number)), tags (array(string)), ratingStars (number)
+                , ratingAmount (number), comments (number)
+         send 204: if inserted without problem
+         send 400: if the query is having errors
+         */
+        let data = {}
+        for (let index in req.query) {
+            data[index] = req.query[index];
+        }
+        recipeDB.insert(data).then(resolve => {
+            res.sendStatus(204)
+        }).catch(err => {
+            console.log(err)
+            res.sendStatus(400)
+        })
     })
     .patch(function (req, res) {
-        //implement
-        throw new NotImplementedException();
+        let data = {};
+        for (let index in req.query) {
+            data[index] = req.query[index];
+        }
+        recipeDB.update({"_id":req.params.recipeID}, data, {}).then(resolve => {
+            if (resolve === 1) {
+                res.sendStatus(204);
+            }else {
+                res.sendStatus(500);
+            }
+        }).catch(err => {
+            res.sendStatus(500);
+        })
     })
     .delete(function (req, res) {
         /*
