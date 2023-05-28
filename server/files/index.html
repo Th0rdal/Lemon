@@ -3,7 +3,9 @@
 <head>
 
     <script language="JavaScript" type="text/javascript" src="Java-Scripts/Sidebar.js"></script>
-    <link rel="stylesheet" href="CSS-Datein/Sidebar.css">
+    <link rel="stylesheet" href="CSS-Datein/Sidebar/Sidebar.css">
+    <link rel="stylesheet" href="CSS-Datein/Sidebar/Sidebarfilling.css">
+    <link rel="stylesheet" href="CSS-Datein/Index.css">
     <meta charset="utf-8">
     <title>Lemon!</title>
 
@@ -12,18 +14,29 @@
 <body>
 
 
-<nav id="Sidebar" class="Navigation">
+<div class="container">
+    <nav>Navbar
 
-    <button class="openbtn" onclick="openNav()">&#9776; Open Sidebar</button>
+        <div id="navigation" class="linkContainer">
+            <ul>
+                <li>
+                    <button id="sidebar-toggle" class="sidebarButton" onclick="toggleSidebar()">Toggle Sidebar</button>
+                </li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="user/user.html">User</a></li>
+            </ul>
 
-    <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&#9746;</a>
+        </div>
 
-        <div id="VegiButton" class="button">
 
-            <button id="showOptionsButton" type="button" name="Vegi">Gemüse</button>
+    </nav>
+    <main>Main</main>
+    <div id="sidebar">Sidebar
+        <div id="VegiIngredients" class="VegiIngredients">
 
-            <div id="options" class="hidden">
+            <button id="VegiButton" type="button" class="VegiButton" name="Vegi">Gemüse</button>
+
+            <div id="VegiOptions" class="VegiOptions">
                 <label>
                     <input type="checkbox" name="option1" value="Onion"> Zwiebel
                 </label>
@@ -38,30 +51,9 @@
         </div>
 
 
-        <div id="MeatButton" class="button">
-
-        </div>
-
-        <div id="FishButton" class="button">
-
-        </div>
-
-        <div id="FruitButton" class="button">
-
-        </div>
-
-        <div id="SaucesButton" class="button">
-
-        </div>
-
     </div>
-
-
-</nav>
-
-
-
-
+    <footer>Footer</footer>
+</div>
 
 
 </body>
