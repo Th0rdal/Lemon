@@ -16,7 +16,7 @@ class Database {
         if (!Database.instance) {   //create a new database instance if there is none
             Database.mutex = new mutex();   //create new mutes
             Database.validDataFormat = validDataFormat;
-            Database.database = new Datastore({"filename": path, "autoload": true});    //connect to database
+            Database.database = new Datastore({"filename": path, "autoload": true, "timestampData":true});    //connect to database
             Database.instance = this;
         }
 
@@ -28,6 +28,7 @@ class Database {
         insert object into the database
         param rawData: the object to be inserted
         return resolve(): after the data has been inserted
+        return reject(errorMessage): if there was an error with the data
          */
         return new Promise((resolve, reject) => {
             let check = this.checkData(rawData);
@@ -140,20 +141,52 @@ class Database {
         let dataKeysAmount = Object.keys(checkData).length;
         let expectedKeysAmount = Object.keys(Database.validDataFormat).length;
         if (dataKeysAmount !== expectedKeysAmount) {
-            return "expected " + expectedKeysAmount.toString() + " keys, but got "
-                + dataKeysAmount.toString();
+            return `expected ${expectedKeysAmount} keys, but got ${dataKeysAmount} keys`
         }
 
         //check if each value is in rawData
         let dataKeys = Object.keys(checkData);
         for (let key of Object.keys(Database.validDataFormat)) {
             if (!dataKeys.includes(key)) {
-                return "key \"" + key.toString() + "\" is not defined";
+                return `key "${key}" is not defined`
             }
-            if (!(typeof checkData[key] === Database.validDataFormat[key])) {
-                return "The value \"" + checkData[key].toString() + "\" of the key \""
-                    + key.toString() + "\" should be of type \"" + Database.validDataFormat[key].toString()
-                    + "\", but is of type \"" + (typeof checkData[key]).toString() + "\"";
+
+
+            if (Database.validDataFormat[key].startsWith("array")) {//check if the value for this key should be an array
+                //check if value for the key of the given object is an array
+                if (!Array.isArray(checkData[key])) {
+                    return `The value "${checkData[key]}" of the key "${key}" should be an array, but it is of type ${typeof checkData[key]}`
+                }
+
+                //get the type that should be inside the array
+                let expectedType = Database.validDataFormat[key].split("(")[1].slice(0, -1);
+                for (let index in checkData[key]) { //check all elements in the array if they match the expected type
+                    if (!(typeof checkData[key][index] === expectedType)) {
+                        return `The value "${checkData[key][index]}" (index: ${index}) of the key "${key}" should be of type ${expectedType}, but it is of type ${typeof checkData[key]}`
+                    }
+                }
+            }else if (Database.validDataFormat[key].startsWith("object")) {
+                //check if value for the key of the given object is an object
+                if (!(typeof checkData[key] === 'object') || checkData[key] === null) {
+                    return `The value "${checkData[key]}" of the key "${key}" should be of type object, but it is of type ${typeof checkData[key]}`
+                }
+
+                //get the type that should be inside the array
+                let expectedType = Database.validDataFormat[key].split("(")[1].slice(0, -1);
+                let tempArray = expectedType.split(",")
+                let expectedKey = tempArray[0];
+                let expectedValue = tempArray[1];
+                for (let index in Object.keys(checkData[key])) { //check all elements in the array if they match the expected type
+                    let objectKey = Object.keys(checkData[key])[index];
+                    if (!(typeof objectKey === expectedKey)) {
+                        return `In key "${key}": The key "${objectKey}" should be of type ${expectedKey}, but is of type ${typeof objectKey}`
+                    }else if (!(typeof checkData[key][objectKey] === expectedValue)) {
+                        return `In key "${key}": The value "${checkData[key][objectKey]}" of the key "${objectKey}" should be of type ${expectedValue}, but is of type ${typeof checkData[key][objectKey]}`
+                    }
+                }
+
+            }else if (!(typeof checkData[key] === Database.validDataFormat[key])) {
+                return `The value "${checkData[key]}" of the key "${key}" should be of type ${Database.validDataFormat[key]}, but is of type ${typeof checkData[key]}`
             }
         }
         return "";
@@ -162,44 +195,75 @@ class Database {
 
 class recipeDB extends Database {   //class for the recipe database
     constructor() {
-        const temp = {"title":"string", "ratingStars":"number"}
+        const temp = {
+            "title":"string", "method":"array(string)", "ingredients":"object(string,number)"
+            ,"creator":"string", "nutrition":"object(string,number)", "tags":"array(string)", "ratingStars":"number"
+            ,"ratingAmount":"number", "comments":"number"};
         super('./resources/database/recipe.db', temp);
     }
 }
 
-module.exports = recipeDB;
+class userDB extends Database {
+    constructor() {
+        const temp = {
+            "username": "string", "password": "string", "postedRecipes": "array(string)"
+            ,"showNutritionValue":"boolean"};
+        super('./resources/database/user.db', temp);
+    }
+}
 
-/*d = new recipeDB();
-d.insert({'title':'recipeTitle', 'ratingStars':9.8}).then(resolve => {
+class ratingDB extends Database {
+    constructor() {
+        const temp = {"userID":"string", "ratingStar":"number"};
+        super('./resources/database/rating.db', temp);
+    }
+}
+
+class commentsDB extends Database {
+    constructor() {
+        const temp = {"recipeID":"string", "userID":"string", "comment":"string"};
+        super('./resources/database/commentsDB.db', temp);
+    }
+}
+
+module.exports = {"recipe":recipeDB, "user":userDB, "rating":ratingDB, "comments":commentsDB};
+
+c = new commentsDB();
+c.insert({"recipeID":"HNZe0IX8nSJbDxw6", "userID":"asdf", "comment":"This is a comment too"}).catch((err) => {console.log(err)})
+//d = new recipeDB();
+
+/*
+d.insert({'title':'testTitle', 'method':["step1", "step2"], "ingredients":{"lemon":1, "apple":4}
+    ,'creator':'ASDF', 'nutrition':{"first":2, "second":34}, "tags":["tag1", "tag2"], 'ratingStars':9.7
+    ,'ratingAmount':34, 'comments':234}).then(resolve => {
     console.log("DONE");
-}).catch(err => console.log(err));*/
-/*d.findOne({"title":/Tit/}).then(resolve => {
-    console.log(resolve);
-}).catch(err => {
+}).catch((err) => {
     console.log(err);
 })*/
 
-/*d = new recipeDB();
-//d.checkData({"title": "test", "rating":55}).then(resolve => console.log(resolve));
 
-d.insert({'title':'testTitle', 'ratingStars':9.7}).then(resolve => {
-    console.log("DONE");
-});
-
+/*
 d.find({'test':'data'}).then(resolve => {
     console.log(resolve);
 }).catch(err => {
     console.log(err);
 })
+*/
 
+/*
 d.update({'test': 'data'}, {'$set':{'test':'asdf'}}, {}).then(resolve => {
     console.log(resolve);
 }).catch(err => {
     console.log(err);
 });
+*/
 
+/*
 d.remove({'test':"asdf"}, {}).then(resolve => {
     console.log(resolve);
 }).catch(err => {
     console.log(err);
-})*/
+})
+*/
+
+//d.checkData({"title": "test", "rating":55}).then(resolve => console.log(resolve));

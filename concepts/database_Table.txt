@@ -1,6 +1,6 @@
 recipe Table
     identifier:
-        recipeID int
+        recipeID int (automated)
 
     recipe Info:
         Title str
@@ -9,7 +9,7 @@ recipe Table
 
     creation Info:
         creator userID
-        creationDate date
+        creationDate date (automated)
 
     extra:
         nutrition values array [int]
@@ -23,12 +23,12 @@ recipe Table
 user Table:
 
     identifier:
-        userID int
+        userID int (automated)
         userName str
         password str
 
     creation:
-        creationDate
+        creationDate (automated)
 
     recipe:
         postedRecipes array[int]
@@ -44,6 +44,7 @@ rating Table
 
 comments Table
 
+    commentID str (automated)
     recipeID int
     userID int
     comment str
