@@ -15,8 +15,9 @@ router.get("/ofTheDay", function (req, res) {
 router.route("/:recipeID")
     .get(function (req, res) {
         /*
-        send: json data of the recipe if the database access was successful
-        send: status code 500 if there was an error with the database access
+        send: json data of the recipe
+        send 404: if the recipe does not exist
+        send 500: if there was an error with the database access
         */
         recipeDB.findOne({'_id':req.params.recipeID}).then(resolve => {
             if (resolve === null) {
