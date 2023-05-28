@@ -1,0 +1,142 @@
+:root {
+    --main-radius: 5px;
+    --main-padding: 5px;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+}
+
+.container {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 0.5fr  1fr;
+    grid-template-rows: 0.2fr  0.8fr;
+    grid-template-areas:
+"nav nav nav nav"
+"sidebar main main main"
+"sidebar main main main "
+"footer footer footer footer";
+    grid-gap: 0.2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #004d40;
+    text-align: center;
+}
+
+nav {
+    background: orange;
+    grid-area: nav;
+    border-radius: var(--main-radius);
+    padding-top: var(--main-padding);
+}
+
+main {
+    background: whitesmoke;
+    grid-area: main;
+    border-radius: var(--main-radius);
+    padding-top: var(--main-padding);
+}
+
+#sidebar {
+    background: orange;
+    grid-area: sidebar;
+    border-radius: var(--main-radius);
+    padding-top: var(--main-padding);
+}
+
+footer {
+    background: orange;
+    grid-area: footer;
+    border-radius: var(--main-radius);
+    padding-top: var(--main-padding);
+}
+
+a {
+    text-align: center;
+    display: block;
+    font-family: inherit;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 1rem;
+}
+
+@media only screen and (max-width: 550px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.4fr 0.4fr 2.2fr ;
+        grid-template-areas:
+"nav"
+"sidebar"
+"main"
+"footer";
+    }
+}
+
+#sidebar {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: width 0.3s ease-in-out;
+    width: 200px; /* adjust the width as needed */
+}
+
+#sidebar.collapsed {
+    width: 0;
+}
+
+#sidebar-toggle {
+    position: absolute;
+    top: 0;
+    left: 10px;
+
+}
+
+.linkContainer ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 0;
+    margin: 0;
+    align-items: center; /* Align items vertically in the center */
+}
+
+.linkContainer li {
+    list-style-type: none;
+    margin-right: 10px;
+}
+
+.linkContainer a,
+.linkContainer .sidebarButton {
+    display: inline-block;
+    text-decoration: none;
+    color: #004d40;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: orange;
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.linkContainer a:hover,
+.linkContainer .sidebarButton:hover {
+    background-color: darkorange;
+}
+
+.linkContainer a:focus,
+.linkContainer .sidebarButton:focus {
+    outline: none;
+}
+
+@media only screen and (max-width: 550px) {
+    .linkContainer ul {
+        flex-direction: column;
+    }
+
+    .linkContainer li {
+        margin-right: 0;
+    }
+}
+
