@@ -41,9 +41,9 @@ router.route("/:userID")
             }else if (resolve > 1) {
                 res.sendStatus(500);
                 throw new Error("Something went wrong. deleted 2 elements with the same ID")
-            }else [
+            }else {
                 res.sendStatus(404)
-            ]
+            }
         })
     })
 
