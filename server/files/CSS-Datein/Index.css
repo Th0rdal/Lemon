@@ -74,24 +74,7 @@ a {
     }
 }
 
-#sidebar {
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-    transition: width 0.3s ease-in-out;
-    width: 200px; /* adjust the width as needed */
-}
 
-#sidebar.collapsed {
-    width: 0;
-}
-
-#sidebar-toggle {
-    position: absolute;
-    top: 0;
-    left: 10px;
-
-}
 
 .linkContainer ul {
     display: flex;

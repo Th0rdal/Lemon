@@ -3,7 +3,8 @@
 <head>
 
     <script language="JavaScript" type="text/javascript" src="Java-Scripts/Sidebar.js"></script>
-    <link rel="stylesheet" href="CSS-Datein/Sidebar.css">
+    <link rel="stylesheet" href="CSS-Datein/Sidebar/Sidebar.css">
+    <link rel="stylesheet" href="CSS-Datein/Sidebar/Sidebarfilling.css">
     <link rel="stylesheet" href="CSS-Datein/Index.css">
     <meta charset="utf-8">
     <title>Lemon!</title>
@@ -18,7 +19,9 @@
 
         <div id="navigation" class="linkContainer">
             <ul>
-                <li><button id="sidebar-toggle" class="sidebarButton" onclick="toggleSidebar()">Toggle Sidebar</button></li>
+                <li>
+                    <button id="sidebar-toggle" class="sidebarButton" onclick="toggleSidebar()">Toggle Sidebar</button>
+                </li>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="user/user.html">User</a></li>
             </ul>
@@ -28,13 +31,28 @@
 
     </nav>
     <main>Main</main>
-    <div id="sidebar">Sidebar</div>
+    <div id="sidebar">Sidebar
+        <div id="VegiIngredients" class="VegiIngredients">
+
+            <button id="VegiButton" type="button" class="VegiButton" name="Vegi">Gemüse</button>
+
+            <div id="VegiOptions" class="VegiOptions">
+                <label>
+                    <input type="checkbox" name="option1" value="Onion"> Zwiebel
+                </label>
+                <label>
+                    <input type="checkbox" name="option2" value="Tomato"> Tomate
+                </label>
+                <label>
+                    <input type="checkbox" name="option3" value="Cucumber"> Gurke
+                </label>
+            </div>
+
+        </div>
+
+    </div>
     <footer>Footer</footer>
 </div>
-
-
-
-
 
 
 </body>
