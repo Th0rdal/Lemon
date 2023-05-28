@@ -1,4 +1,5 @@
 const express = require("express")
+
 const router = express.Router()
 const NotImplementedException = require("../server_exceptions");
 const {recipe} = require("../database/database")
@@ -12,7 +13,23 @@ router.get("/ofTheDay", function (req, res) {
     res.json(recipeOfTheDay);
 })
 
-router.route("/")
+router.put("/", function (req, res) {
+        /*
+        query: title (str), method (array(string)), ingredients (object(string,number)), creator(string)
+                , nutrition (object(string,number)), tags (array(string)), ratingStars (number)
+                , ratingAmount (number), comments (number)
+         send 204: if inserted without problem
+         send 500: if the query is having errors
+         */
+        recipeDB.insert(req.query).then(resolve => {
+            res.sendStatus(204)
+        }).catch(err => {
+            console.log(err)
+            res.sendStatus(500)
+        })
+    })
+
+router.route("/:recipeID")
     .get(function (req, res) {
         /*
         send: json data of the recipe
@@ -27,21 +44,6 @@ router.route("/")
             res.json(resolve);
         }).catch(err => {
             res.sendStatus(500);
-        })
-    })
-    .put(function (req, res) {
-        /*
-        query: title (str), method (array(string)), ingredients (object(string,number)), creator(string)
-                , nutrition (object(string,number)), tags (array(string)), ratingStars (number)
-                , ratingAmount (number), comments (number)
-         send 204: if inserted without problem
-         send 500: if the query is having errors
-         */
-        recipeDB.insert(req.query).then(resolve => {
-            res.sendStatus(204)
-        }).catch(err => {
-            console.log(err)
-            res.sendStatus(500)
         })
     })
     .patch(function (req, res) {
