@@ -1,5 +1,7 @@
 const Datastore = require("nedb");
 const mutex = require("./mutex");
+const path = require('path');
+const getProjectDirectory = require('../tools');
 
 // abstract Database class
 class Database {
@@ -199,7 +201,7 @@ class recipeDB extends Database {   //class for the recipe database
             "title":"string", "method":"array(string)", "ingredients":"object(string,number)"
             ,"creator":"string", "nutrition":"object(string,number)", "tags":"array(string)", "ratingStars":"number"
             ,"ratingAmount":"number", "comments":"number"};
-        super('./resources/database/recipe.db', temp);
+        super(path.join(getProjectDirectory(), 'resources/database/recipe.db'), temp);
     }
 }
 
@@ -208,39 +210,41 @@ class userDB extends Database {
         const temp = {
             "username": "string", "password": "string", "postedRecipes": "array(string)"
             ,"showNutritionValue":"boolean"};
-        super('./resources/database/user.db', temp);
+        super(path.join(getProjectDirectory(), 'resources/database/user.db'), temp);
     }
 }
 
 class ratingDB extends Database {
     constructor() {
         const temp = {"userID":"string", "ratingStar":"number"};
-        super('./resources/database/rating.db', temp);
+        super(path.join(getProjectDirectory(), 'resources/database/ratings.db'), temp);
     }
 }
 
 class commentsDB extends Database {
     constructor() {
         const temp = {"recipeID":"string", "userID":"string", "comment":"string"};
-        super('./resources/database/commentsDB.db', temp);
+        super(path.join(getProjectDirectory(), 'resources/database/comments.db'), temp);
     }
 }
 
 module.exports = {"recipe":recipeDB, "user":userDB, "rating":ratingDB, "comments":commentsDB};
 
-c = new commentsDB();
-c.insert({"recipeID":"HNZe0IX8nSJbDxw6", "userID":"asdf", "comment":"This is a comment too"}).catch((err) => {console.log(err)})
-//d = new recipeDB();
+//c = new commentsDB();
+//c.insert({"recipeID":"HNZe0IX8nSJbDxw6", "userID":"asdf", "comment":"This is a comment too"}).catch((err) => {console.log(err)})
 
-/*
+
+d = new recipeDB();
+
+
 d.insert({'title':'testTitle', 'method':["step1", "step2"], "ingredients":{"lemon":1, "apple":4}
     ,'creator':'ASDF', 'nutrition':{"first":2, "second":34}, "tags":["tag1", "tag2"], 'ratingStars':9.7
     ,'ratingAmount':34, 'comments':234}).then(resolve => {
     console.log("DONE");
 }).catch((err) => {
     console.log(err);
-})*/
-
+})
+console.log();
 
 /*
 d.find({'test':'data'}).then(resolve => {
