@@ -21,7 +21,7 @@ router.put("/", function (req, res) {
          send 204: if inserted without problem
          send 500: if the query is having errors
          */
-        recipeDB.insert(req.query).then(resolve => {
+        recipeDB.insert(req.query).then(() => {
             res.sendStatus(204)
         }).catch(err => {
             console.log(err)

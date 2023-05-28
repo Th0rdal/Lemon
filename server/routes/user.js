@@ -4,7 +4,6 @@ const router = express.Router()
 const {user} = require("../database/database")
 const userDB = new user();
 const {sendResponse} = require('../tools')
-const NotImplementedException = require("../server_exceptions");
 
 router.route("/:userID")
     .get(function (req, res) {
@@ -20,6 +19,7 @@ router.route("/:userID")
             }
             res.json(resolve);
         }).catch(err => {
+            console.log(err);
             res.sendStatus(500);
         })
     }, sendResponse)

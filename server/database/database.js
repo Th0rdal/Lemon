@@ -233,18 +233,18 @@ module.exports = {"recipe":recipeDB, "user":userDB, "rating":ratingDB, "comments
 //c = new commentsDB();
 //c.insert({"recipeID":"HNZe0IX8nSJbDxw6", "userID":"asdf", "comment":"This is a comment too"}).catch((err) => {console.log(err)})
 
-
+/*
 d = new recipeDB();
 
 
 d.insert({'title':'testTitle', 'method':["step1", "step2"], "ingredients":{"lemon":1, "apple":4}
     ,'creator':'ASDF', 'nutrition':{"first":2, "second":34}, "tags":["tag1", "tag2"], 'ratingStars':9.7
-    ,'ratingAmount':34, 'comments':234}).then(resolve => {
+    ,'ratingAmount':34, 'comments':234}).then(() => {
     console.log("DONE");
 }).catch((err) => {
     console.log(err);
 })
-console.log();
+console.log();*/
 
 /*
 d.find({'test':'data'}).then(resolve => {
