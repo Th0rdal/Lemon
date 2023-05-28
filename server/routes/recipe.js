@@ -48,11 +48,14 @@ router.route("/")
         /*
         query: whatever should be updated
         send 204: if updated without problem
+        send 404: if the user could not be found
         send 500: if there was an error with the database
          */
         recipeDB.update({"_id":req.params.recipeID}, req.query, {}).then(resolve => {
             if (resolve === 1) {
                 res.sendStatus(204);
+            }else if (resolve === 0) {
+                res.sendStatus(404);
             }else {
                 res.sendStatus(500);
             }
@@ -78,18 +81,37 @@ router.route("/")
         })
     })
 
-router.post("/:recipeID/comment", function (req, res) {
-    /*
-    query: rating (string), comments (string)
-    send 204: if request was successful
-    send 500: if there was an error with the database access
-    */
-    recipeDB.insert(Object.assign({"_id":req.params.recipeID}, req.query)).then(() =>
-        res.sendStatus(204)
-    ).catch(err => {
-        res.sendStatus(500);
+router.route("/:recipe/comment")
+    .post( function (req, res) {
+        /*
+        query: rating (string), comments (string)
+        send 204: if request was successful
+        send 500: if there was an error with the database access
+        */
+        commentsDB.insert(Object.assign({"_id":req.params.recipeID}, req.query)).then(() =>
+            res.sendStatus(204)
+        ).catch(err => {
+            res.sendStatus(500);
+        })
     })
-})
+    .delete(function (req, res) {
+        /*
+        query: id of the comment to remove
+        send 204: delete was successful
+        send 404: comment id could not be found
+        send 500: if multiple recipes were removed (should never happen)
+         */
+        commentsDB.remove(req.query, {}).then(resolve => {
+            if (resolve === 1) {
+                res.sendStatus(204);
+            }else if (resolve > 1) {
+                res.sendStatus(500);
+                throw new Error("Something went wrong. deleted 2 elements with the same ID");
+            }else {
+                res.sendStatus(404)
+            }
+        })
+    })
 
 router.get("/:recipeID/comments", function (req, res) {
     /*
