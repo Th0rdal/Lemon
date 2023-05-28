@@ -35,25 +35,22 @@ router.route("/")
                 , nutrition (object(string,number)), tags (array(string)), ratingStars (number)
                 , ratingAmount (number), comments (number)
          send 204: if inserted without problem
-         send 400: if the query is having errors
+         send 500: if the query is having errors
          */
-        let data = {}
-        for (let index in req.query) {
-            data[index] = req.query[index];
-        }
-        recipeDB.insert(data).then(resolve => {
+        recipeDB.insert(req.query).then(resolve => {
             res.sendStatus(204)
         }).catch(err => {
             console.log(err)
-            res.sendStatus(400)
+            res.sendStatus(500)
         })
     })
     .patch(function (req, res) {
-        let data = {};
-        for (let index in req.query) {
-            data[index] = req.query[index];
-        }
-        recipeDB.update({"_id":req.params.recipeID}, data, {}).then(resolve => {
+        /*
+        query: whatever should be updated
+        send 204: if updated without problem
+        send 500: if there was an error with the database
+         */
+        recipeDB.update({"_id":req.params.recipeID}, req.query, {}).then(resolve => {
             if (resolve === 1) {
                 res.sendStatus(204);
             }else {
@@ -82,8 +79,16 @@ router.route("/")
     })
 
 router.post("/:recipeID/comment", function (req, res) {
-    //implement
-    throw new NotImplementedException();
+    /*
+    query: rating (string), comments (string)
+    send 204: if request was successful
+    send 500: if there was an error with the database access
+    */
+    recipeDB.insert(Object.assign({"_id":req.params.recipeID}, req.query)).then(() =>
+        res.sendStatus(204)
+    ).catch(err => {
+        res.sendStatus(500);
+    })
 })
 
 router.get("/:recipeID/comments", function (req, res) {
@@ -98,6 +103,20 @@ router.get("/:recipeID/comments", function (req, res) {
         res.sendStatus(500);
     })
 })
+
+router.put("/:recipeID/comments", function(req, res)  {
+    /*#
+    query: userID (string), comment (string)
+    send 204: if request was successful
+    send 500: if there was an error retrieving the data
+     */
+    commentsDB.insert(Object.assign({"recipeID":req.params.recipeID}, req.query)).then(resolve => {
+        res.sendStatus(204);
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+});
 
 router.get("/:recipeID/ratings", function (req, res) {
     /*
