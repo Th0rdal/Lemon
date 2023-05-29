@@ -19,7 +19,7 @@ const sessionRouter = require("./routes/session");
 
 app.use("/", sessionRouter)
 
-//test function for authentication
+//test endpoint for authentication
 
 app.get("/protected", passport.authenticate('jwt', {session:false}), function (req, res) {
     console.log("test");
