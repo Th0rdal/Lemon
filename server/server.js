@@ -17,10 +17,12 @@ const sessionRouter = require("./routes/session");
 
 app.use("/", sessionRouter)
 
+//test function for authentication
+/*
 app.get("/protected", passport.authenticate('jwt', {session:false}), function (req, res) {
     console.log("test");
     res.send("finished");
-})
+})*/
 app.listen(3000);
 
 console.log("Server now listening on http://localhost:3000/");

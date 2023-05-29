@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
@@ -6,7 +7,6 @@ const jwt = require('jsonwebtoken');
 
 const { pw } = require("../database/database");
 const pwDB = new pw();
-const initializePassport = require('../passport-config')
 
 router.use(passport.initialize({}));
 
@@ -70,7 +70,7 @@ router.post("/login", function (req, res) {
             id: resolve._id,
             email: resolve.email
         }
-        const token = jwt.sign(payload, "Secret", {expiresIn:"1d"})
+        const token = jwt.sign(payload, process.env.JWT_KEY, {expiresIn:"1h"})
         return res.send({
             success: true,
             message: "Logged in successfully",
