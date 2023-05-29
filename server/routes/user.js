@@ -1,9 +1,9 @@
-const express = require("express")
+const express = require("express");
+const router = express.Router();
 
-const router = express.Router()
-const {user} = require("../database/database")
+const {user} = require("../database/database");
 const userDB = new user();
-const {sendResponse} = require('../tools')
+const {sendResponse} = require('../tools');
 
 router.route("/:userID")
     .get(function (req, res) {
@@ -23,19 +23,6 @@ router.route("/:userID")
             res.sendStatus(500);
         })
     }, sendResponse)
-    .put(function (req, res) {
-        /*
-        query: username (string), password (string), showNutritionValue (boolean)
-        send 204: if the request was successful
-        send 500: if there was an error with the database access
-         */
-        userDB.insert(req.query).then(() => {
-            res.sendStatus(204);
-        }).catch(err => {
-            console.log(err);
-            res.sendStatus(500);
-        })
-    })
     .patch(function (req, res) {
         /*
         query: whatever should be updated

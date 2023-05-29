@@ -5,7 +5,8 @@ const {getProjectDirectory} = require('../tools');
 
 // abstract Database class
 class Database {
-    constructor(path, validDataFormat) {
+    static instance = {};
+    constructor(name, path, validDataFormat) {
         /*
         singleton constructor
         path: string with the path to the database file
@@ -15,14 +16,14 @@ class Database {
             throw new Error('Cannot instantiate abstract class Database');
         }
 
-        if (!Database.instance) {   //create a new database instance if there is none
-            Database.mutex = new mutex();   //create new mutes
-            Database.validDataFormat = validDataFormat;
-            Database.database = new Datastore({"filename": path, "autoload": true, "timestampData":true});    //connect to database
-            Database.instance = this;
+        if (!Database.instance.hasOwnProperty(name)) {   //create a new database instance if there is none
+            this.mutex = new mutex();   //create new mutes
+            this.validDataFormat = validDataFormat;
+            this.database = new Datastore({"filename": path, "autoload": true, "timestampData":true});    //connect to database
+            Database.instance[name] = this;
         }
 
-        return Database.instance;
+        return Database.instance[name];
     }
 
     async insert(rawData) {
@@ -38,10 +39,10 @@ class Database {
                 reject(check);
                 return;
             }
-            Database.mutex.acquire().then(() => {
-                Database.database.insert(rawData);
-                Database.database.loadDatabase();
-                Database.mutex.release();
+            this.mutex.acquire().then(() => {
+                this.database.insert(rawData);
+                this.database.loadDatabase();
+                this.mutex.release();
                 resolve();
             });
         })
@@ -55,10 +56,10 @@ class Database {
         return reject(err):  if the database access failed
          */
         return new Promise((resolve, reject) => {
-            Database.mutex.acquire().then(() => {
-                Database.database.loadDatabase();
-                Database.database.find(searchDict, function(err, docs) {
-                    Database.mutex.release();
+            this.mutex.acquire().then(() => {
+                this.database.loadDatabase();
+                this.database.find(searchDict, function(err, docs) {
+                    this.mutex.release();
                     if (err) reject(err);
                     resolve(docs);
                 });
@@ -74,13 +75,14 @@ class Database {
         return reject(err): if the database access failed
          */
         return new Promise((resolve, reject) => {
-            Database.mutex.acquire().then(() => {
-                Database.database.loadDatabase();
-                Database.database.findOne(searchDict, function(err, docs) {
-                    Database.mutex.release();
+            this.mutex.acquire().then(() => {
+                this.database.loadDatabase();
+                this.database.findOne(searchDict, function(err, docs) {
                     if (err) reject(err);
                     resolve(docs);
                 })
+            }).finally(() => {
+                this.mutex.release();
             })
         })
     }
@@ -95,15 +97,15 @@ class Database {
         return reject(err): if the database update failed
          */
         for (let key in Object.keys(searchDict)) {
-            if (!Object.keys(Database.validDataFormat).includes(key)) {
+            if (!Object.keys(this.validDataFormat).includes(key)) {
                 throw new Error("database row \"" + key + "\" does not exist");
             }
         }
         return new Promise((resolve, reject) => {
-            Database.mutex.acquire().then(() => {
-                Database.database.update(searchDict, updateDict, options, function(err, numReplaced) {
-                    Database.database.loadDatabase();
-                    Database.mutex.release();
+            this.mutex.acquire().then(() => {
+                this.database.update(searchDict, updateDict, options, function(err, numReplaced) {
+                    this.database.loadDatabase();
+                    this.mutex.release();
                     if (err) reject(err);
                     resolve(numReplaced);
                 })
@@ -117,13 +119,13 @@ class Database {
         param searchDict: object with the search params
         param options: optional parameters for the removal
         return resolve(Number): amount of lines deleted
-        return reject(erro): if the removal failed
+        return reject(err): if the removal failed
          */
         return new Promise((resolve, reject) => {
-            Database.mutex.acquire().then(() => {
-                Database.database.remove(searchDict, options, function (err, numRemoved) {
-                    Database.database.loadDatabase();
-                    Database.mutex.release();
+            this.mutex.acquire().then(() => {
+                this.database.remove(searchDict, options, function (err, numRemoved) {
+                    this.database.loadDatabase();
+                    this.mutex.release();
                     if (err) reject(err);
                     resolve(numRemoved);
                 })
@@ -141,40 +143,40 @@ class Database {
 
         //check if the amount of keys matches with teh validDataFormat
         let dataKeysAmount = Object.keys(checkData).length;
-        let expectedKeysAmount = Object.keys(Database.validDataFormat).length;
+        let expectedKeysAmount = Object.keys(this.validDataFormat).length;
         if (dataKeysAmount !== expectedKeysAmount) {
             return `expected ${expectedKeysAmount} keys, but got ${dataKeysAmount} keys`
         }
 
         //check if each value is in rawData
         let dataKeys = Object.keys(checkData);
-        for (let key of Object.keys(Database.validDataFormat)) {
+        for (let key of Object.keys(this.validDataFormat)) {
             if (!dataKeys.includes(key)) {
                 return `key "${key}" is not defined`
             }
 
 
-            if (Database.validDataFormat[key].startsWith("array")) {//check if the value for this key should be an array
+            if (this.validDataFormat[key].startsWith("array")) {//check if the value for this key should be an array
                 //check if value for the key of the given object is an array
                 if (!Array.isArray(checkData[key])) {
                     return `The value "${checkData[key]}" of the key "${key}" should be an array, but it is of type ${typeof checkData[key]}`
                 }
 
                 //get the type that should be inside the array
-                let expectedType = Database.validDataFormat[key].split("(")[1].slice(0, -1);
+                let expectedType = this.validDataFormat[key].split("(")[1].slice(0, -1);
                 for (let index in checkData[key]) { //check all elements in the array if they match the expected type
                     if (!(typeof checkData[key][index] === expectedType)) {
                         return `The value "${checkData[key][index]}" (index: ${index}) of the key "${key}" should be of type ${expectedType}, but it is of type ${typeof checkData[key]}`
                     }
                 }
-            }else if (Database.validDataFormat[key].startsWith("object")) {
+            }else if (this.validDataFormat[key].startsWith("object")) {
                 //check if value for the key of the given object is an object
                 if (!(typeof checkData[key] === 'object') || checkData[key] === null) {
                     return `The value "${checkData[key]}" of the key "${key}" should be of type object, but it is of type ${typeof checkData[key]}`
                 }
 
                 //get the type that should be inside the array
-                let expectedType = Database.validDataFormat[key].split("(")[1].slice(0, -1);
+                let expectedType = this.validDataFormat[key].split("(")[1].slice(0, -1);
                 let tempArray = expectedType.split(",")
                 let expectedKey = tempArray[0];
                 let expectedValue = tempArray[1];
@@ -187,8 +189,8 @@ class Database {
                     }
                 }
 
-            }else if (!(typeof checkData[key] === Database.validDataFormat[key])) {
-                return `The value "${checkData[key]}" of the key "${key}" should be of type ${Database.validDataFormat[key]}, but is of type ${typeof checkData[key]}`
+            }else if (!(typeof checkData[key] === this.validDataFormat[key])) {
+                return `The value "${checkData[key]}" of the key "${key}" should be of type ${this.validDataFormat[key]}, but is of type ${typeof checkData[key]}`
             }
         }
         return "";
@@ -201,34 +203,64 @@ class recipeDB extends Database {   //class for the recipe database
             "title":"string", "method":"array(string)", "ingredients":"object(string,number)"
             ,"creator":"string", "nutrition":"object(string,number)", "tags":"array(string)", "ratingStars":"number"
             ,"ratingAmount":"number", "comments":"number"};
-        super(path.join(getProjectDirectory(), 'resources/database/recipe.db'), temp);
+        super("recipe", path.join(getProjectDirectory(), 'resources/database/recipe.db'), temp);
     }
 }
 
 class userDB extends Database {
     constructor() {
         const temp = {
-            "username": "string", "password": "string", "postedRecipes": "array(string)"
-            ,"showNutritionValue":"boolean"};
-        super(path.join(getProjectDirectory(), 'resources/database/user.db'), temp);
+            "username": "string", "postedRecipes": "array(string)", "showNutritionValue":"boolean"};
+        super("user", path.join(getProjectDirectory(), 'resources/database/user.db'), temp);
     }
 }
 
 class ratingDB extends Database {
     constructor() {
         const temp = {"userID":"string", "ratingStar":"number"};
-        super(path.join(getProjectDirectory(), 'resources/database/ratings.db'), temp);
+        super("rating", path.join(getProjectDirectory(), 'resources/database/ratings.db'), temp);
     }
 }
 
 class commentsDB extends Database {
     constructor() {
         const temp = {"recipeID":"string", "userID":"string", "comment":"string"};
-        super(path.join(getProjectDirectory(), 'resources/database/comments.db'), temp);
+        super("comments", path.join(getProjectDirectory(), 'resources/database/comments.db'), temp);
     }
 }
 
-module.exports = {"recipe":recipeDB, "user":userDB, "rating":ratingDB, "comments":commentsDB};
+class impUserData extends Database {
+    constructor() {
+        const temp = {"username":"string", "password":"string", "email":"string"} //<- obviously not save
+        super("impData", path.join(getProjectDirectory(), 'resources/database/impUserData.db'), temp);
+    }
+
+    noDuplicate(data) {
+        const status = {
+            alreadyExists: false
+        };
+        for (let pair in data) {
+            super.findOne({pair:data[pair]}).then(resolve => {
+                if (!(resolve === null)) {
+                    status.alreadyExists = true;
+                    status[pair] = true;
+                }
+            })
+        }
+        return status;
+    }
+    insert(data) {
+        return new Promise(async (resolve, reject) => {
+            let status = this.noDuplicate({"username":data["userID"], "email":data["email"]});
+            if (data.alreadyExists) {
+                resolve(await super.insert(data))
+            }
+            reject(status);
+        })
+    }
+}
+
+module.exports = {"recipe":recipeDB, "user":userDB, "rating":ratingDB, "comments":commentsDB, "pw":impUserData};
 
 //c = new commentsDB();
 //c.insert({"recipeID":"HNZe0IX8nSJbDxw6", "userID":"asdf", "comment":"This is a comment too"}).catch((err) => {console.log(err)})
