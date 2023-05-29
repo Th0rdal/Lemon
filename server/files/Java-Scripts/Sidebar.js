@@ -1,11 +1,12 @@
 function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
+    const button = document.getElementById("sidebar-button");
     sidebar.classList.toggle("collapsed");
+
+    if (isCollapsed) {
+        button.textContent = "Expand";
+    } else {
+        button.textContent = "Collapse";
+    }
+
 }
-
-var button = document.getElementById("VegiButton");
-var options = document.getElementById("VegiOptions");
-
-button.addEventListener("click", function() {
-    options.style.display = options.style.display === "none" ? "block" : "";
-});

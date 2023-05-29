@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="CSS-Datein/Sidebar/Sidebar.css">
     <link rel="stylesheet" href="CSS-Datein/Sidebar/Sidebarfilling.css">
     <link rel="stylesheet" href="CSS-Datein/Index.css">
+    <link rel="stylesheet" href="CSS-Datein/Navbar/Navbar.css">
     <meta charset="utf-8">
     <title>Lemon!</title>
 
@@ -17,16 +18,19 @@
 <div class="container">
     <nav>Navbar
 
+        <div id="toggleSidebarButton" class="button">
+            <button id="sidebar-toggle" class="sidebarButton" onclick="toggleSidebar()">Zutaten</button>
+
+        </div>
+
         <div id="navigation" class="linkContainer">
             <ul>
-                <li>
-                    <button id="sidebar-toggle" class="sidebarButton" onclick="toggleSidebar()">Toggle Sidebar</button>
-                </li>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="user/user.html">User</a></li>
             </ul>
 
         </div>
+
 
 
     </nav>

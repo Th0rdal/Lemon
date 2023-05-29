@@ -10,13 +10,12 @@ body {
 .container {
     display: grid;
     height: 100vh;
-    grid-template-columns: 0.5fr  1fr;
-    grid-template-rows: 0.2fr  0.8fr;
+    grid-template-columns: 1fr  2fr;
+    grid-template-rows: .5fr 3fr .2fr;
     grid-template-areas:
-"nav nav nav nav"
-"sidebar main main main"
-"sidebar main main main "
-"footer footer footer footer";
+    "nav nav"
+    "sidebar main"
+    "footer footer";
     grid-gap: 0.2rem;
     font-weight: 800;
     text-transform: uppercase;
@@ -31,7 +30,6 @@ nav {
     border-radius: var(--main-radius);
     padding-top: var(--main-padding);
 }
-
 main {
     background: whitesmoke;
     grid-area: main;
@@ -73,54 +71,3 @@ a {
 "footer";
     }
 }
-
-
-
-
-.linkContainer ul {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    padding: 0;
-    margin: 0;
-    align-items: center; /* Align items vertically in the center */
-}
-
-.linkContainer li {
-    list-style-type: none;
-    margin-right: 10px;
-}
-
-.linkContainer a,
-.linkContainer .sidebarButton {
-    display: inline-block;
-    text-decoration: none;
-    color: #004d40;
-    padding: 5px 10px;
-    border-radius: 5px;
-    background-color: orange;
-    font-family: "Inter", sans-serif;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.linkContainer a:hover,
-.linkContainer .sidebarButton:hover {
-    background-color: darkorange;
-}
-
-.linkContainer a:focus,
-.linkContainer .sidebarButton:focus {
-    outline: none;
-}
-
-@media only screen and (max-width: 550px) {
-    .linkContainer ul {
-        flex-direction: column;
-    }
-
-    .linkContainer li {
-        margin-right: 0;
-    }
-}
-
