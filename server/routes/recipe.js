@@ -141,20 +141,6 @@ router.get("/:recipeID/comments", function (req, res, next) {
     })
 }, sendResponse)
 
-router.put("/:recipeID/comments", passport.authenticate('jwt', {session:false}), function(req, res)  {
-    /* usefull?
-    query: userID (string), comment (string)
-    send 204: if request was successful
-    send 500: if there was an error retrieving the data
-     */
-    commentsDB.insert(Object.assign({"recipeID":req.params.recipeID}, req.query)).then(() => {
-        res.sendStatus(204);
-    }).catch(err => {
-        console.log(err);
-        res.sendStatus(500);
-    })
-});
-
 router.get("/:recipeID/ratings", function (req, res, next) {
     /*
     send: json data of the ratings of the recipe
