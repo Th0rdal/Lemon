@@ -4,6 +4,7 @@ const router = express.Router();
 const {user} = require("../database/database");
 const userDB = new user();
 const {sendResponse} = require('../tools');
+const passport = require("passport");
 
 router.route("/:userID")
     .get(function (req, res) {
@@ -23,13 +24,14 @@ router.route("/:userID")
             res.sendStatus(500);
         })
     }, sendResponse)
-    .patch(function (req, res) {
+    .patch(passport.authenticate('jwt', {session:false}), function (req, res) {
         /*
         query: whatever should be updated
         send 204: if updated without problem
         send 404: if the user could not be found
         send 500: if there was an error with the database
          */
+        console.log("requires stricter authentication: " + req.url)
         userDB.update({"_id":req.params.userID}, req.query, {}).then(resolve => {
             if (resolve === 1) {
                 res.sendStatus(204);
@@ -39,12 +41,13 @@ router.route("/:userID")
                 res.sendStatus(500);
             }
         })
-    }).delete(function (req, res) {
+    }).delete(passport.authenticate('jwt', {session:false}), function (req, res) {
         /*
         send 204: if removed without problem
         send 500: if multiple user were removed (should never happen)
         send 404: if teh id could not be found
          */
+        console.log("requires stricter authentication: " + req.url)
         userDB.remove({"_id":req.params.userID}).then(resolve => {
             if (resolve === 1) {
                 res.sendStatus(204);

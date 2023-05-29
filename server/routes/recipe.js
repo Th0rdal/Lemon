@@ -8,12 +8,16 @@ const ratingDB = new rating();
 const {comments} = require("../database/database");
 const commentsDB = new comments();
 const {sendResponse} = require("../tools");
+const passport = require('passport');
+const NotImplementedException = require("../server_exceptions");
+
 let recipeOfTheDay = {"title": "recipeOfTheDay"}
+
 router.get("/ofTheDay", function (req, res) {
     res.json(recipeOfTheDay);
 })
 
-router.put("/", function (req, res) {
+router.put("/", passport.authenticate('jwt', {session:false}), function (req, res) {
         /*
         query: title (str), method (array(string)), ingredients (object(string,number)), creator(string)
                 , nutrition (object(string,number)), tags (array(string)), ratingStars (number)
@@ -48,13 +52,14 @@ router.route("/:recipeID")
             res.sendStatus(500);
         })
     }, sendResponse)
-    .patch(function (req, res) {
+    .patch(passport.authenticate('jwt', {session:false}), function (req, res) {
         /*
         query: whatever should be updated
         send 204: if updated without problem
         send 404: if the user could not be found
         send 500: if there was an error with the database
          */
+        console.log("requires stricter authentication: " + req.url)
         recipeDB.update({"_id":req.params.recipeID}, req.query, {}).then(resolve => {
             if (resolve === 1) {
                 res.sendStatus(204);
@@ -68,12 +73,13 @@ router.route("/:recipeID")
             res.sendStatus(500);
         })
     })
-    .delete(function (req, res) {
+    .delete(passport.authenticate('jwt', {session:false}), function (req, res) {
         /*
         send 204: if removed without problem
         send 500: if multiple recipes were removed (should never happen)
         send 404: if the id could not be found
         */
+        console.log("requires stricter authentication: " + req.url)
         recipeDB.remove({'_id':req.params.recipeID}).then(resolve => {
             if (resolve === 1) {
                 res.sendStatus(204);
@@ -87,12 +93,13 @@ router.route("/:recipeID")
     })
 
 router.route("/:recipe/comment")
-    .post( function (req, res) {
+    .post( passport.authenticate('jwt', {session:false}), function (req, res) {
         /*
         query: rating (string), comments (string)
         send 204: if request was successful
         send 500: if there was an error with the database access
         */
+        console.log("requires stricter authentication: " + req.url)
         commentsDB.insert(Object.assign({"_id":req.params.recipeID}, req.query)).then(() =>
             res.sendStatus(204)
         ).catch(err => {
@@ -100,13 +107,14 @@ router.route("/:recipe/comment")
             res.sendStatus(500);
         })
     })
-    .delete(function (req, res) {
+    .delete(passport.authenticate('jwt', {session:false}), function (req, res) {
         /*
         query: id of the comment to remove
         send 204: delete was successful
         send 404: comment id could not be found
         send 500: if multiple recipes were removed (should never happen)
          */
+        console.log("requires stricter authentication: " + req.url)
         commentsDB.remove(req.query, {}).then(resolve => {
             if (resolve === 1) {
                 res.sendStatus(204);
@@ -133,8 +141,8 @@ router.get("/:recipeID/comments", function (req, res, next) {
     })
 }, sendResponse)
 
-router.put("/:recipeID/comments", function(req, res)  {
-    /*#
+router.put("/:recipeID/comments", passport.authenticate('jwt', {session:false}), function(req, res)  {
+    /* usefull?
     query: userID (string), comment (string)
     send 204: if request was successful
     send 500: if there was an error retrieving the data
@@ -160,6 +168,16 @@ router.get("/:recipeID/ratings", function (req, res, next) {
         res.sendStatus(500);
     })
 })
+
+router.route("/:recipeID/rating")
+    .put(passport.authenticate('jwt', {session:false}), function (req, res) {
+        //implement
+        throw new NotImplementedException();
+    })
+    .delete(passport.authenticate('jwt', {session:false}), function (req, res) {
+        //implement
+        throw new NotImplementedException();
+    })
 
 function newRecipeOfTheDay() {
     /*
