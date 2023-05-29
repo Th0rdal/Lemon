@@ -164,6 +164,9 @@ class Database {
 
                 //get the type that should be inside the array
                 let expectedType = this.validDataFormat[key].split("(")[1].slice(0, -1);
+                if (expectedType.startsWith("/") && checkData[key].length === 0) {
+                    continue;
+                }
                 for (let index in checkData[key]) { //check all elements in the array if they match the expected type
                     if (!(typeof checkData[key][index] === expectedType)) {
                         return `The value "${checkData[key][index]}" (index: ${index}) of the key "${key}" should be of type ${expectedType}, but it is of type ${typeof checkData[key]}`
@@ -177,9 +180,13 @@ class Database {
 
                 //get the type that should be inside the array
                 let expectedType = this.validDataFormat[key].split("(")[1].slice(0, -1);
+                if (expectedType.startsWith("/") && Object.keys(checkData[key]).length === 0) {
+                    continue;
+                }
                 let tempArray = expectedType.split(",")
                 let expectedKey = tempArray[0];
                 let expectedValue = tempArray[1];
+
                 for (let index in Object.keys(checkData[key])) { //check all elements in the array if they match the expected type
                     let objectKey = Object.keys(checkData[key])[index];
                     if (!(typeof objectKey === expectedKey)) {
@@ -210,7 +217,7 @@ class recipeDB extends Database {   //class for the recipe database
 class userDB extends Database {
     constructor() {
         const temp = {
-            "username": "string", "postedRecipes": "array(string)", "showNutritionValue":"boolean"};
+            "username": "string", "postedRecipes": "array(/string)", "showNutritionValue":"boolean"};
         super("user", path.join(getProjectDirectory(), 'resources/database/user.db'), temp);
     }
 }
