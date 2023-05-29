@@ -179,12 +179,43 @@ router.get("/:recipeID/ratings", function (req, res, next) {
 
 router.route("/:recipeID/rating")
     .put(passport.authenticate('authentication', {session:false}), function (req, res) {
-        //implement
-        throw new NotImplementedException();
+        /*
+        query: recipeID (string), userID (string), ratingStar (number)
+        send 204: if the request was successful
+        send 500: if there was an error with database access
+         */
+        ratingDB.insert(Object.assign({"_id":req.params.recipeID}, req.query)).then(() => {
+            res.sendStatus(204);
+        }).catch(err => {
+            console.log(err);
+            res.sendStatus(500)
+        })
     })
     .delete(passport.authenticate('authentication', {session:false}), function (req, res) {
-        //implement
-        throw new NotImplementedException();
+        /*
+        query: id of the comment to remove
+        send 204: delete was successful
+        send 403: if the user does not have permission
+        send 404: comment id could not be found
+        send 500: if multiple recipes were removed (should never happen)
+         */
+        ratingDB.isCreator(req.user, req.query._id)
+            .then(() => {
+                ratingDB.remove(req.query, {})
+                    .then(resolve => {
+                        if (resolve === 1) {
+                            res.sendStatus(204);
+                        }else if (resolve > 1) {
+                            res.sendStatus(500);
+                            throw new Error("Something went wrong. deleted 2 elements with the same ID");
+                        }else {
+                            res.sendStatus(404)
+                        }
+                    })
+            })
+            .catch(() => {
+                res.sendStatus(403)
+            })
     })
 
 function newRecipeOfTheDay() {

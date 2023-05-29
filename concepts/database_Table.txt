@@ -38,8 +38,8 @@ user Table:
 
 rating Table
 
-    recipeID int
-    userID int
+    recipeID str
+    userID str
     ratingStar int
 
 comments Table

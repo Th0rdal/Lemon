@@ -35,11 +35,11 @@ recipe /recipe
     get /:recipeID/ratings returns all the ratings for the given recipe
 
     put /:recipeID/rating adds a new rating to the recipe
-        requires strong authentication //not implemented
+        requires authentication
 
     delete /:recipeID/rating deletes the rating from the recipe
         requires id of the rating as query
-        requires strong authentication //not implemented
+        requires strong authentication
 
 user /user
 
