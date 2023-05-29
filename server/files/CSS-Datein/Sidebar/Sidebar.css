@@ -3,11 +3,11 @@
     z-index: 1;
     overflow: hidden;
     transition: width 0.3s ease-in-out;
-    width: 200px; /* adjust the width as needed */
+    width: 0px;
 }
 
 #sidebar.collapsed {
-    width: 0;
+    width: 400px; /* adjust the width as needed */
 }
 
 #sidebar-toggle {
