@@ -25,6 +25,8 @@ app.get("/protected", passport.authenticate('jwt', {session:false}), function (r
     console.log("test");
     res.send("finished");
 })
+
+
 app.listen(3000);
 
 console.log("Server now listening on http://localhost:3000/");

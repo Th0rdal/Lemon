@@ -12,34 +12,34 @@ recipe /recipe
 
     put / adds a new recipe to the database
         requires all fields for a new recipe as query //change to request body
-        requires authentication //change to strong authentication
+        requires authentication
 
     get /:recipeID returns the data of the recipe with the given recipeID
 
     patch /:recipeID updates the data of the recipe with the given recipeID
         requires the fields that need to be updated as query //change to request body
-        requires authentication //change to strong authentication
+        requires strong authentication
 
     delete /:recipeID deletes the recipe with the given id
-        requires authentication //change to strong authentication
+        requires strong authentication
 
     post /:recipeID/comment adds a new comment to the given recipeID
         requires authentication
 
     delete /:recipeID/comment deletes the comment
         requires the id of the comment as query
-        requires authentication //change to strong authentication
+        requires strong authentication
 
     get /:recipeID/comments returns all comments for the given recipeID
 
     get /:recipeID/ratings returns all the ratings for the given recipe
 
     put /:recipeID/rating adds a new rating to the recipe
-        requires authentication
+        requires strong authentication //not implemented
 
     delete /:recipeID/rating deletes the rating from the recipe
         requires id of the rating as query
-        requires authentication //change to strong authentication
+        requires strong authentication //not implemented
 
 user /user
 
@@ -47,10 +47,10 @@ user /user
 
     patch /:userID updates data of the user with the given userID
         requires the fields that need to be updated as query //change to request body
-        requires authentication //change to strong authentication
+        requires strong authentication
 
     delete /:userID deletes the user with the given userID
-        requires authentication //change to strong authentication
+        requires strong authentication
 
 session
 

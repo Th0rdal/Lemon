@@ -14,4 +14,5 @@ function sendResponse(req, res) {
         res.send(xmlBuilder.create({'data': res.data}).end({prettyPrint: true}));
     }
 }
+
 module.exports = {getProjectDirectory, sendResponse};

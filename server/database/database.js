@@ -202,13 +202,27 @@ class Database {
         }
         return "";
     }
+
+    async isCreator(user, objectID) {
+        return new Promise((resolve, reject) => {
+            this.findOne({"_id":objectID}).then(resolve => {
+                if (resolve.creatorID === user._id) {
+                    resolve();
+                }
+                reject();
+            }).catch(err => {
+                console.log(err)
+                reject();
+            })
+        })
+    }
 }
 
 class recipeDB extends Database {   //class for the recipe database
     constructor() {
         const temp = {
             "title":"string", "method":"array(string)", "ingredients":"object(string,number)"
-            ,"creator":"string", "nutrition":"object(string,number)", "tags":"array(string)", "ratingStars":"number"
+            ,"creatorID":"string", "nutrition":"object(string,number)", "tags":"array(string)", "ratingStars":"number"
             ,"ratingAmount":"number", "comments":"number"};
         super("recipe", path.join(getProjectDirectory(), 'resources/database/recipe.db'), temp);
     }
@@ -224,14 +238,14 @@ class userDB extends Database {
 
 class ratingDB extends Database {
     constructor() {
-        const temp = {"userID":"string", "ratingStar":"number"};
+        const temp = {"creatorID":"string", "ratingStar":"number"};
         super("rating", path.join(getProjectDirectory(), 'resources/database/ratings.db'), temp);
     }
 }
 
 class commentsDB extends Database {
     constructor() {
-        const temp = {"recipeID":"string", "userID":"string", "comment":"string"};
+        const temp = {"recipeID":"string", "creatorID":"string", "comment":"string"};
         super("comments", path.join(getProjectDirectory(), 'resources/database/comments.db'), temp);
     }
 }

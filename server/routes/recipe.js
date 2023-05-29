@@ -17,7 +17,7 @@ router.get("/ofTheDay", function (req, res) {
     res.json(recipeOfTheDay);
 })
 
-router.put("/", passport.authenticate('jwt', {session:false}), function (req, res) {
+router.put("/", passport.authenticate('authentication', {session:false}), function (req, res) {
         /*
         query: title (str), method (array(string)), ingredients (object(string,number)), creator(string)
                 , nutrition (object(string,number)), tags (array(string)), ratingStars (number)
@@ -52,54 +52,69 @@ router.route("/:recipeID")
             res.sendStatus(500);
         })
     }, sendResponse)
-    .patch(passport.authenticate('jwt', {session:false}), function (req, res) {
+    .patch(passport.authenticate('authentication', {session:false}), async function (req, res) {
         /*
         query: whatever should be updated
         send 204: if updated without problem
+        send 403: if the user was not the creator of the resource
         send 404: if the user could not be found
         send 500: if there was an error with the database
          */
-        console.log("requires stricter authentication: " + req.url)
-        recipeDB.update({"_id":req.params.recipeID}, req.query, {}).then(resolve => {
-            if (resolve === 1) {
-                res.sendStatus(204);
-            }else if (resolve === 0) {
-                res.sendStatus(404);
-            }else {
-                res.sendStatus(500);
-            }
-        }).catch(err => {
-            console.log(err);
-            res.sendStatus(500);
-        })
+        await recipeDB.isCreator(req.user, req.params.recipeID)
+            .then(() => {
+                recipeDB.update({"_id":req.params.recipeID}, req.query, {})
+                    .then(resolve => {
+                        if (resolve === 1) {
+                            res.sendStatus(204);
+                        }else if (resolve === 0) {
+                            res.sendStatus(404);
+                        }else {
+                            res.sendStatus(500);
+                        }
+                        })
+                    .catch(err => {
+                        console.log(err);
+                        res.sendStatus(500);
+                    })
+            }).catch(() => {
+                res.sendStatus(403)
+            })
+
     })
-    .delete(passport.authenticate('jwt', {session:false}), function (req, res) {
+    .delete(passport.authenticate('authentication', {session:false}), async function (req, res) {
         /*
         send 204: if removed without problem
-        send 500: if multiple recipes were removed (should never happen)
+        send 403: if the user does not have permission
         send 404: if the id could not be found
+        send 500: if multiple recipes were removed (should never happen)
         */
-        console.log("requires stricter authentication: " + req.url)
-        recipeDB.remove({'_id':req.params.recipeID}).then(resolve => {
-            if (resolve === 1) {
-                res.sendStatus(204);
-            }else if (resolve > 1) {
-                res.sendStatus(500);
-                throw new Error("Something went wrong. deleted 2 elements with the same ID");
-            }else {
-                res.sendStatus(404)
-            }
-        })
+        await recipeDB.isCreator(req.user, req.params.recipeID)
+            .then(() => {
+                recipeDB.remove({'_id':req.params.recipeID})
+                    .then(resolve => {
+                        if (resolve === 1) {
+                            res.sendStatus(204);
+                        }else if (resolve > 1) {
+                            res.sendStatus(500);
+                            throw new Error("Something went wrong. deleted 2 elements with the same ID");
+                        }else {
+                            res.sendStatus(404)
+                        }
+                    })
+            })
+            .catch(() => {
+                res.sendStatus(403)
+            })
+
     })
 
 router.route("/:recipe/comment")
-    .post( passport.authenticate('jwt', {session:false}), function (req, res) {
+    .post( passport.authenticate('authentication', {session:false}), function (req, res) {
         /*
         query: rating (string), comments (string)
         send 204: if request was successful
         send 500: if there was an error with the database access
         */
-        console.log("requires stricter authentication: " + req.url)
         commentsDB.insert(Object.assign({"_id":req.params.recipeID}, req.query)).then(() =>
             res.sendStatus(204)
         ).catch(err => {
@@ -107,24 +122,31 @@ router.route("/:recipe/comment")
             res.sendStatus(500);
         })
     })
-    .delete(passport.authenticate('jwt', {session:false}), function (req, res) {
+    .delete(passport.authenticate('authentication', {session:false}), async function (req, res) {
         /*
         query: id of the comment to remove
         send 204: delete was successful
+        send 403: if the user does not have permission
         send 404: comment id could not be found
         send 500: if multiple recipes were removed (should never happen)
          */
-        console.log("requires stricter authentication: " + req.url)
-        commentsDB.remove(req.query, {}).then(resolve => {
-            if (resolve === 1) {
-                res.sendStatus(204);
-            }else if (resolve > 1) {
-                res.sendStatus(500);
-                throw new Error("Something went wrong. deleted 2 elements with the same ID");
-            }else {
-                res.sendStatus(404)
-            }
-        })
+        await commentsDB.isCreator(req.user, req.query.commentID)
+            .then(() => {
+                commentsDB.remove(req.query, {})
+                    .then(resolve => {
+                        if (resolve === 1) {
+                            res.sendStatus(204);
+                        }else if (resolve > 1) {
+                            res.sendStatus(500);
+                            throw new Error("Something went wrong. deleted 2 elements with the same ID");
+                        }else {
+                            res.sendStatus(404)
+                        }
+                    })
+            }).catch(() => {
+                res.sendStatus(403)
+            })
+
     })
 
 router.get("/:recipeID/comments", function (req, res, next) {
@@ -156,11 +178,11 @@ router.get("/:recipeID/ratings", function (req, res, next) {
 })
 
 router.route("/:recipeID/rating")
-    .put(passport.authenticate('jwt', {session:false}), function (req, res) {
+    .put(passport.authenticate('authentication', {session:false}), function (req, res) {
         //implement
         throw new NotImplementedException();
     })
-    .delete(passport.authenticate('jwt', {session:false}), function (req, res) {
+    .delete(passport.authenticate('authentication', {session:false}), function (req, res) {
         //implement
         throw new NotImplementedException();
     })

@@ -6,14 +6,12 @@ ExtractJwt = require('passport-jwt').ExtractJwt;
 const {pw} = require('./database/database')
 const pwDB = new pw();
 
-let opts = {
+let authenticationStrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), //method to get the payload from the jwt token
     secretOrKey: process.env.JWT_KEY,
 }
 
-
-//this middleware handles the authorization of a jwt token
-passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
+const authenticationStrategy = new JwtStrategy(authenticationStrategyOptions, function(jwt_payload, done) {
     /*
     return: user if a user was found
     return: err if there was an error
@@ -32,4 +30,7 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
     }).catch(err => {
         return done(err, false)
     })
-}))
+})
+
+//this middleware handles the authorization of a jwt token
+passport.use('authentication', authenticationStrategy);
