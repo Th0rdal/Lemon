@@ -19,6 +19,7 @@ class Database {
         if (!Database.instance.hasOwnProperty(name)) {   //create a new database instance if there is none
             this.mutex = new mutex();   //create new mutes
             this.validDataFormat = validDataFormat;
+            this.protectedKeys = ["_id"];
             this.database = new Datastore({"filename": path, "autoload": true, "timestampData":true});    //connect to database
             Database.instance[name] = this;
         }
@@ -34,7 +35,7 @@ class Database {
         return reject(errorMessage): if there was an error with the data
          */
         return new Promise((resolve, reject) => {
-            let check = this.checkData(rawData);
+            let check = this.checkInsertData(rawData);
             if (check !== "") {
                 reject(check);
                 return;
@@ -57,6 +58,11 @@ class Database {
          */
         return new Promise((resolve, reject) => {
             this.mutex.acquire().then(() => {
+                let check = this.checkSearchData(searchDict)
+                if (check !== "") {
+                    reject(check);
+                    return;
+                }
                 this.database.loadDatabase();
                 this.database.find(searchDict, function(err, docs) {
                     if (err) reject(err);
@@ -77,6 +83,11 @@ class Database {
          */
         return new Promise((resolve, reject) => {
             this.mutex.acquire().then(() => {
+                let check = this.checkSearchData(searchDict)
+                if (check !== "") {
+                    reject(check);
+                    return;
+                }
                 this.database.loadDatabase();
                 this.database.findOne(searchDict, function(err, docs) {
                     if (err) reject(err);
@@ -104,6 +115,16 @@ class Database {
         }
         return new Promise((resolve, reject) => {
             this.mutex.acquire().then(() => {
+                let check = this.checkSearchData(searchDict);
+                if (check !== "") {
+                    reject(check);
+                    return;
+                }
+                check = this.checkUpdateData(updateDict)
+                if (check !== "") {
+                    reject(check)
+                    return;
+                }
                 this.database.update(searchDict, updateDict, options, function(err, numReplaced) {
                     if (err) reject(err);
                     resolve(numReplaced);
@@ -125,6 +146,11 @@ class Database {
          */
         return new Promise((resolve, reject) => {
             this.mutex.acquire().then(() => {
+                let check = this.checkSearchData(searchDict)
+                if (check !== "") {
+                    reject(check);
+                    return;
+                }
                 this.database.remove(searchDict, options, function (err, numRemoved) {
                     if (err) reject(err);
                     resolve(numRemoved);
@@ -136,7 +162,7 @@ class Database {
         })
     }
 
-    checkData(checkData) {
+    checkData(checkData, updateOrInsert) {
         /*
         this function checks if the data fulfills the requirements to be inserted into the database.
         No missing or extra rows and the values are what is expected
@@ -144,46 +170,42 @@ class Database {
         return: str with the error message. The string is empty if it fulfills all requirements
          */
 
-        //check if the amount of keys matches with teh validDataFormat
-        let dataKeysAmount = Object.keys(checkData).length;
-        let expectedKeysAmount = Object.keys(this.validDataFormat).length;
-        if (dataKeysAmount !== expectedKeysAmount) {
-            return `expected ${expectedKeysAmount} keys, but got ${dataKeysAmount} keys`
-        }
-
         //check if each value is in rawData
         let dataKeys = Object.keys(checkData);
         for (let key of Object.keys(this.validDataFormat)) {
+            if (this.protectedKeys.includes(key)) {
+                continue;
+            }
             if (!dataKeys.includes(key)) {
-                return `key "${key}" is not defined`
+                return `In ${updateOrInsert}: key "${key}" is not defined`
             }
 
 
             if (this.validDataFormat[key].startsWith("array")) {//check if the value for this key should be an array
                 //check if value for the key of the given object is an array
                 if (!Array.isArray(checkData[key])) {
-                    return `The value "${checkData[key]}" of the key "${key}" should be an array, but it is of type ${typeof checkData[key]}`
+                    return `In ${updateOrInsert}: The value "${checkData[key]}" of the key "${key}" should be an array, but it is of type ${typeof checkData[key]}`
                 }
 
                 //get the type that should be inside the array
                 let expectedType = this.validDataFormat[key].split("(")[1].slice(0, -1);
-                if (expectedType.startsWith("/") && checkData[key].length === 0) {
+                if (expectedType.startsWith("/") && updateOrInsert === "insert" && checkData[key].length === 0) {
                     continue;
                 }
                 for (let index in checkData[key]) { //check all elements in the array if they match the expected type
                     if (!(typeof checkData[key][index] === expectedType)) {
-                        return `The value "${checkData[key][index]}" (index: ${index}) of the key "${key}" should be of type ${expectedType}, but it is of type ${typeof checkData[key]}`
+                        return `In ${updateOrInsert}: The value "${checkData[key][index]}" (index: ${index}) of the key "${key}" should be of type ${expectedType}, but it is of type ${typeof checkData[key]}`
                     }
                 }
             }else if (this.validDataFormat[key].startsWith("object")) {
                 //check if value for the key of the given object is an object
                 if (!(typeof checkData[key] === 'object') || checkData[key] === null) {
-                    return `The value "${checkData[key]}" of the key "${key}" should be of type object, but it is of type ${typeof checkData[key]}`
+                    return `In ${updateOrInsert}: The value "${checkData[key]}" of the key "${key}" should be of type object, but it is of type ${typeof checkData[key]}`
                 }
 
                 //get the type that should be inside the array
                 let expectedType = this.validDataFormat[key].split("(")[1].slice(0, -1);
-                if (expectedType.startsWith("/") && Object.keys(checkData[key]).length === 0) {
+                if (expectedType.startsWith("/") && updateOrInsert === "insert" && Object.keys(checkData[key]).length === 0) {
                     continue;
                 }
                 let tempArray = expectedType.split(",")
@@ -193,22 +215,47 @@ class Database {
                 for (let index in Object.keys(checkData[key])) { //check all elements in the array if they match the expected type
                     let objectKey = Object.keys(checkData[key])[index];
                     if (!(typeof objectKey === expectedKey)) {
-                        return `In key "${key}": The key "${objectKey}" should be of type ${expectedKey}, but is of type ${typeof objectKey}`
+                        return `In ${updateOrInsert}: In key "${key}": The key "${objectKey}" should be of type ${expectedKey}, but is of type ${typeof objectKey}`
                     }else if (!(typeof checkData[key][objectKey] === expectedValue)) {
-                        return `In key "${key}": The value "${checkData[key][objectKey]}" of the key "${objectKey}" should be of type ${expectedValue}, but is of type ${typeof checkData[key][objectKey]}`
+                        return `In ${updateOrInsert}: In key "${key}": The value "${checkData[key][objectKey]}" of the key "${objectKey}" should be of type ${expectedValue}, but is of type ${typeof checkData[key][objectKey]}`
                     }
                 }
 
             }else if (!(typeof checkData[key] === this.validDataFormat[key])) {
-                return `The value "${checkData[key]}" of the key "${key}" should be of type ${this.validDataFormat[key]}, but is of type ${typeof checkData[key]}`
+                return `In ${updateOrInsert}: The value "${checkData[key]}" of the key "${key}" should be of type ${this.validDataFormat[key]}, but is of type ${typeof checkData[key]}`
             }
         }
-        return "";
+        return "";}
+
+    checkInsertData(checkData) {
+        /*
+         checks if the data fulfills the requirements for insertion
+         */
+        //check if the amount of keys matches with teh validDataFormat
+        let dataKeysAmount = Object.keys(checkData).length;
+        let expectedKeysAmount = Object.keys(this.validDataFormat).length;
+        if (dataKeysAmount !== expectedKeysAmount) {
+            return `expected ${expectedKeysAmount} keys, but got ${dataKeysAmount} keys`
+        }
+        return this.checkData(checkData, "insert");
     }
 
+    checkUpdateData(checkData) {
+        /*
+        checks if the data fulfills the requirements for updating
+         */
+        return this.checkData(checkData, "update");
+    }
+
+    checkSearchData(checkData) {
+        /*
+        checks if the data fulfills the requirements for searching
+         */
+        return this.checkData(checkData, "search");
+    }
     async isCreator(user, objectID) {
         return new Promise((resolve, reject) => {
-            this.findOne({"_id":objectID}).then(resolve => {
+            this.findOne({"_id": objectID}).then(resolve => {
                 if (resolve.creatorID === user._id) {
                     resolve();
                 }
