@@ -25,7 +25,7 @@ router.put("/", passport.authenticate('authentication', {session:false}), functi
          send 204: if inserted without problem
          send 500: if the query is having errors
          */
-        recipeDB.insert(req.query).then(() => {
+        recipeDB.insert(req.body).then(() => {
             res.sendStatus(204)
         }).catch(err => {
             console.log(err)
@@ -54,7 +54,7 @@ router.route("/:recipeID")
     }, sendResponse)
     .patch(passport.authenticate('authentication', {session:false}), async function (req, res) {
         /*
-        query: whatever should be updated
+        body-: whatever should be updated
         send 204: if updated without problem
         send 403: if the user was not the creator of the resource
         send 404: if the user could not be found
@@ -62,7 +62,7 @@ router.route("/:recipeID")
          */
         await recipeDB.isCreator(req.user, req.params.recipeID)
             .then(() => {
-                recipeDB.update({"_id":req.params.recipeID}, req.query, {})
+                recipeDB.update({"_id":req.params.recipeID}, req.body, {})
                     .then(resolve => {
                         if (resolve === 1) {
                             res.sendStatus(204);
@@ -111,11 +111,11 @@ router.route("/:recipeID")
 router.route("/:recipe/comment")
     .post( passport.authenticate('authentication', {session:false}), function (req, res) {
         /*
-        query: rating (string), comments (string)
+        body: rating (string), comments (string)
         send 204: if request was successful
         send 500: if there was an error with the database access
         */
-        commentsDB.insert(Object.assign({"_id":req.params.recipeID}, req.query)).then(() =>
+        commentsDB.insert(Object.assign({"_id":req.params.recipeID}, req.body)).then(() =>
             res.sendStatus(204)
         ).catch(err => {
             console.log(err);
@@ -124,15 +124,15 @@ router.route("/:recipe/comment")
     })
     .delete(passport.authenticate('authentication', {session:false}), async function (req, res) {
         /*
-        query: id of the comment to remove
+        body: id of the comment to remove (important id key must be _id)
         send 204: delete was successful
         send 403: if the user does not have permission
         send 404: comment id could not be found
         send 500: if multiple recipes were removed (should never happen)
          */
-        await commentsDB.isCreator(req.user, req.query.commentID)
+        await commentsDB.isCreator(req.user, req.body._id)
             .then(() => {
-                commentsDB.remove(req.query, {})
+                commentsDB.remove(req.body, {})
                     .then(resolve => {
                         if (resolve === 1) {
                             res.sendStatus(204);
@@ -180,11 +180,11 @@ router.get("/:recipeID/ratings", function (req, res, next) {
 router.route("/:recipeID/rating")
     .put(passport.authenticate('authentication', {session:false}), function (req, res) {
         /*
-        query: recipeID (string), userID (string), ratingStar (number)
+        body: recipeID (string), userID (string), ratingStar (number)
         send 204: if the request was successful
         send 500: if there was an error with database access
          */
-        ratingDB.insert(Object.assign({"_id":req.params.recipeID}, req.query)).then(() => {
+        ratingDB.insert(Object.assign({"_id":req.params.recipeID}, req.body)).then(() => {
             res.sendStatus(204);
         }).catch(err => {
             console.log(err);
@@ -193,7 +193,7 @@ router.route("/:recipeID/rating")
     })
     .delete(passport.authenticate('authentication', {session:false}), function (req, res) {
         /*
-        query: id of the comment to remove
+        body: id of the comment to remove (important id key must be _id)
         send 204: delete was successful
         send 403: if the user does not have permission
         send 404: comment id could not be found
@@ -201,7 +201,7 @@ router.route("/:recipeID/rating")
          */
         ratingDB.isCreator(req.user, req.query._id)
             .then(() => {
-                ratingDB.remove(req.query, {})
+                ratingDB.remove(req.body, {})
                     .then(resolve => {
                         if (resolve === 1) {
                             res.sendStatus(204);

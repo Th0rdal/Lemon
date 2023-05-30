@@ -26,14 +26,14 @@ router.route("/:userID")
     }, sendResponse)
     .patch(passport.authenticate('authentication', {session:false}), function (req, res) {
         /*
-        query: whatever should be updated
+        body: whatever should be updated
         send 204: if updated without problem
         send 403: if the user does not have the permission
         send 404: if the user could not be found
         send 500: if there was an error with the database
          */
         if (req.user._id === req.params.userID) {
-            userDB.update({"_id":req.params.userID}, req.query, {}).then(resolve => {
+            userDB.update({"_id":req.params.userID}, req.body, {}).then(resolve => {
                 if (resolve === 1) {
                     res.sendStatus(204);
                 }else if (resolve === 0) {
