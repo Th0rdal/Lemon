@@ -16,3 +16,15 @@
     left: 10px;
 
 }
+
+.Options {
+    display: none;
+}
+
+label{
+    display: block;
+    margin-bottom: 5px;
+}
+#sidebar {
+    text-align: left;
+}
