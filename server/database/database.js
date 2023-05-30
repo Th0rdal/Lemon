@@ -274,7 +274,7 @@ class recipeDB extends Database {   //class for the recipe database
             "title":"string", "method":"array(string)", "ingredients":"object(string,number)"
             ,"creatorID":"string", "nutrition":"object(string,number)", "tags":"array(string)", "ratingStars":"number"
             ,"ratingAmount":"number", "comments":"number"};
-        super("recipe", path.join(getProjectDirectory(), 'resources/database/recipe.db'), temp);
+        super("recipe", path.join(__dirname, '../resources/database/recipe.db'), temp);
     }
 }
 
@@ -282,28 +282,28 @@ class userDB extends Database {
     constructor() {
         const temp = {
             "username": "string", "postedRecipes": "array(/string)", "showNutritionValue":"boolean"};
-        super("user", path.join(getProjectDirectory(), 'resources/database/user.db'), temp);
+        super("user", path.join(__dirname, '../resources/database/user.db'), temp);
     }
 }
 
 class ratingDB extends Database {
     constructor() {
         const temp = {"creatorID":"string", "ratingStar":"number"};
-        super("rating", path.join(getProjectDirectory(), 'resources/database/ratings.db'), temp);
+        super("rating", path.join(__dirname, '../resources/database/ratings.db'), temp);
     }
 }
 
 class commentsDB extends Database {
     constructor() {
         const temp = {"recipeID":"string", "creatorID":"string", "comment":"string"};
-        super("comments", path.join(getProjectDirectory(), 'resources/database/comments.db'), temp);
+        super("comments", path.join(__dirname, '../resources/database/comments.db'), temp);
     }
 }
 
 class impUserData extends Database {
     constructor() {
         const temp = {"username":"string", "password":"string", "email":"string"} //<- obviously not save
-        super("impData", path.join(getProjectDirectory(), 'resources/database/impUserData.db'), temp);
+        super("impData", path.join(__dirname, '../resources/database/impUserData.db'), temp);
     }
 
     noDuplicate(data) {

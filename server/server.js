@@ -3,17 +3,21 @@ const path = require('path');
 const passport = require("passport");
 const xmlBodyParser = require('express-xml-bodyparser')
 require('./tools/passport-config');
-const xmlParser = require('./tools/xmlParsing');
+const {parseXML, preventStaticSending} = require('./tools/middleware');
+const {getProjectDirectory} = require('./tools/tools');
 const app = express();
+
 
 // Serve static content in directory 'files'
 app.use(express.static(path.join(__dirname, 'files')));
+app.use(express.static(path.join(__dirname, 'resources')));
+app.use(preventStaticSending);
 
 //body parsing
 app.use(express.json());
 app.use(xmlBodyParser());
 app.use(express.urlencoded({extended:false})) //access to body elements with req.body.varName (name field of html tag)
-app.use(xmlParser);
+app.use(parseXML);
 
 //authentication initializing
 app.use(passport.initialize())
