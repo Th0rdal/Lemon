@@ -11,15 +11,36 @@ const {sendResponse} = require("../tools/tools");
 const passport = require('passport');
 const NotImplementedException = require("../tools/server_exceptions");
 
-let recipeOfTheDay = {"title": "recipeOfTheDay"}
+//dummy recipe of the day
+let recipeOfTheDay = {
+    "title": "recipeOfTheDay",
+    "method": ["step1", "step2", "step3"],
+    "ingredients": {
+        "ingredient1": 2,
+        "ingredient2": 4.5,
+        "ingredient3": 5},
+    "creatorID": "asdf",
+    "nutrition": {
+        "vitamin1": 5,
+        "vitamin2": 5.5,
+        "vitamin3": 46,
+        "vitamin4": 3.3},
+    "tags": ["vegan", "easy"],
+    "ratingStars": 5.5,
+    "ratingAmount": 500,
+    "comments": 20
+    }
 
 router.get("/ofTheDay", function (req, res) {
+    /*
+    send: json with the recipe of the day
+     */
     res.json(recipeOfTheDay);
 })
 
 router.put("/", passport.authenticate('authentication', {session:false}), function (req, res) {
         /*
-        query: title (str), method (array(string)), ingredients (object(string,number)), creator(string)
+        body: title (str), method (array(string)), ingredients (object(string,number)), creator(string)
                 , nutrition (object(string,number)), tags (array(string)), ratingStars (number)
                 , ratingAmount (number), comments (number)
          send 204: if inserted without problem
@@ -156,7 +177,7 @@ router.get("/:recipeID/comments", function (req, res, next) {
      */
     commentsDB.find({"recipeID":req.params.recipeID}).then(resolve => {
             res.data = resolve;
-            next()
+            next();
     }).catch(err => {
         console.log(err);
         res.sendStatus(500);
