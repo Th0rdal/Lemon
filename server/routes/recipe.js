@@ -31,12 +31,13 @@ let recipeOfTheDay = {
     "comments": 20
     }
 
-router.get("/ofTheDay", function (req, res) {
+router.get("/ofTheDay", function (req, res, next) {
     /*
     send: json with the recipe of the day
      */
-    res.json(recipeOfTheDay);
-})
+    res.data = recipeOfTheDay;
+    next();
+}, sendResponse)
 
 router.put("/", passport.authenticate('authentication', {session:false}), function (req, res) {
         /*
@@ -196,7 +197,7 @@ router.get("/:recipeID/ratings", function (req, res, next) {
         console.log(err)
         res.sendStatus(500);
     })
-})
+}, sendResponse)
 
 router.route("/:recipeID/rating")
     .put(passport.authenticate('authentication', {session:false}), function (req, res) {

@@ -7,7 +7,7 @@ const {sendResponse} = require('../middleware/formatResponse');
 const passport = require("passport");
 
 router.route("/:userID")
-    .get(function (req, res) {
+    .get(function (req, res, next) {
         /*
         send: json data of the user
         send 404: if the user does not exist
@@ -18,7 +18,8 @@ router.route("/:userID")
                 res.sendStatus(404);
                 return;
             }
-            res.json(resolve);
+            res.data = resolve;
+            next();
         }).catch(err => {
             console.log(err);
             res.sendStatus(500);
