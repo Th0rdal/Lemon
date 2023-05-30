@@ -1,11 +1,14 @@
 const express = require('express');
 const path = require('path');
-const app = express();
 const passport = require("passport");
+const xmlBodyParser = require('express-xml-bodyparser')
 require('./passport-config');
+const app = express();
 
 // Serve static content in directory 'files'
 app.use(express.static(path.join(__dirname, 'files')));
+app.use(express.json());
+app.use(xmlBodyParser());
 app.use(express.urlencoded({extended:false})) //access to body elements with req.body.varName (name field of html tag)
 
 app.use(passport.initialize())
@@ -18,7 +21,7 @@ app.use("/user", userRouter);
 
 const sessionRouter = require("./routes/session");
 
-app.use("/", sessionRouter)
+app.use("", sessionRouter)
 
 //test endpoint for authentication
 
@@ -27,6 +30,10 @@ app.get("/protected", passport.authenticate('authentication', {session:false}), 
     res.send("finished");
 })
 
+app.put("/testBody", function (req, res) {
+    console.log(req.body);
+    res.send("DONE");
+})
 
 app.listen(3000);
 
