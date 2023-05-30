@@ -3,13 +3,17 @@ const path = require('path');
 const passport = require("passport");
 const xmlBodyParser = require('express-xml-bodyparser')
 require('./passport-config');
+const xmlParser = require('./xmlParsing');
 const app = express();
 
 // Serve static content in directory 'files'
 app.use(express.static(path.join(__dirname, 'files')));
+
+//body parsing
 app.use(express.json());
 app.use(xmlBodyParser());
 app.use(express.urlencoded({extended:false})) //access to body elements with req.body.varName (name field of html tag)
+app.use(xmlParser);
 
 app.use(passport.initialize())
 
@@ -31,7 +35,7 @@ app.get("/protected", passport.authenticate('authentication', {session:false}), 
 })
 
 app.put("/testBody", function (req, res) {
-    console.log(req.body);
+    console.log("newBody")
     res.send("DONE");
 })
 

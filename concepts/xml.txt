@@ -1,0 +1,14 @@
+
+if you want to send xml, you need to send it this way
+
+<data>
+    <array>
+        all array data in here. each as their own tag that is consistent with the json key
+    </array>
+    <string>
+        all string data in here. each as their own tag that is consistent with the json key
+    </string>
+    <number>
+        all number data in here. each as their own tag that is consistent with the json key
+    </number>
+</data>
