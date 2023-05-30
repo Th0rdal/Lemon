@@ -2,7 +2,7 @@ const path = require('path')
 const xmlBuilder = require("xmlbuilder2");
 
 function getProjectDirectory() {
-    return path.join(__dirname, '../');
+    return path.join(__dirname, '../../');
 }
 
 function sendResponse(req, res) {
