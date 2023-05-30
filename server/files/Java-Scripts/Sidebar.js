@@ -1,12 +1,12 @@
 function toggleSidebar() {
+
     const sidebar = document.getElementById("sidebar");
     const button = document.getElementById("sidebar-button");
     sidebar.classList.toggle("collapsed");
 
-    if (isCollapsed) {
-        button.textContent = "Expand";
-    } else {
-        button.textContent = "Collapse";
-    }
 
+}
+function toggleCheckboxes(optionId) {
+    var checkboxList = document.getElementById(optionId).querySelector("div[id$='CheckboxList']");
+    checkboxList.style.display = checkboxList.style.display === "none" ? "block" : "none";
 }
