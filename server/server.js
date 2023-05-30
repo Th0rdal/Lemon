@@ -2,8 +2,8 @@ const express = require('express');
 const path = require('path');
 const passport = require("passport");
 const xmlBodyParser = require('express-xml-bodyparser')
-require('./passport-config');
-const xmlParser = require('./xmlParsing');
+require('./tools/passport-config');
+const xmlParser = require('./tools/xmlParsing');
 const app = express();
 
 // Serve static content in directory 'files'

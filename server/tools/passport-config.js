@@ -3,7 +3,7 @@ const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 ExtractJwt = require('passport-jwt').ExtractJwt;
 
-const {pw} = require('./database/database')
+const {pw} = require('../database/database')
 const pwDB = new pw();
 
 let authenticationStrategyOptions = {
