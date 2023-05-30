@@ -3,8 +3,9 @@ const path = require('path');
 const passport = require("passport");
 const xmlBodyParser = require('express-xml-bodyparser')
 require('./middleware/passport-config');
-const {parseXML, preventStaticSending} = require('./middleware/preventStaticSending');
-const {getProjectDirectory} = require('./middleware/formatResponse');
+const {preventStaticSending} = require('./middleware/preventStaticSending');
+const {parseXML} = require('./middleware/formatRequest');
+const {getProjectDirectory, sendResponse} = require('./middleware/formatResponse');
 const app = express();
 
 
@@ -40,10 +41,11 @@ app.get("/protected", passport.authenticate('authentication', {session:false}), 
     res.send("finished");
 })
 
-app.put("/testBody", function (req, res) {
+app.put("/testBody", function (req, res, next) {
     console.log("newBody")
-    res.send("DONE");
-})
+    //res.send("DONE");
+    next()
+}, sendResponse)
 
 app.listen(3000);
 
