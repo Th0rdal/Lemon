@@ -13,4 +13,4 @@ function preventStaticSending(req, res, next) {
     next();
 }
 
-module.exports = {parseXML, preventStaticSending};
+module.exports = {preventStaticSending};
