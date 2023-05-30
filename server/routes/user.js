@@ -3,7 +3,7 @@ const router = express.Router();
 
 const {user} = require("../database/database");
 const userDB = new user();
-const {sendResponse} = require('../tools/tools');
+const {sendResponse} = require('../middleware/formatResponse');
 const passport = require("passport");
 
 router.route("/:userID")

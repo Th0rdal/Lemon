@@ -1,7 +1,7 @@
 const Datastore = require("nedb");
 const mutex = require("./mutex");
 const path = require('path');
-const {getProjectDirectory} = require('../tools/tools');
+const {getProjectDirectory} = require('../middleware/formatResponse');
 
 // abstract Database class
 class Database {

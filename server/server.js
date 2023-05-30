@@ -2,9 +2,9 @@ const express = require('express');
 const path = require('path');
 const passport = require("passport");
 const xmlBodyParser = require('express-xml-bodyparser')
-require('./tools/passport-config');
-const {parseXML, preventStaticSending} = require('./tools/middleware');
-const {getProjectDirectory} = require('./tools/tools');
+require('./middleware/passport-config');
+const {parseXML, preventStaticSending} = require('./middleware/preventStaticSending');
+const {getProjectDirectory} = require('./middleware/formatResponse');
 const app = express();
 
 

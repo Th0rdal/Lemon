@@ -1,9 +1,6 @@
 const path = require('path')
 const xmlBuilder = require("xmlbuilder2");
 
-function getProjectDirectory() {
-    return path.join(__dirname, '../../');
-}
 
 function sendResponse(req, res) {
     if (req.get('Content-Type') === 'application/json') {
@@ -15,4 +12,4 @@ function sendResponse(req, res) {
     }
 }
 
-module.exports = {getProjectDirectory, sendResponse};
+module.exports = {sendResponse};

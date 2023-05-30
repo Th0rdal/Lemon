@@ -7,9 +7,9 @@ const {rating} = require("../database/database");
 const ratingDB = new rating();
 const {comments} = require("../database/database");
 const commentsDB = new comments();
-const {sendResponse} = require("../tools/tools");
+const {sendResponse} = require("../middleware/formatResponse");
 const passport = require('passport');
-const NotImplementedException = require("../tools/server_exceptions");
+const NotImplementedException = require("../exception/server_exceptions");
 
 //dummy recipe of the day
 let recipeOfTheDay = {
