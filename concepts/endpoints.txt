@@ -6,6 +6,8 @@ server
 
     get /protected only for test uses
 
+    put /testBody only for test uses
+
 recipe /recipe
 
     get /ofTheDay returns the recipe of the day

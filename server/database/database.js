@@ -59,10 +59,11 @@ class Database {
             this.mutex.acquire().then(() => {
                 this.database.loadDatabase();
                 this.database.find(searchDict, function(err, docs) {
-                    this.mutex.release();
                     if (err) reject(err);
                     resolve(docs);
                 });
+            }).finally(() => {
+                this.mutex.release();
             })
         })
     }
@@ -104,11 +105,12 @@ class Database {
         return new Promise((resolve, reject) => {
             this.mutex.acquire().then(() => {
                 this.database.update(searchDict, updateDict, options, function(err, numReplaced) {
-                    this.database.loadDatabase();
-                    this.mutex.release();
                     if (err) reject(err);
                     resolve(numReplaced);
                 })
+            }).finally(() => {
+                this.database.loadDatabase();
+                this.mutex.release()
             })
         })
     }
@@ -124,11 +126,12 @@ class Database {
         return new Promise((resolve, reject) => {
             this.mutex.acquire().then(() => {
                 this.database.remove(searchDict, options, function (err, numRemoved) {
-                    this.database.loadDatabase();
-                    this.mutex.release();
                     if (err) reject(err);
                     resolve(numRemoved);
                 })
+            }).finally(() => {
+                this.database.loadDatabase();
+                this.mutex.release();
             })
         })
     }

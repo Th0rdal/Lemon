@@ -15,8 +15,10 @@ app.use(xmlBodyParser());
 app.use(express.urlencoded({extended:false})) //access to body elements with req.body.varName (name field of html tag)
 app.use(xmlParser);
 
+//authentication initializing
 app.use(passport.initialize())
 
+//adding routes
 const recipeRouter = require("./routes/recipe");
 app.use("/recipe", recipeRouter);
 
@@ -27,7 +29,7 @@ const sessionRouter = require("./routes/session");
 
 app.use("", sessionRouter)
 
-//test endpoint for authentication
+//test endpoints
 
 app.get("/protected", passport.authenticate('authentication', {session:false}), function (req, res) {
     console.log("test");
