@@ -10,7 +10,7 @@ const app = express();
 
 // Serve static content in directory 'files'
 app.use(express.static(path.join(__dirname, 'files')));
-app.use(express.static(path.join(__dirname, 'resources')));
+app.use(express.static(path.join(__dirname)));
 app.use(preventStaticSending);
 
 //body parsing
