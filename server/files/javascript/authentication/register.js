@@ -120,6 +120,6 @@ window.onload = function () {
         event.preventDefault();
         let data = getDataFromForm();
         console.log("HI")
-        //throw new Error("not implemented");
+        throw new Error("not implemented");
     })
 }
