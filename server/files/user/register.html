@@ -9,27 +9,31 @@
 </head>
 <body>
 <div>
-    <form id="registerForm">
+    <form id="registerForm" lang="en">
         <p class="authenticationFormElement">
             <label class="standardFont" for="username">username</label>
-            <input class="standardFont" type="text" id="username" name="username">
+            <input class="standardFont" type="text" id="username" name="username" required>
         </p>
         <p class="authenticationFormElement">
             <label class="standardFont" for="email">email address</label>
-            <input class="standardFont" type="text" id="email" name="email">
+            <input class="standardFont" type="email" id="email" name="email" required>
         </p>
         <p class="authenticationFormElement">
-            <label class="standardFont" for="password">password</label>
-            <input class="standardFont" type="password" id="password" name="password">
+            <label class="standardFont" for="password">
+                password
+                <span class="dot" id="dot">&#8226;</span>
+            </label>
+            <input class="standardFont" type="password" id="password" name="password" required>
         </p>
         <p class="authenticationFormElement">
             <label class="standardFont" for="confirm_password">confirm password</label>
-            <input class="standardFont" type="password" id="confirm_password" name="confirm_password">
+            <input class="standardFont" type="password" id="confirm_password" name="confirm_password" required>
+        </p>
+        <p class="authenticationFormElement">
+            <input type="submit">
         </p>
     </form>
-    <button id="registerButton">
-        Register
-    </button>
+    <p class = "errorMessage top-arrow"> </p>
 </div>
 </body>
 </html>

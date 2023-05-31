@@ -287,7 +287,7 @@ class userDB extends Database {
     constructor() {
         const temp = {
             "username": "string", "postedRecipes": "array(/string)", "showNutritionValue":"boolean"};
-        super("user", path.join(__dirname, '../resources/database/authentication.db'), temp);
+        super("user", path.join(__dirname, '../resources/database/user.db'), temp);
     }
 }
 
