@@ -9,19 +9,21 @@
 </head>
 <body>
 <div>
-    <form>
+    <form id="registerForm" lang="en">
         <p class="authenticationFormElement">
-            <label class="standardFont">username</label>
-            <input class="standardFont" type="text" id="username" name="username">
+            <label class="standardFont" for="username">username</label>
+            <input class="standardFont" type="text" id="username" name="username" required>
         </p>
         <p class="authenticationFormElement">
-            <label class="standardFont">password</label>
-            <input class="standardFont" type="password" id="password" name="password">
+            <label class="standardFont" for="password">
+                password
+            </label>
+            <input class="standardFont" type="password" id="password" name="password" required>
+        </p>
+        <p class="authenticationFormElement">
+            <input type="submit">
         </p>
     </form>
-    <button id="loginButton">
-        Log in
-    </button>
 </div>
 </body>
 </html>
