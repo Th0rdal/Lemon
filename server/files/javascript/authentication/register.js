@@ -1,4 +1,3 @@
-const NotImplementedException = require('../exception/client_exceptions');
 
 function checkPasswords() {
     const password = document.getElementById("password");
@@ -107,6 +106,6 @@ window.onload = function () {
 
     document.getElementById("registerForm").addEventListener("submit", function (event) {
         //implement send request to endpoint
-        throw new NotImplementedException();
+        throw new Error("Not implemented");
     })
 }
