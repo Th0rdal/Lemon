@@ -32,5 +32,24 @@ const authenticationStrategy = new JwtStrategy(authenticationStrategyOptions, fu
     })
 })
 
+const createIsAuthenticated = (req, res, next) => {
+    req.isAuthenticated = () => {
+        if (req.get("Authorization") !== undefined) {
+            return req.get("Authorization").startsWith("Bearer");
+        }
+        return false;
+    }
+    next();
+}
+
+function notAuthenticated(req, res, next) {
+    if (!req.isAuthenticated()) {
+        next();
+        return;
+    }
+    res.redirect("/");
+}
 //this middleware handles the authorization of a jwt token
 passport.use('authentication', authenticationStrategy);
+
+module.exports = {createIsAuthenticated, notAuthenticated};

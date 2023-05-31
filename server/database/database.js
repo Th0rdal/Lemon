@@ -83,6 +83,7 @@ class Database {
          */
         return new Promise((resolve, reject) => {
             this.mutex.acquire().then(() => {
+                console.log(searchDict);
                 let check = this.checkSearchData(searchDict)
                 if (check !== "") {
                     reject(check);
@@ -171,12 +172,21 @@ class Database {
          */
 
         //check if each value is in rawData
+        console.log(checkData)
+        console.log(typeof checkData)
         let dataKeys = Object.keys(checkData);
-        for (let key of Object.keys(this.validDataFormat)) {
+        let validKeys = Object.keys(this.validDataFormat);
+        for (let key of dataKeys) {
+
             if (this.protectedKeys.includes(key)) {
                 continue;
             }
-            if (!dataKeys.includes(key)) {
+
+            console.log("key " + key);
+            console.log("check " + checkData[key])
+            console.log("type " + typeof checkData[key])
+
+            if (validKeys.hasOwnProperty(key)) {
                 return `In ${updateOrInsert}: key "${key}" is not defined`
             }
 
@@ -253,6 +263,7 @@ class Database {
          */
         return this.checkData(checkData, "search");
     }
+
     async isCreator(user, objectID) {
         return new Promise((resolve, reject) => {
             this.findOne({"_id": objectID}).then(resolve => {
@@ -311,22 +322,28 @@ class impUserData extends Database {
             alreadyExists: false
         };
         for (let pair in data) {
-            super.findOne({pair:data[pair]}).then(resolve => {
+            super.findOne({[pair]:data[pair]}).then(resolve => {
                 if (!(resolve === null)) {
                     status.alreadyExists = true;
                     status[pair] = true;
                 }
+            }).catch(err => {
+                console.log(err);
             })
         }
         return status;
     }
     insert(data) {
         return new Promise(async (resolve, reject) => {
-            let status = this.noDuplicate({"username":data["userID"], "email":data["email"]});
-            if (data.alreadyExists) {
-                resolve(await super.insert(data))
+            let status = this.noDuplicate({"username":data["username"], "email":data["email"]});
+            if (!status.alreadyExists) {
+                await super.insert(data).then(() => {
+                    resolve();
+                }).catch(() => {
+                    reject();
+                })
             }
-            reject(status);
+            reject(status)
         })
     }
 }

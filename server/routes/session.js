@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 
 const { pw } = require("../database/database");
 const pwDB = new pw();
-
+const {notAuthenticated} = require('../middleware/authentication');
 router.use(passport.initialize({}));
 
 router.route("/register")
@@ -19,14 +19,14 @@ router.route("/register")
         send 500: if there was an error with the database
          */
         try{
-            const hashedPassword = await bcrypt.hashSync(req.body.password, 10)
+            const hashedPassword = await bcrypt.hashSync(req.body.password, 10).toString();
             pwDB.insert({"username":req.body.username, "password":hashedPassword, "email":req.body.email}).then(() => {
                 res.redirect('/login');
             }).catch(err => {
-                if (err.alreadyExists) {
+                if (!err.alreadyExists) {
                     throw new Error("internal server error");
                 }
-                res.sendStatus(400)
+                res.sendStatus(400);
             }).catch( err => {
                 console.log(err);
                 res.sendStatus(500);
@@ -39,7 +39,7 @@ router.route("/register")
         res.send("HI")
     })
 
-router.post("/login", function (req, res) {
+router.post("/login", notAuthenticated, function (req, res) {
     /*
     body: username (string), password (string)
     send 404: if no user with this username could be found
@@ -71,7 +71,7 @@ router.post("/login", function (req, res) {
             email: resolve.email
         }
         const token = jwt.sign(payload, process.env.JWT_KEY, {expiresIn:"1h"})
-        return res.send({
+        res.json({
             success: true,
             message: "Logged in successfully",
             token: "Bearer " + token

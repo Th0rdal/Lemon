@@ -6,8 +6,8 @@ require('./middleware/authentication');
 const {preventStaticSending} = require('./middleware/preventStaticSending');
 const {parseXML} = require('./middleware/formatRequest');
 const {getProjectDirectory, sendResponse} = require('./middleware/formatResponse');
+const {createIsAuthenticated} = require('./middleware/authentication')
 const app = express();
-
 
 // Serve static content in directory 'files'
 app.use(express.static(path.join(__dirname, 'files')));
@@ -23,6 +23,7 @@ app.use(parseXML);
 //authentication initializing
 app.use(passport.initialize())
 
+app.use(createIsAuthenticated);
 //adding routes
 const recipeRouter = require("./routes/recipe");
 app.use("/recipe", recipeRouter);
@@ -41,7 +42,7 @@ app.get("/protected", passport.authenticate('authentication', {session:false}), 
     res.send("finished");
 })
 
-app.put("/testBody", function (req, res, next) {
+app.put("/testBody",function (req, res, next) {
     console.log("newBody")
     //res.send("DONE");
     next()
