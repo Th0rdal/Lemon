@@ -1,0 +1,37 @@
+
+div {
+    margin-top: 5%;
+    display: grid;
+    grid-template-rows: auto 20%;
+    grid-template-areas:
+            "loginForm"
+            "button";
+}
+
+.authenticationForm {
+    grid-area: loginForm;
+    justify-content: center;
+    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: "label input";
+    gap: 5%;
+    margin-bottom: 2%;
+}
+
+label {
+    grid-area: label;
+    justify-self: right;
+}
+
+input {
+    grid-area: input;
+    max-width: 35%;
+}
+
+button {
+    grid-area: button;
+    margin-left: 52.5%;
+    width: 8%;
+    height: 90%;
+}

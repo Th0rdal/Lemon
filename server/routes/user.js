@@ -9,8 +9,8 @@ const passport = require("passport");
 router.route("/:userID")
     .get(function (req, res, next) {
         /*
-        send: json data of the user
-        send 404: if the user does not exist
+        send: json data of the authentication
+        send 404: if the authentication does not exist
         send 500: if there was an error with the database access
          */
         userDB.findOne({"_id":req.params.userID}).then(resolve => {
@@ -29,8 +29,8 @@ router.route("/:userID")
         /*
         body: whatever should be updated
         send 204: if updated without problem
-        send 403: if the user does not have the permission
-        send 404: if the user could not be found
+        send 403: if the authentication does not have the permission
+        send 404: if the authentication could not be found
         send 500: if there was an error with the database
          */
         if (req.user._id === req.params.userID) {
@@ -51,7 +51,7 @@ router.route("/:userID")
         /*
         send 204: if removed without problem
         send 404: if teh id could not be found
-        send 500: if multiple user were removed (should never happen)
+        send 500: if multiple authentication were removed (should never happen)
          */
         if (req.user._id === req.params.userID) {
             userDB.remove({"_id":req.params.userID}).then(resolve => {

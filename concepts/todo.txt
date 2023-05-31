@@ -1,0 +1,3 @@
+
+add permission to jwt payload (admin, user, etc)
+login with email or username

@@ -172,8 +172,6 @@ class Database {
          */
 
         //check if each value is in rawData
-        console.log(checkData)
-        console.log(typeof checkData)
         let dataKeys = Object.keys(checkData);
         let validKeys = Object.keys(this.validDataFormat);
         for (let key of dataKeys) {
@@ -181,10 +179,6 @@ class Database {
             if (this.protectedKeys.includes(key)) {
                 continue;
             }
-
-            console.log("key " + key);
-            console.log("check " + checkData[key])
-            console.log("type " + typeof checkData[key])
 
             if (validKeys.hasOwnProperty(key)) {
                 return `In ${updateOrInsert}: key "${key}" is not defined`
@@ -293,7 +287,7 @@ class userDB extends Database {
     constructor() {
         const temp = {
             "username": "string", "postedRecipes": "array(/string)", "showNutritionValue":"boolean"};
-        super("user", path.join(__dirname, '../resources/database/user.db'), temp);
+        super("user", path.join(__dirname, '../resources/database/authentication.db'), temp);
     }
 }
 

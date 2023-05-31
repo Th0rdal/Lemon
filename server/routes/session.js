@@ -14,7 +14,7 @@ router.route("/register")
     .post(async function (req, res) {
         /*
         body: username (string), password (string), email (string)
-        send 200: redirecting the user to the login page after successful registering
+        send 200: redirecting the authentication to the authentication page after successful registering
         send 400: username/email already in use
         send 500: if there was an error with the database
          */
@@ -42,19 +42,19 @@ router.route("/register")
 router.post("/login", notAuthenticated, function (req, res) {
     /*
     body: username (string), password (string)
-    send 404: if no user with this username could be found
+    send 404: if no authentication with this username could be found
     send 400: if the password is incorrect
-    send 200: if login was successful
+    send 200: if authentication was successful
     response body:
-        success: boolean declaring if the login succeeded
+        success: boolean declaring if the authentication succeeded
         message: message explaining the error/success
-        token: only if login was successful
+        token: only if authentication was successful
      */
     pwDB.findOne({"username":req.body.username}).then(resolve => {
         if (resolve === null) {
             res.sendStatus(404).send({
                 success: false,
-                message: "No user found with this username"
+                message: "No authentication found with this username"
             });
         }
 

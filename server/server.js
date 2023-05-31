@@ -29,7 +29,7 @@ const recipeRouter = require("./routes/recipe");
 app.use("/recipe", recipeRouter);
 
 const userRouter = require("./routes/user");
-app.use("/user", userRouter);
+app.use("/authentication", userRouter);
 
 const sessionRouter = require("./routes/session");
 

@@ -78,8 +78,8 @@ router.route("/:recipeID")
         /*
         body-: whatever should be updated
         send 204: if updated without problem
-        send 403: if the user was not the creator of the resource
-        send 404: if the user could not be found
+        send 403: if the authentication was not the creator of the resource
+        send 404: if the authentication could not be found
         send 500: if there was an error with the database
          */
         await recipeDB.isCreator(req.user, req.params.recipeID)
@@ -106,7 +106,7 @@ router.route("/:recipeID")
     .delete(passport.authenticate('authentication', {session:false}), async function (req, res) {
         /*
         send 204: if removed without problem
-        send 403: if the user does not have permission
+        send 403: if the authentication does not have permission
         send 404: if the id could not be found
         send 500: if multiple recipes were removed (should never happen)
         */
@@ -148,7 +148,7 @@ router.route("/:recipe/comment")
         /*
         body: id of the comment to remove (important id key must be _id)
         send 204: delete was successful
-        send 403: if the user does not have permission
+        send 403: if the authentication does not have permission
         send 404: comment id could not be found
         send 500: if multiple recipes were removed (should never happen)
          */
@@ -217,7 +217,7 @@ router.route("/:recipeID/rating")
         /*
         body: id of the comment to remove (important id key must be _id)
         send 204: delete was successful
-        send 403: if the user does not have permission
+        send 403: if the authentication does not have permission
         send 404: comment id could not be found
         send 500: if multiple recipes were removed (should never happen)
          */
