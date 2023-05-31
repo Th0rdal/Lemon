@@ -12,7 +12,7 @@ function checkData() {
 }
 function register() {
     checkData();
-    //Do login logic. send request
+    //Do authentication logic. send request
 }
 
 window.onload = function () {

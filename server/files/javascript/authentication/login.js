@@ -1,6 +1,6 @@
 
 function login() {
-    //Do login logic. send request
+    //Do authentication logic. send request
 }
 
 window.onload = function () {
