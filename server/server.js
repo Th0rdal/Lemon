@@ -2,11 +2,13 @@ const express = require('express');
 const path = require('path');
 const passport = require("passport");
 const xmlBodyParser = require('express-xml-bodyparser')
+
 require('./middleware/authentication');
 const {preventStaticSending} = require('./middleware/preventStaticSending');
 const {parseXML} = require('./middleware/formatRequest');
 const {getProjectDirectory, sendResponse} = require('./middleware/formatResponse');
 const {createIsAuthenticated} = require('./middleware/authentication')
+
 const app = express();
 
 // Serve static content in directory 'files'
@@ -32,8 +34,10 @@ const userRouter = require("./routes/user");
 app.use("/authentication", userRouter);
 
 const sessionRouter = require("./routes/session");
-
 app.use("", sessionRouter)
+
+const filterRouter = require("./routes/filter.js");
+app.use("/filter", filterRouter);
 
 //test endpoints
 
