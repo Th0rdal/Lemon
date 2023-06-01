@@ -278,7 +278,7 @@ class recipeDB extends Database {   //class for the recipe database
         const temp = {
             "title":"string", "method":"array(string)", "ingredients":"object(string,number)"
             ,"creatorID":"string", "nutrition":"object(string,number)", "tags":"array(string)", "ratingStars":"number"
-            ,"ratingAmount":"number", "comments":"number"};
+            ,"ratingAmount":"number", "comments":"number", "timeToMake":"number", "difficulty":"string"};
         super("recipe", path.join(__dirname, '../resources/database/recipe.db'), temp);
     }
 }

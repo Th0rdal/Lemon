@@ -28,7 +28,9 @@ let recipeOfTheDay = {
     "tags": ["vegan", "easy"],
     "ratingStars": 5.5,
     "ratingAmount": 500,
-    "comments": 20
+    "comments": 20,
+    "timeToMake":25,
+    "difficulty":"medium"
     }
 
 router.get("/ofTheDay", function (req, res, next) {
