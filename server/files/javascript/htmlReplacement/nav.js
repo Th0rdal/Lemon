@@ -4,7 +4,6 @@ class NAV extends HTMLElement {
         this.innerHTML =
             `
                 <nav>
-                    <span>Lemon!</span>
                     <div id="navigation" class="linkContainer">
                         <a href="index.html">Home</a>
                         <a href="user/user.html">User</a>

@@ -1,7 +1,6 @@
 app-nav {
     background: orange;
     border-radius: var(--main-radius) var(--main-radius) var(--main-radius) 0;
-    padding-top: var(--main-padding);
     font-size: 50px;
     text-transform: uppercase;
     color: black;
@@ -14,7 +13,6 @@ app-nav {
     background-color: orange;
     overflow: hidden;
     margin-left: 40%;
-    margin-top: 2%;
     display: flex;
     flex-direction: row;
 }
@@ -23,7 +21,7 @@ app-nav {
     float: left;
     color: black;
     text-align: center;
-    padding: 14px 16px;
+    padding: 0 16px;
     text-decoration: none;
     font-size: 28px;
 }

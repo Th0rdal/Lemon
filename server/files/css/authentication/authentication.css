@@ -1,17 +1,12 @@
-
 .container {
     display: grid;
     height: 100vh;
     grid-template-columns: 20% auto;
     grid-template-rows: 23vh auto;
     grid-template-areas:
-        "nav nav"
+        "header header"
         "sidebar div";
     font-family: inherit;
-}
-
-app-nav {
-    grid-area: nav;
 }
 
 div {
@@ -19,7 +14,7 @@ div {
     margin-top: 1%;
     display: grid;
     grid-template-rows: auto 20%;
-    grid-template-columns: 72% auto;
+    grid-template-columns: 75% auto;
     grid-template-areas:
             "loginForm nothing"
             "button nothing";
