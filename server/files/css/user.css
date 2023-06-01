@@ -1,0 +1,40 @@
+
+article {
+    border: 1px solid orange;
+    border-radius: 40px;
+    width: 18%;
+    height: 80%;
+    font-size: 20px;
+    background-color: orange;
+}
+
+.recipeTitle {
+    text-align: center;
+}
+
+.recipeImage {
+    width: 80%;
+    height: 80%;
+    border-radius: 20px;
+}
+
+.imageWrapper {
+    text-align: center;
+}
+
+#ratingStar {
+    color: gold;
+}
+
+.rating {
+    display: block;
+    margin-left: 5%;
+}
+
+.time {
+    margin-right: 2%;
+}
+
+.additionalInfo {
+    margin-left: 5%;
+}
