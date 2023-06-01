@@ -30,3 +30,7 @@ button {
     width: 5%;
     height: 90%;
 }
+
+.formTitle {
+    text-align: center;
+}
