@@ -10,7 +10,7 @@ header {
     font-family: inherit;
     grid-area: header;
     display: grid;
-    grid-template-rows: 50% auto;
+    grid-template-rows: 40% auto;
     grid-template-areas: "title" "nav";
 
 }

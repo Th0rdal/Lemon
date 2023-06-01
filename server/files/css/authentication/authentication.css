@@ -2,7 +2,7 @@
     display: grid;
     height: 100vh;
     grid-template-columns: 20% auto;
-    grid-template-rows: 23vh auto;
+    grid-template-rows: 18vh auto;
     grid-template-areas:
         "header header"
         "sidebar div";
