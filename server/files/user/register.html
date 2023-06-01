@@ -2,12 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Register</title>
     <script type="text/javascript" src="../javascript/authentication/register.js"></script>
+    <script type="application/javascript" src="../javascript/htmlReplacement/nav.js"></script>
+    <link rel="stylesheet" href="../css/root.css">
+    <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="../css/Sidebar/colorOnlySidebar.css">
     <link rel="stylesheet" href="../css/authentication/authentication.css">
-    <link rel="stylesheet" href="../css/standard.css">
+    <link rel="stylesheet" href="../css/Navbar/app-nav.css">
+
 </head>
-<body>
+<body class="container">
+<app-nav></app-nav>
+<div class="sidebar"></div>
 <div>
     <form id="registerForm" lang="en">
         <p class="authenticationFormElement">
@@ -30,7 +37,7 @@
             <input class="standardFont" type="password" id="confirm_password" name="confirm_password" required>
         </p>
         <p class="authenticationFormElement">
-            <input type="submit">
+            <input type="submit" value="Register">
         </p>
     </form>
 </div>

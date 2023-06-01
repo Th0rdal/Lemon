@@ -1,42 +1,30 @@
 
+.container {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 20% auto;
+    grid-template-rows: 23vh auto;
+    grid-template-areas:
+        "nav nav"
+        "sidebar div";
+    font-family: inherit;
+}
+
+app-nav {
+    grid-area: nav;
+}
+
 div {
-    margin-top: 5%;
+    grid-area: div;
+    margin-top: 1%;
     display: grid;
     grid-template-rows: auto 20%;
+    grid-template-columns: 72% auto;
     grid-template-areas:
-            "loginForm"
-            "button";
+            "loginForm nothing"
+            "button nothing";
 }
 
-.authenticationFormElement {
-    grid-area: loginForm;
-    justify-content: center;
-    align-items: center;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-areas: "label input";
-    gap: 5%;
-    margin-bottom: 2%;
-}
-
-.dot {
-    display: inline-block;
-    color: red;
-    transform: scale(3);
-}
-
-label {
-    grid-area: label;
-    justify-self: right;
-}
-
-input {
-    grid-area: input;
-    max-width: 35%;
-}
-
-button {
-    grid-area: input;
-    width: 5%;
-    height: 90%;
+.sidebar {
+    grid-area: sidebar;
 }
