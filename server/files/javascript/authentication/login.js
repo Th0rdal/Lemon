@@ -17,4 +17,34 @@ window.onload = function () {
         let data = getDataFromForm();
         throw new Error("not implemented")
     })
+
+    document.getElementById("username").addEventListener('input', function (event) {
+        let input = event.target;
+        if (input.value !== "") {
+            input.setCustomValidity("");
+        }
+    });
+    document.getElementById("username").addEventListener('invalid', function (event) {
+        let input = event.target;
+        if (input.value === "") {
+            input.setCustomValidity("Please fill out this field");
+        }else {
+            input.setCustomValidity("");
+        }
+    });
+
+    document.getElementById("password").addEventListener('input', function (event) {
+        let input = event.target;
+        if (input.value !== "") {
+            input.setCustomValidity("");
+        }
+    });
+    document.getElementById("password").addEventListener('invalid', function (event) {
+        let input = event.target;
+        if (input.value === "") {
+            input.setCustomValidity("Please fill out this field");
+        }else {
+            input.setCustomValidity("");
+        }
+    });
 }
