@@ -17,6 +17,7 @@ class Database {
         }
 
         if (!Database.instance.hasOwnProperty(name)) {   //create a new database instance if there is none
+            this.validArrayKeys = ["$set", "$push", "$addToSet", "$pop", "$pull", "$where"]
             this.mutex = new mutex();   //create new mutes
             this.validDataFormat = validDataFormat;
             this.protectedKeys = ["_id"];
@@ -176,7 +177,7 @@ class Database {
         let validKeys = Object.keys(this.validDataFormat);
         for (let key of dataKeys) {
 
-            if (this.protectedKeys.includes(key)) {
+            if (this.protectedKeys.includes(key) || this.validArrayKeys.includes(key)) {
                 continue;
             }
 
@@ -278,7 +279,7 @@ class recipeDB extends Database {   //class for the recipe database
         const temp = {
             "title":"string", "method":"array(string)", "ingredients":"object(string,number)"
             ,"creatorID":"string", "nutrition":"object(string,number)", "tags":"array(string)", "ratingStars":"number"
-            ,"ratingAmount":"number", "comments":"number", "timeToMake":"number", "difficulty":"string"};
+            ,"ratingAmount":"number", "comments":"number", "timeToMake":"number", "difficulty":"string", "image":"string"};
         super("recipe", path.join(__dirname, '../resources/database/recipe.db'), temp);
     }
 }

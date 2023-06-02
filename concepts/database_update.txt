@@ -5,7 +5,7 @@ e.g.:
     {$push: {"username":"newUsername"}}
 
 keywords:
-    $push: replace old value with new
+    $set: replace old value with new
     $push: add to array
     $addToSet: same as push, but only if the element is not already in the array
     $pop: remove first or last element from array
