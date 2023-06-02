@@ -70,7 +70,6 @@ class Builder {
     }
 
     appendTo(parent) {
-        console.log(parent)
         parent.appendChild(this.element);
     }
 
