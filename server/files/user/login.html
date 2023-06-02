@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="text/javascript" src="../javascript/builder.js"></script>
     <script type="text/javascript" src="../javascript/authentication/login.js"></script>
     <script type="text/javascript" src="../javascript/htmlReplacement/nav.js"></script>
     <link rel="stylesheet" href="../css/root.css">
@@ -13,30 +14,14 @@
     <link rel="stylesheet" href="../css/Navbar/app-nav.css">
 
 </head>
-<body class="container">
+<body id="body" class="container">
 <header>
     <p class="title">LEMON!</p>
     <app-nav></app-nav>
 </header>
 
 <div class="sidebar"></div>
-<div>
-    <form id="registerForm" lang="en">
-        <p class="formTitle">Login</p>
-        <p class="authenticationFormElement">
-            <label class="standardFont" for="username">username</label>
-            <input class="standardFont" type="text" id="username" name="username" required>
-        </p>
-        <p class="authenticationFormElement">
-            <label class="standardFont" for="password">
-                password
-            </label>
-            <input class="standardFont" type="password" id="password" name="password" required>
-        </p>
-        <p class="authenticationFormElement">
-            <input type="submit" value="Log in">
-        </p>
-    </form>
+<div id="loginForm">
 </div>
 </body>
 </html>

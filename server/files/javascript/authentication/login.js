@@ -11,7 +11,13 @@ function getDataFromForm() {
 }
 
 window.onload = function () {
-    document.getElementById("registerForm").addEventListener("submit", function (event) {
+    let form = {
+        "username":"text",
+        "password":"password"
+    }
+    new FormBuilder(form, "Login", "Log in", {}).appendTo(document.getElementById("loginForm"));
+
+    document.getElementById("submitID").addEventListener("submit", function (event) {
         //implement send request to endpoint
         event.preventDefault();
         let data = getDataFromForm();

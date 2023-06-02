@@ -23,8 +23,20 @@ function checkPasswords() {
 }
 
 window.onload = function () {
-    document.getElementById("password").addEventListener("blur", checkPasswords);
-    document.getElementById("confirm_password").addEventListener("blur", checkPasswords);
+    let formData = {
+        "username":"text",
+        "email":"email",
+        "password":"password",
+        "confirm_password":"password"
+    }
+    let prefillValue = {
+        "username":"Max Counterman",
+        "email":"max@gmail.com",
+    }
+    new FormBuilder(formData, "Register", "Register", prefillValue).appendTo(document.getElementById("test"));
+
+    //document.getElementById("password").addEventListener("blur", checkPasswords);
+    //document.getElementById("confirm_password").addEventListener("blur", checkPasswords);
 
     document.getElementById("username").addEventListener('input', function (event) {
         let input = event.target;
@@ -115,7 +127,7 @@ window.onload = function () {
         }
     });
 
-    document.getElementById("registerForm").addEventListener("submit", function (event) {
+    document.getElementById("submitID").addEventListener("submit", function (event) {
         //implement send request to endpoint
         event.preventDefault();
         let data = getDataFromForm();

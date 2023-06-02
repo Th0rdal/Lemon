@@ -124,11 +124,12 @@ class FormBuilder  extends Builder {
             ], "authenticationFormElement")]);
         }
         this.element.appendChild(super.createParagraph([
-            super.createInput("submit", "", "", "", buttonValue)
+            super.createInput("submit", "", "submitID", "", buttonValue)
         ], "authenticationFormElement"))
 
     }
 }
+
 window.onload = function () {
     let recipeOfTheDay = {
     "title": "recipeOfTheDay",
