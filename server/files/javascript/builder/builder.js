@@ -1,5 +1,5 @@
 
-class Builder {
+export class Builder {
 
     constructor(tag) {
         this.element = document.createElement(tag) ;
@@ -79,57 +79,10 @@ class Builder {
         }
     }
 }
-class RecipeCoverBuilder extends Builder{
-    constructor(recipe) {
-        super("article");
-        this.element.appendChild(
-            super.createParagraph([super.createImage(recipe.image, "recipeImage")], "imageWrapper")
-        );
-        this.element.appendChild(
-            super.createHeadline(recipe.title, "recipeTitle")
-        );
-        this.element.appendChild(
-            super.createParagraph([
-                super.createFontAwesomeIcon("fa-star", "ratingStar"),
-                super.createSpan(super.createRatingString(recipe))
-            ], "rating")
-        );
-        this.element.appendChild(
-            super.createParagraph([
-                super.createFontAwesomeIcon("fa-clock", "clock"),
-                super.createSpan(recipe.timeToMake.toString() + " minutes", "time"),
-                super.createFontAwesomeIcon("fa-chart-bar"),
-                super.createSpan(recipe.difficulty.toString(), "difficulty")
-            ], "additionalInfo")
-        )
-    }
 
 
-}
 
-class FormBuilder  extends Builder {
-    constructor(formObject, title, buttonValue, prefillValue={}) {
-        super("form");
-
-        this.element.appendChild(super.createParagraph([], "formTitle", "", title));
-        for (let line in formObject) {
-            if (!prefillValue.hasOwnProperty(line)) {
-                    prefillValue[line] = "";
-            }
-            super.addChildren([
-            super.createParagraph([
-                super.createLabel(line, "standardFont", "", line),
-                super.createInput(formObject[line], "standardFont", line, line, prefillValue[line], true)
-            ], "authenticationFormElement")]);
-        }
-        this.element.appendChild(super.createParagraph([
-            super.createInput("submit", "", "submitID", "", buttonValue)
-        ], "authenticationFormElement"))
-
-    }
-}
-
-window.onload = function () {
+function test() {
     let recipeOfTheDay = {
     "title": "recipeOfTheDay",
     "method": ["step1", "step2", "step3"],

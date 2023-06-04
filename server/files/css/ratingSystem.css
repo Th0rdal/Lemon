@@ -1,0 +1,44 @@
+
+.rating {
+  position: relative;
+  display: flex;
+  margin: 10px 0;
+  flex-direction: row-reverse;
+}
+
+.rating input {
+  position: relative;
+  width: 20px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  overflow: hidden;
+  border: none;
+  outline: none;
+  margin: 0;
+}
+
+.rating input::before {
+  content: '\f005';
+  position: absolute;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 34px;
+  left: 4px;
+  color: aquamarine;
+  transition: 0.5s;
+}
+
+.rating input:nth-child(2n+1)::before {
+  right:4px;
+  left: initial;
+}
+
+.rating input:hover ~ input::before,
+.rating input:hover::before {
+  color: gold;
+}
