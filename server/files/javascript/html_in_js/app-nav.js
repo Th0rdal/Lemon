@@ -1,5 +1,5 @@
 
-class NAV extends HTMLElement {
+class AppNav extends HTMLElement {
     connectedCallback() {
         this.innerHTML =
             `
@@ -13,4 +13,4 @@ class NAV extends HTMLElement {
             `
     }
 }
-customElements.define("app-nav", NAV);
+customElements.define("app-nav", AppNav);

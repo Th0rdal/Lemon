@@ -52,6 +52,10 @@ app.put("/testBody",function (req, res, next) {
     next()
 }, sendResponse)
 
+app.get("/queryTest", function (req, res) {
+    console.log(req.query.i);
+})
+
 app.listen(3000);
 
 console.log("Server now listening on http://localhost:3000/");

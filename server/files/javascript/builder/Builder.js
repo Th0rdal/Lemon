@@ -1,10 +1,15 @@
 
-export class Builder {
+export default class Builder {
 
     constructor(tag) {
         this.element = document.createElement(tag) ;
     }
 
+    configureBaseElement(clazz="", id="", name="") {
+        if (clazz) this.element.classList.add(clazz);
+        if (id) this.element.id = id;
+        if (name) this.element.name = name;
+    }
     createRatingString(recipe) {
         return recipe.ratingStars.toString() + "/5 (" + recipe.ratingAmount.toString() + ")";
     }
@@ -79,8 +84,6 @@ export class Builder {
         }
     }
 }
-
-
 
 function test() {
     let recipeOfTheDay = {

@@ -1,4 +1,4 @@
-const Builder = require('./builder')
+const Builder = require('./Builder')
 
 export class FormBuilder  extends Builder {
     constructor(formObject, title, buttonValue, prefillValue={}) {
