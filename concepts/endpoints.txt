@@ -8,6 +8,8 @@ server
 
     put /testBody only for test uses
 
+    get /queryTest only for test uses
+
 recipe /recipe
 
     get /ofTheDay returns the recipe of the day
@@ -61,3 +63,6 @@ session
 
     post /login logs a user in and returns a jwt token
         requires username and password in request body
+
+filter
+    get /filter search for recipe based on ingredients, nutrition, text

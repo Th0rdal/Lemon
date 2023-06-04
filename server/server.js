@@ -37,7 +37,7 @@ const sessionRouter = require("./routes/session");
 app.use("", sessionRouter)
 
 const filterRouter = require("./routes/filter.js");
-app.use("/filter", filterRouter);
+app.use("", filterRouter);
 
 //test endpoints
 

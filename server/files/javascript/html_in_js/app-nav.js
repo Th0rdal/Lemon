@@ -5,8 +5,8 @@ class AppNav extends HTMLElement {
             `
                 <nav>
                     <div id="navigation" class="linkContainer">
-                        <a href="index.html">Home</a>
-                        <a href="user/user.html">User</a>
+                        <a href="../index.html">Home</a>
+                        <a href="../user.html">User</a>
                         <a href="">Irgendwas</a>
                     </div>
                 </nav>

@@ -5,7 +5,7 @@ const {recipe} = require("../database/database");
 const {sendResponse} = require("../middleware/formatResponse");
 const recipeDB = new recipe();
 
-router.get("/ingredients", function(req, res, next) {
+router.get("/filter", function(req, res, next) {
     recipeDB.find({$where: function() {
         for (let key in req.query.i) {
             if (!Object.keys(this.ingredients)) {
