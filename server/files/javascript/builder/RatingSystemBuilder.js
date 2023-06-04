@@ -7,12 +7,12 @@ class RatingSystemBuilder extends Builder {
         super.configureBaseElement("rating");
         for (let i = 0; i < starAmount*2; i++) {
             this.element.appendChild(
-                super.createInput("radio", "", "", "star", "", false)
+                super.createElement("input", {type:"radio", name:"star", required:false})
             )
         }
     }
 }
 
-window.onload = function () {
+function test() {
     new RatingSystemBuilder(5).appendTo(document.getElementById("body"));
 }

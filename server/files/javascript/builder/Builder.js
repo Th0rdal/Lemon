@@ -1,4 +1,5 @@
 
+
 export default class Builder {
 
     constructor(tag) {
@@ -25,53 +26,37 @@ export default class Builder {
         return p;
     }
 
-    createFontAwesomeIcon(type, id="") {
-        const star = document.createElement("i");
-        star.classList.add("fas", type);
-        star.id = id;
-        return star;
-    }
+    createElement(tag, configObject) {
+        /*
+        expected configObject values:
+        class, id, name, textContent, for, value, required, type, src, placeholder, children (array)
+         */
+        const element = document.createElement(tag)
+        if (configObject.hasOwnProperty("class")) {
+            if (Array.isArray(configObject["class"])) {
+                for (let clazz of configObject["class"]) {
+                    element.classList.add(clazz);
+                }
+            }else {
+                element.classList.add(configObject["class"]);
+            }
 
-    createImage(src, clazz="") {
-        const img = document.createElement("img");
-        img.classList.add(clazz);
-        if (src !== "None") img.src = src;
-        return img;
-    }
-
-    createHeadline(string, clazz="") {
-        const h = document.createElement("h1");
-        h.classList.add(clazz);
-        h.textContent = string;
-        return h;
-    }
-
-    createSpan(string, clazz="", id="") {
-        const span = document.createElement("span");
-        if (clazz) span.classList.add(clazz);
-        if (id) span.id = id
-        span.textContent = string;
-        return span;
-    }
-
-    createLabel(textContent, clazz="", id="", f="") {
-        const label = document.createElement("label");
-        if (clazz) label.classList.add(clazz)
-        if (id) label.id = id;
-        if (f) label.setAttribute("for", f);
-        label.textContent = textContent;
-        return label;
-    }
-
-    createInput(type, clazz="", id="", name="", value="", required=false) {
-        const input = document.createElement("input");
-        input.type = type;
-        if (clazz) input.classList.add(clazz);
-        if (id) input.id = id;
-        if (name) input.name = name;
-        if (value) input.value = value;
-        input.required = required;
-        return input;
+        }
+        if (configObject.hasOwnProperty("id")) element.id = configObject["id"];
+        if (configObject.hasOwnProperty("name")) element.name = configObject["name"];
+        if (configObject.hasOwnProperty("textContent")) element.textContent = configObject["textContent"];
+        if (configObject.hasOwnProperty("for")) element.setAttribute = configObject["for"];
+        if (configObject.hasOwnProperty("value")) element.value = configObject["value"];
+        if (configObject.hasOwnProperty("required")) element.required = configObject["required"];
+        if (configObject.hasOwnProperty("type")) element.type = configObject["type"];
+        if (configObject.hasOwnProperty("src")) element.src = configObject["src"];
+        if (configObject.hasOwnProperty("placeholder")) element.placeholder = configObject["placeholder"]
+        if (configObject.hasOwnProperty("children")) {
+            for (let child of configObject["children"]) {
+                element.appendChild(child);
+            }
+        }
+        return element;
     }
 
     appendTo(parent) {
