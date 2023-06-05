@@ -1,3 +1,4 @@
+import {FormBuilder} from "../builder/FormBuilder.js";
 
 function getDataFromForm() {
     let data = {}
