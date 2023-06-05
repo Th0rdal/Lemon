@@ -13,7 +13,6 @@ function toggleCheckboxes(optionId) {
 
 function loadCheckBoxValues() {
     for (let element of document.getElementsByClassName("Options")) {
-        console.log(element);
         element.style.display = "none";
     }
 }
