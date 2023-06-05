@@ -18,8 +18,16 @@ router.get("/filter", function(req, res, next) {
     }).then(resolve => {
         let counter = 0;
         res.data = {}
+        let recipeAmount = -1
+        if (req.query.amount !== undefined) {
+            recipeAmount = req.query.amount;
+        }
         for (let recipe of resolve) {
             res.data[counter] = recipe;
+            counter++;
+            if (counter === recipeAmount) {
+                break;
+            }
         }
         next();
     }).catch(err => {

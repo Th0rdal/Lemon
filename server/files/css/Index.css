@@ -10,7 +10,7 @@ body {
 .container {
     display: grid;
     height: 100vh;
-    grid-template-columns: 1fr  2fr;
+    grid-template-columns: .7fr  2fr;
     grid-template-rows: .5fr 3fr .2fr;
     grid-template-areas:
     "nav nav"
@@ -35,6 +35,10 @@ main {
     grid-area: main;
     border-radius: var(--main-radius);
     padding-top: var(--main-padding);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5%;
 }
 
 #sidebar {
