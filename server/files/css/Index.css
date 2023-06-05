@@ -51,14 +51,14 @@ main {
     padding-top: var(--main-padding);
 }
 
-footer {
+app-footer {
     background: orange;
     grid-area: footer;
     border-radius: var(--main-radius);
     padding-top: var(--main-padding);
 }
 
-a {
+nav > a {
     text-align: center;
     display: block;
     font-family: inherit;
