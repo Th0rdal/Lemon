@@ -30,6 +30,7 @@ nav {
     padding-top: var(--main-padding);
     font-size: 50px;
 }
+
 main {
     background: whitesmoke;
     grid-area: main;
@@ -52,10 +53,7 @@ main {
 }
 
 app-footer {
-    background: orange;
     grid-area: footer;
-    border-radius: var(--main-radius);
-    padding-top: var(--main-padding);
 }
 
 nav > a {

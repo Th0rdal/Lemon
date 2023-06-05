@@ -5,7 +5,7 @@ class Footer extends HTMLElement {
             <footer>
                 <p>Written by Lukas and Patrick</p>
                 <p>
-                  Contact us <a href="https://www.fh-campuswien.ac.at/" target="_blank">here</a>
+                  Contact us <a href="https://www.fh-campuswien.ac.at/">here</a>
                 </p>
             </footer>
         `

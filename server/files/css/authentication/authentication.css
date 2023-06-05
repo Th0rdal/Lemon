@@ -2,14 +2,15 @@
     display: grid;
     height: 100vh;
     grid-template-columns: 20% auto;
-    grid-template-rows: 18vh auto;
+    grid-template-rows: 18vh auto 10vh;
     grid-template-areas:
         "header header"
-        "sidebar div";
+        "sidebar div"
+        "footer footer";
     font-family: inherit;
 }
 
-div {
+#formDiv {
     grid-area: div;
     margin-top: 1%;
     display: grid;
@@ -22,4 +23,8 @@ div {
 
 .sidebar {
     grid-area: sidebar;
+}
+
+app-footer {
+    grid-area: footer;
 }

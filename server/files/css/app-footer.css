@@ -2,4 +2,12 @@
 footer > p {
     text-align: center;
     font-size: 14px;
+    font-weight: initial;
+}
+
+app-footer {
+    background: orange;
+    grid-area: footer;
+    border-radius: var(--main-radius);
+    padding-top: var(--main-padding);
 }
