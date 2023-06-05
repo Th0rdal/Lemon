@@ -7,6 +7,15 @@ function toggleSidebar() {
 
 }
 function toggleCheckboxes(optionId) {
-    var checkboxList = document.getElementById(optionId).querySelector("div[id$='CheckboxList']");
+    let checkboxList = document.getElementById(optionId).querySelector("div[id$='CheckboxList']");
     checkboxList.style.display = checkboxList.style.display === "none" ? "block" : "none";
 }
+
+function loadCheckBoxValues() {
+    for (let element of document.getElementsByClassName("Options")) {
+        console.log(element);
+        element.style.display = "none";
+    }
+}
+
+window.addEventListener("load", loadCheckBoxValues)
