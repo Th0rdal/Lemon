@@ -1,36 +1,31 @@
+
+
 .authenticationFormElement {
-    grid-area: loginForm;
     justify-content: center;
     align-items: center;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: .3fr .5fr;
     grid-template-areas: "label input";
     gap: 5%;
     margin-bottom: 3%;
 }
 
-.dot {
-    display: inline-block;
-    color: red;
-    transform: scale(3);
-}
-
-label {
+.authenticationFormElement > label {
     grid-area: label;
     justify-self: right;
 }
 
-input {
+.authenticationFormElement > input {
     grid-area: input;
     max-width: 35%;
 }
 
-button {
+.authenticationFormElement > button {
     grid-area: input;
     width: 5%;
     height: 90%;
 }
 
-.formTitle {
-    text-align: center;
+form > .formTitle {
+    margin-left: 39%;
 }
