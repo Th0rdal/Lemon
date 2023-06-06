@@ -7,11 +7,19 @@ const recipeDB = new recipe();
 
 router.get("/filter", function(req, res, next) {
     recipeDB.find({$where: function() {
-        for (let key in req.query.i) {
-            if (!Object.keys(this.ingredients)) {
+        if (!Array.isArray(req.query.i) && req.query.i !== undefined) {
+            if (!Object.keys(this.ingredients).includes(req.query.i.toLowerCase())) {
                 return false;
             }
+        }else {
+            for (let key in req.query.i) {
+                console.log(req.query.i);
+                if (!Object.keys(this.ingredients).includes(req.query.i[key].toLowerCase())) {
+                    return false;
+                }
+            }
         }
+
         if (req.query.s !== undefined) {
             return this.title.includes(req.query.s);
         }
