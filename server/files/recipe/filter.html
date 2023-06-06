@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src ="../javascript/html_in_js/app-footer.js"></script>
+    <script src ="../javascript/html_in_js/app-header.js"></script>
+    <script src ="../javascript/html_in_js/app-nav.js"></script>
+    <script src ="../javascript/Sidebar.js"></script>
+    <script type="module" src ="../javascript/filter.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="../css/root.css">
+    <link rel="stylesheet" href="../css/app-footer.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/filter.css">
+    <link rel="stylesheet" href="../css/Navbar/app-nav.css">
+    <link rel="stylesheet" href="../css/Sidebar/colorOnlySidebar.css">
+    <link rel="stylesheet" href="../css/recipeCover.css">
+    <link rel="stylesheet" href="../css/Sidebar/Sidebar.css">
+
+</head>
+<body id="body" class="container">
+<app-header></app-header>
+<div id="sidebar" class="sidebar">
+
+        <div class="sidebarTitle">Ingredients</div>
+
+
+        <div id="VegiOptions">
+            <button id="VegiButton" type="button" class="Button" name="Vegi"
+                    onclick="toggleCheckboxes('VegiOptions')">
+                Gemüse
+            </button>
+
+            <div id="VegiCheckboxList" class="Options">
+                <label>
+                    <input type="checkbox" name="option1" value="Onion"> Zwiebel
+                </label>
+                <label>
+                    <input type="checkbox" name="option2" value="Tomato"> Tomate
+                </label>
+                <label>
+                    <input type="checkbox" name="option3" value="Cucumber"> Gurke
+                </label>
+            </div>
+        </div>
+
+        <div id="MeatOptions">
+            <button id="MeatButton" type="button" class="Button" name="Meat"
+                    onclick="toggleCheckboxes('MeatOptions')">
+                Fleisch
+            </button>
+
+            <div id="MeatCheckboxList" class="Options">
+                <label>
+                    <input type="checkbox" name="meatOption1" value="Rindfleisch"> Rindfleisch
+                </label>
+                <label>
+                    <input type="checkbox" name="meatOption2" value="Schweinefleisch"> Schweinefleisch
+                </label>
+                <label>
+                    <input type="checkbox" name="meatOption3" value="Hühnchen"> Hühnchen
+                </label>
+                <label>
+                    <input type="checkbox" name="meatOption4" value="Lamm"> Lamm
+                </label>
+            </div>
+        </div>
+
+        <div id="FishOptions">
+            <button id="FishButton" type="button" class="Button" name="Fish"
+                    onclick="toggleCheckboxes('FishOptions')">
+                Fisch
+            </button>
+            <div id="FishCheckboxList" class="Options">
+                <label>
+                    <input type="checkbox" name="fishOption1" value="Lachs"> Lachs
+                </label>
+                <label>
+                    <input type="checkbox" name="fishOption2" value="Thunfisch"> Thunfisch
+                </label>
+                <label>
+                    <input type="checkbox" name="fishOption3" value="Kabeljau"> Kabeljau
+                </label>
+            </div>
+        </div>
+
+        <div id="FruitOptions">
+            <button id="FruitButton" type="button" class="Button" name="Fruit"
+                    onclick="toggleCheckboxes('FruitOptions')">Obst
+            </button>
+            <div id="FruitCheckboxList" class="Options">
+                <label>
+                    <input type="checkbox" name="fruitOption1" value="Apfel"> Apfel
+                </label>
+                <label>
+                    <input type="checkbox" name="fruitOption2" value="Banane"> Banane
+                </label>
+                <label>
+                    <input type="checkbox" name="fruitOption3" value="Orange"> Orange
+                </label>
+                <label>
+                    <input type="checkbox" name="fruitOption4" value="Erdbeere"> Erdbeere
+                </label>
+            </div>
+        </div>
+
+        <div id="SaucesOptions">
+            <button id="SaucesButton" type="button" class="Button" name="Sauces"
+                    onclick="toggleCheckboxes('SaucesOptions')">Saucen
+            </button>
+            <div id="SaucesCheckboxList" class="Options">
+                <label>
+                    <input type="checkbox" name="sauceOption1" value="Tomatensauce"> Tomatensauce
+                </label>
+                <label>
+                    <input type="checkbox" name="sauceOption2" value="Barbecuesauce"> Barbecuesauce
+                </label>
+                <label>
+                    <input type="checkbox" name="sauceOption3" value="Mayonnaise"> Mayonnaise
+                </label>
+                <label>
+                    <input type="checkbox" name="sauceOption4" value="Senf"> Senf
+                </label>
+            </div>
+        </div>
+
+
+    </div>
+    <main>
+        <input type="text" id="recipeTitle" placeholder="Enter recipe name here">
+        <div id="recipeCoverWrapper"></div>
+    </main>
+<app-footer></app-footer>
+</body>
+
+</html>

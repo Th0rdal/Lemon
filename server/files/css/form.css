@@ -1,0 +1,47 @@
+
+form {
+    padding-top: 5vh;
+}
+
+.authenticationFormElement {
+    justify-content: center;
+    align-items: center;
+    display: grid;
+    grid-template-columns: .3fr .5fr;
+    grid-template-areas: "label input";
+    gap: 5%;
+    margin-bottom: 3%;
+}
+.big-dot {
+    display: inline-block;
+    color: red;
+    transform: scale(3);
+    padding-left: 0.2vw;
+}
+
+.authenticationFormElement > label {
+    grid-area: label;
+    justify-self: right;
+}
+
+.authenticationFormElement > input {
+    grid-area: input;
+    max-width: 20vw;
+}
+
+.authenticationFormElement > #submitID {
+    grid-area: input;
+    width: 20vw;
+    height: 90%;
+}
+
+.authenticationFormElement > #registerID {
+    grid-area: label;
+    width: 9vw;
+    height: 90%;
+    justify-self: right;
+}
+
+form > .formTitle {
+    margin-left: 39%;
+}

@@ -1,0 +1,12 @@
+
+updates must be in a specific form to work.
+you need to create a new object with has a keyword as key and then the actual data as value:
+e.g.:
+    {$push: {"username":"newUsername"}}
+
+keywords:
+    $set: replace old value with new
+    $push: add to array
+    $addToSet: same as push, but only if the element is not already in the array
+    $pop: remove first or last element from array
+    $pull: removes all matching values from the array

@@ -1,0 +1,52 @@
+
+
+
+article {
+    margin-left: 2%;
+    border: 1px solid orange;
+    border-radius: 40px;
+    width: 20vw;
+    height: 40vh;
+    font-size: 20px;
+    background-color: orange;
+}
+
+.recipeTitle {
+    text-align: center;
+}
+
+.recipeImage {
+    width: 80%;
+    height: 80%;
+    border-radius: 20px;
+}
+
+.imageWrapper {
+    text-align: center;
+}
+
+#ratingStar {
+    color: gold;
+}
+
+.rating {
+    display: block;
+    text-align: left;
+    margin-left: 2%;
+    font-size: 18px;
+}
+
+.time {
+    margin-right: 5%;
+    margin-left: 2%;
+}
+
+.difficulty {
+    margin-left: 2%;
+}
+
+.additionalInfo {
+    text-align: left;
+    font-size: 18px;
+    margin-left: 2%;
+}

@@ -1,0 +1,16 @@
+#sidebar {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    width: 250px;
+    text-align: left;
+}
+
+#sidebar > div {
+    margin-left: 2%
+}
+
+label{
+    display: block;
+    margin-bottom: 5px;
+}

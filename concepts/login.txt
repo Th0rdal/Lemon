@@ -1,0 +1,11 @@
+
+password requirements:
+at least 8 character
+1 upper, 1 lower, 1 number, 1 special
+
+username requirements:
+at least 3 character
+no . or @
+
+email requirements:
+valid email

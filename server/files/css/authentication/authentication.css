@@ -1,0 +1,28 @@
+.container {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 13% auto;
+    grid-template-rows: 15vh auto 10vh;
+    grid-template-areas:
+        "header header"
+        "sidebar div"
+        "footer footer";
+    font-family: inherit;
+}
+
+app-header {
+    grid-area: header;
+}
+
+#formDiv {
+    grid-area: div;
+    margin-top: 1%;
+}
+
+.sidebar {
+    grid-area: sidebar;
+}
+
+app-footer {
+    grid-area: footer;
+}

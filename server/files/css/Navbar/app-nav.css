@@ -1,0 +1,47 @@
+app-nav {
+    background: orange;
+    border-radius: var(--main-radius) var(--main-radius) var(--main-radius) 0;
+    font-size: 50px;
+    text-transform: uppercase;
+    color: black;
+    text-align: center;
+    font-weight: 800;
+    font-family: inherit;
+}
+
+.linkContainer {
+    background-color: orange;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.linkContainer a {
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 0 16px;
+    text-decoration: none;
+    font-size: 28px;
+    margin: 1rem;
+}
+
+.linkContainer a:hover {
+    background-color: #f4511e;
+    color: black;
+}
+
+app-nav > a {
+    text-align: center;
+    display: block;
+    font-family: inherit;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 1rem;
+}
+
+span {
+    text-align: center;
+}

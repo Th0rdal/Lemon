@@ -1,0 +1,7 @@
+
+add permission to jwt payload (admin, user, etc)
+login with email or username
+
+add tags to food (appetizers/desserts/sauces, etc)
+add a limit of ingredients?
+pantry solution?

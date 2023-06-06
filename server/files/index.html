@@ -2,67 +2,33 @@
 <html>
 <head>
 
-    <script language="JavaScript" type="text/javascript" src="Java-Scripts/Sidebar.js"></script>
-    <link rel="stylesheet" href="CSS-Datein/Sidebar.css">
     <meta charset="utf-8">
     <title>Lemon!</title>
 
+    <script type="module" src="javascript/index.js"></script>
+    <script src="javascript/html_in_js/app-footer.js"></script>
+    <script src="./javascript/html_in_js/app-nav.js"></script>
+    <script src="./javascript/html_in_js/app-header.js"></script>
+    <link rel="stylesheet" href="./css/root.css">
+    <link rel="stylesheet" href="./css/recipeCover.css">
+    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/app-footer.css">
+    <link rel="stylesheet" href="./css/Navbar/app-nav.css">
+    <link rel="stylesheet" href="css/Index.css">
+    <link rel="stylesheet" href="css/Sidebar/colorOnlySidebar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
 
 </head>
-<body>
+<body id="body" class="container">
 
 
-<nav id="Sidebar" class="Navigation">
+    <app-header></app-header>
+    <div class="sidebar"></div>
+    <main id="recipeCoverWrapper"></main>
 
-    <button class="openbtn" onclick="openNav()">&#9776; Open Sidebar</button>
-
-    <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&#9746;</a>
-
-        <div id="VegiButton" class="button">
-
-            <button id="showOptionsButton" type="button" name="Vegi">Gemüse</button>
-
-            <div id="options" class="hidden">
-                <label>
-                    <input type="checkbox" name="option1" value="Onion"> Zwiebel
-                </label>
-                <label>
-                    <input type="checkbox" name="option2" value="Tomato"> Tomate
-                </label>
-                <label>
-                    <input type="checkbox" name="option3" value="Cucumber"> Gurke
-                </label>
-            </div>
-
-        </div>
-
-
-        <div id="MeatButton" class="button">
-
-        </div>
-
-        <div id="FishButton" class="button">
-
-        </div>
-
-        <div id="FruitButton" class="button">
-
-        </div>
-
-        <div id="SaucesButton" class="button">
-
-        </div>
-
-    </div>
-
-
-</nav>
-
-
-
-
-
+    <app-footer></app-footer>
 
 </body>
 </html>

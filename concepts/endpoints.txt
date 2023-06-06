@@ -1,0 +1,68 @@
+
+authentication => need to be logged in to request
+strong authentication => you need to be the creator of the resource
+
+server
+
+    get /protected only for test uses
+
+    put /testBody only for test uses
+
+    get /queryTest only for test uses
+
+recipe /recipe
+
+    get /ofTheDay returns the recipe of the day
+
+    put / adds a new recipe to the database
+        requires all fields for a new recipe as body
+        requires authentication
+
+    get /:recipeID returns the data of the recipe with the given recipeID
+
+    patch /:recipeID updates the data of the recipe with the given recipeID
+        requires the fields that need to be updated as body
+        requires strong authentication
+
+    delete /:recipeID deletes the recipe with the given id
+        requires strong authentication
+
+    post /:recipeID/comment adds a new comment to the given recipeID
+        requires authentication
+
+    delete /:recipeID/comment deletes the comment
+        requires the id of the comment as query
+        requires strong authentication
+
+    get /:recipeID/comments returns all comments for the given recipeID
+
+    get /:recipeID/ratings returns all the ratings for the given recipe
+
+    put /:recipeID/rating adds a new rating to the recipe
+        requires authentication
+
+    delete /:recipeID/rating deletes the rating from the recipe
+        requires id of the rating as query
+        requires strong authentication
+
+user /user
+
+    get /:userID returns the user with the given userID
+
+    patch /:userID updates data of the user with the given userID
+        requires the fields that need to be updated as body
+        requires strong authentication
+
+    delete /:userID deletes the user with the given userID
+        requires strong authentication
+
+session
+
+    post /register registers a new user
+        requires all fields for creating a new user to be in request body
+
+    post /login logs a user in and returns a jwt token
+        requires username and password in request body
+
+filter
+    get /filter search for recipe based on ingredients, nutrition, text
