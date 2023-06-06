@@ -12,6 +12,12 @@ form {
     gap: 5%;
     margin-bottom: 3%;
 }
+.big-dot {
+    display: inline-block;
+    color: red;
+    transform: scale(3);
+    padding-left: 0.2vw;
+}
 
 .authenticationFormElement > label {
     grid-area: label;

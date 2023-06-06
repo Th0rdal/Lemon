@@ -21,7 +21,7 @@ router.route("/register")
         try{
             const hashedPassword = await bcrypt.hashSync(req.body.password, 10).toString();
             pwDB.insert({"username":req.body.username, "password":hashedPassword, "email":req.body.email}).then(() => {
-                res.redirect('/login');
+                res.redirect('/user/login.html');
             }).catch(err => {
                 if (!err.alreadyExists) {
                     throw new Error("internal server error");
@@ -31,8 +31,9 @@ router.route("/register")
                 console.log(err);
                 res.sendStatus(500);
             })
-        }catch {
-            res.redirect("/register")
+        }catch (e){
+            console.log(e);
+            res.redirect("/user/register.html")
         }
     })
     .get(function (req, res) {
@@ -56,6 +57,7 @@ router.post("/login", notAuthenticated, function (req, res) {
                 success: false,
                 message: "No authentication found with this username"
             });
+            return;
         }
 
         if (!bcrypt.compareSync(req.body.password, resolve.password)) {
@@ -63,6 +65,7 @@ router.post("/login", notAuthenticated, function (req, res) {
                 success: false,
                 message: "Password is incorrect"
             })
+            return;
         }
 
         const payload = {
