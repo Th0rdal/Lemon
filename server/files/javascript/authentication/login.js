@@ -32,7 +32,8 @@ window.onload = function () {
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {
             let response = JSON.parse(xhr.responseText);
-            document.cookie += "jwt=" + response["token"] + ";";
+            document.cookie = "jwt=" + response["token"] + ";path=/";
+            document.cookie = "username=" + data["username"] + ";path=/";
             window.location.href = "/";
         }
         xhr.open("POST", "/login");
