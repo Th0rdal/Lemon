@@ -5,8 +5,8 @@ article {
     margin-left: 2%;
     border: 1px solid orange;
     border-radius: 40px;
-    width: 25%;
-    height: 60%;
+    width: 20vw;
+    height: 40vh;
     font-size: 20px;
     background-color: orange;
 }

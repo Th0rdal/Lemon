@@ -20,6 +20,10 @@ main {
     grid-area: main;
     border-radius: var(--main-radius);
     padding-top: var(--main-padding);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
 }
 
 main > #recipeCoverWrapper {
@@ -27,15 +31,21 @@ main > #recipeCoverWrapper {
     flex-direction: row;
     flex-wrap: wrap;
     overflow: auto;
+    padding-top: 1vh;
     gap: 5%;
     justify-content: center;
     align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 3vh;
 }
 
 main > input {
     width: 40%;
     height: 3vh;
     font-size: 16px;
+    justify-content: center;
+
 }
 
 .sidebar {
@@ -43,6 +53,10 @@ main > input {
     grid-area: sidebar;
     border-radius: var(--main-radius);
     padding-top: var(--main-padding);
+}
+
+.sidebarTitle {
+    font-size: 42px;
 }
 
 app-footer {
