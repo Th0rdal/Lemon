@@ -5,7 +5,7 @@ class AppFooter extends HTMLElement {
             <footer>
                 <p>Written by Lukas and Patrick</p>
                 <p>
-                  Contact us <a href="https://www.fh-campuswien.ac.at/">here</a>
+                  Contact us <a href="mailto:WebProjectLemon@gmail.com">here</a>
                 </p>
             </footer>
         `
