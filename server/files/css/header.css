@@ -1,6 +1,10 @@
-app-header > header{
+app-header {
     background: orange;
     border-radius: var(--main-radius) var(--main-radius) var(--main-radius) 0;
+
+}
+
+app-header > header{
     font-size: 50px;
     text-transform: uppercase;
     color: black;
@@ -8,7 +12,7 @@ app-header > header{
     font-weight: 800;
     font-family: inherit;
     display: grid;
-    grid-template-rows: 10vh auto;
+    grid-template-rows: 8vh auto;
     grid-template-areas: "title" "nav";
 
 }

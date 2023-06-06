@@ -8,6 +8,6 @@ footer > p {
 app-footer {
     background: orange;
     grid-area: footer;
-    border-radius: var(--main-radius);
+    border-radius: 0 var(--main-radius) var(--main-radius) var(--main-radius);
     padding-top: var(--main-padding);
 }

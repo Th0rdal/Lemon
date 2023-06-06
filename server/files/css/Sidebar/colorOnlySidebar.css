@@ -1,5 +1,7 @@
 .sidebar {
     background-color: orange;
     margin-top: 0;
-    padding-top: 0;
+    padding: 0;
+    border-radius: initial;
+
 }

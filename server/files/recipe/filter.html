@@ -12,7 +12,110 @@
 
 </head>
 <body id="body">
+<div id="sidebar">Sidebar
 
+
+        <div id="VegiOptions">
+            <button id="VegiButton" type="button" class="Button" name="Vegi"
+                    onclick="toggleCheckboxes('VegiOptions')">
+                Gemüse
+            </button>
+
+            <div id="VegiCheckboxList" class="Options">
+                <label>
+                    <input type="checkbox" name="option1" value="Onion"> Zwiebel
+                </label>
+                <label>
+                    <input type="checkbox" name="option2" value="Tomato"> Tomate
+                </label>
+                <label>
+                    <input type="checkbox" name="option3" value="Cucumber"> Gurke
+                </label>
+            </div>
+        </div>
+
+        <div id="MeatOptions">
+            <button id="MeatButton" type="button" class="Button" name="Meat"
+                    onclick="toggleCheckboxes('MeatOptions')">
+                Fleisch
+            </button>
+
+            <div id="MeatCheckboxList" class="Options">
+                <label>
+                    <input type="checkbox" name="meatOption1" value="Rindfleisch"> Rindfleisch
+                </label>
+                <label>
+                    <input type="checkbox" name="meatOption2" value="Schweinefleisch"> Schweinefleisch
+                </label>
+                <label>
+                    <input type="checkbox" name="meatOption3" value="Hühnchen"> Hühnchen
+                </label>
+                <label>
+                    <input type="checkbox" name="meatOption4" value="Lamm"> Lamm
+                </label>
+            </div>
+        </div>
+
+        <div id="FishOptions">
+            <button id="FishButton" type="button" class="Button" name="Fish"
+                    onclick="toggleCheckboxes('FishOptions')">
+                Fisch
+            </button>
+            <div id="FishCheckboxList" class="Options">
+                <label>
+                    <input type="checkbox" name="fishOption1" value="Lachs"> Lachs
+                </label>
+                <label>
+                    <input type="checkbox" name="fishOption2" value="Thunfisch"> Thunfisch
+                </label>
+                <label>
+                    <input type="checkbox" name="fishOption3" value="Kabeljau"> Kabeljau
+                </label>
+            </div>
+        </div>
+
+        <div id="FruitOptions">
+            <button id="FruitButton" type="button" class="Button" name="Fruit"
+                    onclick="toggleCheckboxes('FruitOptions')">Obst
+            </button>
+            <div id="FruitCheckboxList" class="Options">
+                <label>
+                    <input type="checkbox" name="fruitOption1" value="Apfel"> Apfel
+                </label>
+                <label>
+                    <input type="checkbox" name="fruitOption2" value="Banane"> Banane
+                </label>
+                <label>
+                    <input type="checkbox" name="fruitOption3" value="Orange"> Orange
+                </label>
+                <label>
+                    <input type="checkbox" name="fruitOption4" value="Erdbeere"> Erdbeere
+                </label>
+            </div>
+        </div>
+
+        <div id="SaucesOptions">
+            <button id="SaucesButton" type="button" class="Button" name="Sauces"
+                    onclick="toggleCheckboxes('SaucesOptions')">Saucen
+            </button>
+            <div id="SaucesCheckboxList" class="Options">
+                <label>
+                    <input type="checkbox" name="sauceOption1" value="Tomatensauce"> Tomatensauce
+                </label>
+                <label>
+                    <input type="checkbox" name="sauceOption2" value="Barbecuesauce"> Barbecuesauce
+                </label>
+                <label>
+                    <input type="checkbox" name="sauceOption3" value="Mayonnaise"> Mayonnaise
+                </label>
+                <label>
+                    <input type="checkbox" name="sauceOption4" value="Senf"> Senf
+                </label>
+            </div>
+        </div>
+
+
+    </div>
 <app-footer></app-footer>
 </body>
 
