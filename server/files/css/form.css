@@ -1,4 +1,7 @@
 
+form {
+    padding-top: 5vh;
+}
 
 .authenticationFormElement {
     justify-content: center;

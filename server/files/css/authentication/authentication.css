@@ -10,6 +10,10 @@
     font-family: inherit;
 }
 
+app-header {
+    grid-area: header;
+}
+
 #formDiv {
     grid-area: div;
     margin-top: 1%;
