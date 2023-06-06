@@ -12,7 +12,10 @@ router.get("/filter", function(req, res, next) {
                 return false;
             }
         }
-        return !(req.query.s !== undefined && req.query.s !== this.title);
+        if (req.query.s !== undefined) {
+            return this.title.includes(req.query.s);
+        }
+        return true;
 
     }
     }).then(resolve => {
