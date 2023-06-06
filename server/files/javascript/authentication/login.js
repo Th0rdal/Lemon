@@ -22,6 +22,7 @@ window.onload = function () {
     tag.id = "registerID";
     tag.type = "submit";
     tag.value = "Register";
+
     document.getElementById("buttons").appendChild(tag);
     document.getElementById("submitID").addEventListener("click", function (event) {
         event.preventDefault();
@@ -68,4 +69,8 @@ window.onload = function () {
             input.setCustomValidity("");
         }
     });
+
+    document.getElementById("registerID").addEventListener("click", function(event) {
+        window.location.href = "/user/register.html";
+    })
 }
