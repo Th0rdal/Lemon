@@ -18,7 +18,11 @@ window.onload = function () {
         "password":"password"
     }
     new FormBuilder(form, "Login", "Log in", {}).appendTo(document.getElementById("loginForm"));
-
+    let tag = document.createElement("input");
+    tag.id = "registerID";
+    tag.type = "submit";
+    tag.value = "Register";
+    document.getElementById("buttons").appendChild(tag);
     document.getElementById("submitID").addEventListener("click", function (event) {
         event.preventDefault();
         console.log("working")

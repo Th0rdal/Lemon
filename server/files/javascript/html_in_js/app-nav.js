@@ -8,6 +8,7 @@ class AppNav extends HTMLElement {
                         <a href="/">Home</a>
                         <a href="/user/user.html">User</a>
                         <a href="/recipe/filter.html">Filter</a>
+                        <a href="/user/login.html">Login</a>
                     </div>
                 </nav>
             `

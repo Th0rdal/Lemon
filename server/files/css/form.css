@@ -20,13 +20,20 @@ form {
 
 .authenticationFormElement > input {
     grid-area: input;
-    max-width: 35%;
+    max-width: 20vw;
 }
 
-.authenticationFormElement > button {
+.authenticationFormElement > #submitID {
     grid-area: input;
-    width: 5%;
+    width: 20vw;
     height: 90%;
+}
+
+.authenticationFormElement > #registerID {
+    grid-area: label;
+    width: 9vw;
+    height: 90%;
+    justify-self: right;
 }
 
 form > .formTitle {

@@ -32,6 +32,7 @@ export class FormBuilder  extends Builder {
         ], "authenticationFormElement")*/
             super.createElement("p", {
                 "class":"authenticationFormElement",
+                "id": "buttons",
                 "children": [
                     super.createElement("input", {"id":"submitID", "type": "submit", "value":buttonValue})
                 ]

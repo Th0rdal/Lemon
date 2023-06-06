@@ -34,8 +34,7 @@ window.onload = function () {
         "username":"Max Counterman",
         "email":"max@gmail.com",
     }
-    new FormBuilder(formData, "Register", "Register", prefillValue).appendTo(document.getElementById("registerForm"));
-
+    new FormBuilder(formData, "Register", "Register", prefillValue, true).appendTo(document.getElementById("registerForm"));
     //document.getElementById("password").addEventListener("blur", checkPasswords);
     //document.getElementById("confirm_password").addEventListener("blur", checkPasswords);
 
