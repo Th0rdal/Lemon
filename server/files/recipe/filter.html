@@ -3,16 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
     <script src ="../javascript/html_in_js/app-footer.js"></script>
-    <script type="module" src = "../javascript/builder/Builder.js"></script><
-    <script type="module" src="../javascript/builder/FormBuilder.js"></script>
+    <script src ="../javascript/html_in_js/app-header.js"></script>
+    <script src ="../javascript/html_in_js/app-nav.js"></script>
+    <script src ="../javascript/Sidebar.js"></script>
+    <script type="module" src ="../javascript/filter.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="../css/root.css">
     <link rel="stylesheet" href="../css/app-footer.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/filter.css">
+    <link rel="stylesheet" href="../css/Navbar/app-nav.css">
+    <link rel="stylesheet" href="../css/Sidebar/colorOnlySidebar.css">
+    <link rel="stylesheet" href="../css/recipeCover.css">
+    <link rel="stylesheet" href="../css/Sidebar/Sidebar.css">
 
 </head>
-<body id="body">
-<div id="sidebar">Sidebar
+<body id="body" class="container">
+<app-header></app-header>
+<div id="sidebar" class="sidebar">
+
+        <div>Ingredients</div>
 
 
         <div id="VegiOptions">
@@ -116,6 +128,9 @@
 
 
     </div>
+    <main>
+        <div id="recipeCoverWrapper"></div>
+    </main>
 <app-footer></app-footer>
 </body>
 

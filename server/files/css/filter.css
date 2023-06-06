@@ -1,0 +1,62 @@
+
+.container {
+    font-family: inherit;
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 13% auto;
+    grid-template-rows: 15vh auto 10vh;
+    grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+}
+
+app-header {
+    grid-area: header;
+}
+
+main {
+    background: whitesmoke;
+    grid-area: main;
+    border-radius: var(--main-radius);
+    padding-top: var(--main-padding);
+}
+
+main > #recipeCoverWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow: auto;
+    gap: 5%;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+main > input {
+    width: 40%;
+    height: 3vh;
+    font-size: 16px;
+}
+
+.sidebar {
+    background: orange;
+    grid-area: sidebar;
+    border-radius: var(--main-radius);
+    padding-top: var(--main-padding);
+}
+
+app-footer {
+    grid-area: footer;
+}
+
+@media only screen and (max-width: 550px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.4fr 0.4fr 2.2fr ;
+        grid-template-areas:
+"nav"
+"sidebar"
+"main"
+"footer";
+    }
+}

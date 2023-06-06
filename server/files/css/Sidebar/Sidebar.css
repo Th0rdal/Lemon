@@ -2,26 +2,15 @@
     position: relative;
     z-index: 1;
     overflow: hidden;
-    transition: width 0.3s ease-in-out;
-    width: 0px;
+    width: 250px;
+    text-align: left;
 }
 
-#sidebar.collapsed {
-    width: 250px; /* adjust the width as needed */
+#sidebar > div {
+    margin-left: 2%
 }
-
-#sidebar-toggle {
-    position: absolute;
-    top: 0;
-    left: 10px;
-
-}
-
 
 label{
     display: block;
     margin-bottom: 5px;
-}
-#sidebar {
-    text-align: left;
 }

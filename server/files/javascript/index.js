@@ -6,7 +6,7 @@ window.onload = function() {
         if (xhr.status === 200) {
             const body = JSON.parse(xhr.responseText)
             for (let index in body) {
-                new RecipeCoverBuilder(body[index]).appendTo(document.getElementById("main"))
+                new RecipeCoverBuilder(body[index]).appendTo(document.getElementById("recipeCoverWrapper"))
             }
         }
     }
