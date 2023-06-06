@@ -28,7 +28,6 @@ window.onload = function () {
         event.preventDefault();
         console.log("working")
         let data = getDataFromForm();
-        console.log(data);
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {
             let response = JSON.parse(xhr.responseText);
