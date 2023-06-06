@@ -3,7 +3,7 @@ import {FormBuilder} from "../builder/FormBuilder.js";
 
 function getDataFromForm() {
     let data = {}
-    let inputElements = document.getElementById("registerForm").querySelectorAll('input');
+    let inputElements = document.getElementById("registerForm").querySelectorAll("input");
     inputElements.forEach(function(input) {
       if (input.type !== "submit") {
           data[input.id] = input.value;
@@ -19,11 +19,20 @@ window.onload = function () {
     }
     new FormBuilder(form, "Login", "Log in", {}).appendTo(document.getElementById("loginForm"));
 
-    document.getElementById("submitID").addEventListener("submit", function (event) {
-        //implement send request to endpoint
+    document.getElementById("submitID").addEventListener("click", function (event) {
         event.preventDefault();
+        console.log("working")
         let data = getDataFromForm();
-        throw new Error("not implemented")
+        console.log(data);
+        let xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+            let response = JSON.parse(xhr.responseText);
+            document.cookie += "jwt=" + response["token"] + ";";
+            window.location.href = "/";
+        }
+        xhr.open("POST", "/login");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(data));
     })
 
     document.getElementById("username").addEventListener('input', function (event) {

@@ -128,11 +128,14 @@ window.onload = function () {
         }
     });
 
-    document.getElementById("submitID").addEventListener("submit", function (event) {
-        //implement send request to endpoint
+    document.getElementById("submitID").addEventListener("click", function (event) {
         event.preventDefault();
         let data = getDataFromForm();
-        console.log("HI")
-        throw new Error("not implemented");
+        let xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+            window.location.href = "/";
+        }
+        xhr.open("POST", "/register");
+        xhr.send(JSON.stringify(data));
     })
 }

@@ -3,7 +3,7 @@ import Builder from "./Builder.js"
 export class FormBuilder  extends Builder {
     constructor(formObject, title, buttonValue, prefillValue={}) {
         super("form");
-
+        super.configureBaseElement("", "registerForm", "")
         this.element.appendChild(
             //super.createParagraph([], "formTitle", "", title)
             super.createElement("p", {"class":"formTitle", "textContent": title})
