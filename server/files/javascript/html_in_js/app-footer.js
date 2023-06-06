@@ -1,5 +1,5 @@
 
-class Footer extends HTMLElement {
+class AppFooter extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
             <footer>
@@ -11,4 +11,4 @@ class Footer extends HTMLElement {
         `
     }
 }
-customElements.define("app-footer", Footer)
+customElements.define("app-footer", AppFooter)
