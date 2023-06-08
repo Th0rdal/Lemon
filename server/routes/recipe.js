@@ -3,8 +3,8 @@ const express = require("express");
 const router = express.Router();
 const {recipe} = require("../database/database");
 const recipeDB = new recipe();
-const {user} = require("../database/database");
-const userDB = new user();
+const {pw} = require("../database/database");
+const pwDB = new pw();
 const {rating} = require("../database/database");
 const ratingDB = new rating();
 const {comments} = require("../database/database");
@@ -57,7 +57,6 @@ router.put("/", passport.authenticate('authentication', {session:false}), functi
          send 204: if inserted without problem
          send 500: if the query is having errors
          */
-        console.log(req.payload);
         recipeDB.insert(req.body).then(() => {
             res.sendStatus(204)
         }).catch(err => {

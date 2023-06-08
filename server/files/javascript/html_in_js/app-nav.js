@@ -22,7 +22,7 @@ window.addEventListener("load", function() {
     for (let index in cookies) {
         if (cookies[index].trim().startsWith("jwt")) {
            document.getElementById("loginAnchor").textContent = "Logout";
-           document.onclick = function () {
+           document.getElementById("loginAnchor").onclick = function () {
                document.cookie = "jwt=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
            }
            document.getElementById("loginAnchor").href = "/";

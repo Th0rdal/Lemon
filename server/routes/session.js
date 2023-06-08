@@ -53,7 +53,7 @@ router.post("/login", notAuthenticated, function (req, res) {
      */
     pwDB.findOne({"username":req.body.username}).then(resolve => {
         if (resolve === null) {
-            res.sendStatus(404).send({
+            res.sendStatus(404).json({
                 success: false,
                 message: "No authentication found with this username"
             });
@@ -61,7 +61,7 @@ router.post("/login", notAuthenticated, function (req, res) {
         }
 
         if (!bcrypt.compareSync(req.body.password, resolve.password)) {
-            res.sendStatus(400).send({
+            res.sendStatus(400).json({
                 success: false,
                 message: "Password is incorrect"
             })
@@ -77,7 +77,8 @@ router.post("/login", notAuthenticated, function (req, res) {
         res.json({
             success: true,
             message: "Logged in successfully",
-            token: "Bearer " + token
+            token: "Bearer " + token,
+            id: resolve._id
         })
     })
 })
