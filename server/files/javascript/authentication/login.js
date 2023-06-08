@@ -26,7 +26,6 @@ window.onload = function () {
     document.getElementById("buttons").appendChild(tag);
     document.getElementById("submitID").addEventListener("click", function (event) {
         event.preventDefault();
-        console.log("working")
         let data = getDataFromForm();
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {

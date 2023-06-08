@@ -17,7 +17,6 @@ const authenticationStrategy = new JwtStrategy(authenticationStrategyOptions, fu
     return: err if there was an error
     return: false if no authentication was found
      */
-    console.log(jwt_payload);
     pwDB.findOne({
         "_id":jwt_payload.id,
         "username":jwt_payload.username,

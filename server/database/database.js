@@ -84,7 +84,6 @@ class Database {
          */
         return new Promise((resolve, reject) => {
             this.mutex.acquire().then(() => {
-                console.log(searchDict);
                 let check = this.checkSearchData(searchDict)
                 if (check !== "") {
                     reject(check);

@@ -52,10 +52,10 @@ router.post("/login", notAuthenticated, function (req, res) {
      */
     pwDB.findOne({"username":req.body.username}).then(resolve => {
         if (resolve === null) {
-            res.sendStatus(404).send({
+            res.sendStatus(404).json(JSON.stringify({
                 success: false,
                 message: "No authentication found with this username"
-            });
+            }));
         }
 
         if (!bcrypt.compareSync(req.body.password, resolve.password)) {

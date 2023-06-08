@@ -13,7 +13,6 @@ router.get("/filter", function(req, res, next) {
             }
         }else {
             for (let key in req.query.i) {
-                console.log(req.query.i);
                 if (!Object.keys(this.ingredients).includes(req.query.i[key].toLowerCase())) {
                     return false;
                 }
