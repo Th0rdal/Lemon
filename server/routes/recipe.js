@@ -3,6 +3,8 @@ const express = require("express");
 const router = express.Router();
 const {recipe} = require("../database/database");
 const recipeDB = new recipe();
+const {user} = require("../database/database");
+const userDB = new user();
 const {rating} = require("../database/database");
 const ratingDB = new rating();
 const {comments} = require("../database/database");
@@ -33,6 +35,12 @@ let recipeOfTheDay = {
     "difficulty":"medium"
     }
 
+router.get("/tags", function(req, res, next) {
+    res.data = {tags:["vegan", "vegetarian"]};
+    next();
+
+}, sendResponse)
+
 router.get("/ofTheDay", function (req, res, next) {
     /*
     send: json with the recipe of the day
@@ -49,6 +57,7 @@ router.put("/", passport.authenticate('authentication', {session:false}), functi
          send 204: if inserted without problem
          send 500: if the query is having errors
          */
+        console.log(req.payload);
         recipeDB.insert(req.body).then(() => {
             res.sendStatus(204)
         }).catch(err => {
@@ -241,6 +250,7 @@ router.route("/:recipeID/rating")
                 res.sendStatus(403)
             })
     })
+
 
 function newRecipeOfTheDay() {
     /*
