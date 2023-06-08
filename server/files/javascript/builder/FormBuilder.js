@@ -19,6 +19,7 @@ export class FormBuilder  extends Builder {
             ], "authenticationFormElement")*/
             super.createElement("p", {
                 "class":"authenticationFormElement",
+                "id":line+"Paragraph",
                 "children": [
                     super.createElement("label", {"class":"standardFont", "for":line, "textContent":line}),
                     super.createElement("input", {"class":"standardFont", "id":line, "name":line, "type":formObject[line], "placeholder":prefillValue[line],  "required":true})

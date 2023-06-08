@@ -30,9 +30,14 @@ window.onload = function () {
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {
             let response = JSON.parse(xhr.responseText);
-            document.cookie = "jwt=" + response["token"] + ";path=/";
-            document.cookie = "username=" + data["username"] + ";path=/";
-            window.location.href = "/";
+            if (xhr.status === 200) {
+                document.cookie = "jwt=" + response["token"] + ";path=/";
+                document.cookie = "username=" + data["username"] + ";path=/";
+                window.location.href = "/";
+            }else {
+                console.log(response);
+            }
+
         }
         xhr.open("POST", "/login");
         xhr.setRequestHeader("Content-Type", "application/json");

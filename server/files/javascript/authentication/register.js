@@ -8,19 +8,26 @@ function getDataFromForm() {
           data[input.id] = input.value;
       }
     })
+    delete data["confirm_password"]
     return data;
 }
 
 function checkPasswords() {
     const password = document.getElementById("password");
     const confirmPassword = document.getElementById("confirm_password");
-
-    if (password.value !== confirmPassword.value || password.value === "") {
+    if (password.value === "") {
         document.getElementById("dot").style.color = "red";
-        return false;
+    }else {
+        document.getElementById("dot").style.color = "green";
     }
-    document.getElementById("dot").style.color = "green";
-    return true;
+    if (password.value !== confirmPassword.value) {
+        document.getElementById("confirmDot").style.color = "red";
+        return false;
+    }else {
+        document.getElementById("confirmDot").style.color = "green";
+        return true;
+    }
+
 }
 
 window.onload = function () {
@@ -35,8 +42,18 @@ window.onload = function () {
         "email":"max@gmail.com",
     }
     new FormBuilder(formData, "Register", "Register", prefillValue, true).appendTo(document.getElementById("registerForm"));
-    //document.getElementById("password").addEventListener("blur", checkPasswords);
-    //document.getElementById("confirm_password").addEventListener("blur", checkPasswords);
+
+    let span = document.createElement("span");
+    span.id = "dot";
+    span.classList.add("big-dot");
+    span.textContent = '•';
+    document.getElementById("passwordParagraph").querySelector("label").appendChild(span);
+
+    span = document.createElement("span");
+    span.id = "confirmDot";
+    span.classList.add("big-dot");
+    span.textContent = '•';
+    document.getElementById("confirm_passwordParagraph").querySelector("label").appendChild(span);
 
     document.getElementById("username").addEventListener('input', function (event) {
         let input = event.target;
@@ -86,7 +103,7 @@ window.onload = function () {
     document.getElementById("password").addEventListener('input', function (event) {
         let input = event.target;
         let inputValue = event.target.value;
-        if (inputValue < 8) {
+        if (inputValue.length < 8) {
             input.setCustomValidity(`The password must be at least 8 character`);
         }else if (!/[A-Z]/.test(inputValue)) {
             input.setCustomValidity(`The password must include at least one upper case letter`);
@@ -132,9 +149,10 @@ window.onload = function () {
         let data = getDataFromForm();
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {
-            window.location.href = "/";
+            window.location.href = "/user/login.html";
         }
         xhr.open("POST", "/register");
+        xhr.setRequestHeader("Content-Type", "application/json")
         xhr.send(JSON.stringify(data));
     })
 }
