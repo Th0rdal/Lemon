@@ -57,6 +57,7 @@ router.put("/", passport.authenticate('authentication', {session:false}), functi
          send 204: if inserted without problem
          send 500: if the query is having errors
          */
+        //todo call api to get ingredients to correct form
         recipeDB.insert(req.body).then(() => {
             res.sendStatus(204)
         }).catch(err => {
