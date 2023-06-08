@@ -1,3 +1,4 @@
+import {getCookie} from "./cookies.js";
 
 function deleteLine(label) {
     label.remove();
@@ -18,7 +19,8 @@ function getFormData() {
         "image":"NONE",
         "method":[],
         "ingredients":[],
-        "tags":[]
+        "tags":[],
+        "creatorID":getCookie("userID")
     }
     let form = document.getElementById("createRecipeForm");
     for (let div of form.querySelectorAll("input")) {
@@ -242,6 +244,9 @@ window.onload = function() {
             console.log("DONE");
         }
         xhr.open("PUT", "/recipe")
+        console.log(getCookie("jwt"))
+        xhr.setRequestHeader("Authorization", getCookie("jwt"))
+        xhr.setRequestHeader("Content-Type", "application/json")
         xhr.send(JSON.stringify(data));
 
 
