@@ -1,4 +1,4 @@
-import {getCookie} from "./cookies.js";
+import {getCookie} from "../tools/cookies.js";
 
 function deleteLine(label) {
     label.remove();

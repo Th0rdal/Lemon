@@ -1,4 +1,4 @@
-import {RecipeCoverBuilder} from "./builder/RecipeCoverBuilder.js";
+import {RecipeCoverBuilder} from "../builder/RecipeCoverBuilder.js";
 
 function loadRecipes(xhr) {
 
