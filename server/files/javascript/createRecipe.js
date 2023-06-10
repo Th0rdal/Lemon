@@ -24,7 +24,6 @@ function getFormData() {
     }
     let form = document.getElementById("createRecipeForm");
     for (let div of form.querySelectorAll("input")) {
-        console.log(div)
         if (div.id === "title" || div.id === "timeToMake") {
             data[div.id] = div.value;
         }
@@ -244,7 +243,6 @@ window.onload = function() {
             console.log("DONE");
         }
         xhr.open("PUT", "/recipe")
-        console.log(getCookie("jwt"))
         xhr.setRequestHeader("Authorization", getCookie("jwt"))
         xhr.setRequestHeader("Content-Type", "application/json")
         xhr.send(JSON.stringify(data));

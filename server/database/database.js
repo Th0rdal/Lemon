@@ -276,7 +276,7 @@ class Database {
 class recipeDB extends Database {   //class for the recipe database
     constructor() {
         const temp = {
-            "title":"string", "method":"array(string)", "ingredients":"object(string,number)"
+            "title":"string", "method":"array(string)", "ingredients":"object(string,string)"
             ,"creatorID":"string", "nutrition":"object(string,number)", "tags":"array(string)", "ratingStars":"number"
             ,"ratingAmount":"number", "comments":"number", "timeToMake":"number", "difficulty":"string", "image":"string"};
         super("recipe", path.join(__dirname, '../resources/database/recipe.db'), temp);

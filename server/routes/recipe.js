@@ -12,6 +12,7 @@ const commentsDB = new comments();
 const {sendResponse} = require("../middleware/formatResponse");
 const passport = require('passport');
 const NotImplementedException = require("../exception/server_exceptions");
+const {callIngredientsAPI} = require("./apiCalls")
 
 //dummy recipe of the day
 let recipeOfTheDay = {
@@ -49,7 +50,7 @@ router.get("/ofTheDay", function (req, res, next) {
     next();
 }, sendResponse)
 
-router.put("/", passport.authenticate('authentication', {session:false}), function (req, res) {
+router.put("/", passport.authenticate('authentication', {session:false}), callIngredientsAPI, function (req, res) {
         /*
         body: title (str), method (array(string)), ingredients (object(string,number)), creator(string)
                 , nutrition (object(string,number)), tags (array(string)), ratingStars (number)
@@ -57,7 +58,7 @@ router.put("/", passport.authenticate('authentication', {session:false}), functi
          send 204: if inserted without problem
          send 500: if the query is having errors
          */
-        //todo call api to get ingredients to correct form
+        req.body["timeToMake"] = Number(req.body["timeToMake"])
         recipeDB.insert(req.body).then(() => {
             res.sendStatus(204)
         }).catch(err => {
