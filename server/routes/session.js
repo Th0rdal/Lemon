@@ -8,17 +8,10 @@ const jwt = require('jsonwebtoken');
 const { pw } = require("../database/database");
 const pwDB = new pw();
 const {notAuthenticated} = require('../middleware/authentication');
+
+const {sendMail} = require("../middleware/apiCalls")
+
 router.use(passport.initialize({}));
-
-const nodemailer = require("nodemailer")
-const {google} = require("googleapis")
-
-const CLIENT_ID = ""
-const CLIENT_SECRET = ""
-const REDIRECT_URI = ""
-const TOKEN = ""
-const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
-oAuth2Client.setCredentials({refresh_token: TOKEN})
 
 function generateRandomString(length) {
   let result = "";
@@ -32,35 +25,6 @@ function generateRandomString(length) {
   return result;
 }
 
-async function sendMail(url, email) {
-    try {
-        if (CLIENT_ID === "") {
-            throw new Error("Client secret info not included");
-        }
-        const accessToken = await oAuth2Client.getAccessToken();
-        const transport = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                type: "OAuth2",
-                user: "webprojectlemon@gmail.com",
-                clientId: CLIENT_ID,
-                clientSecret: CLIENT_SECRET,
-                refreshToken: TOKEN,
-                accessToken: accessToken
-            }
-        })
-
-        const mailOptions = {
-            from: "webprojectlemon@gmail.com",
-            to: email, //"webprojectlemon@gmail.com",
-            subject: "Authenticate your email address",
-            text: `Dear user!\n\nPlease click this link to verify your email address ${url}\n\nYour Lemon Team`
-        }
-        return await transport.sendMail(mailOptions)
-    }catch (error) {
-        return error;
-    }
-}
  router.get("/authenticate/:authenticationKey", function(req, res) {
     const authenticationKey = req.params["authenticationKey"];
     let username = authenticationKey.substring(8, authenticationKey.length-8);

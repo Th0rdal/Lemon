@@ -12,7 +12,7 @@ const commentsDB = new comments();
 const {sendResponse} = require("../middleware/formatResponse");
 const passport = require('passport');
 const NotImplementedException = require("../exception/server_exceptions");
-const {callIngredientsAPI} = require("./apiCalls")
+const {callIngredientsAPI} = require("../middleware/apiCalls")
 
 //dummy recipe of the day
 let recipeOfTheDay = {
