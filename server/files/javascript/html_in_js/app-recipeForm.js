@@ -4,7 +4,7 @@ class AppRecipeForm extends HTMLElement {
         this.innerHTML =
             `    
                 <form id="createRecipeForm">
-                    <div id="formTitle">create a new recipe:</div>
+                    <div id="formTitle"></div>
                     <div id="drop-area">
                       <div class="drop-area__prompt">Drag and drop files here or click to upload</div>
                       <div id="file-list"></div>

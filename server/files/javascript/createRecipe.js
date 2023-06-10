@@ -165,6 +165,8 @@ function addTagDropdown() {
 
 window.onload = function() {
 
+    document.getElementById("formTitle").textContent = "create a new recipe:";
+
     let xhr = new XMLHttpRequest();
     xhr.onload = function() {
         if (xhr.status === 200) {
