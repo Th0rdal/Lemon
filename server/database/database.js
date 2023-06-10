@@ -110,8 +110,8 @@ class Database {
         return reject(err): if the database update failed
          */
         for (let key in Object.keys(searchDict)) {
-            if (!Object.keys(this.validDataFormat).includes(key)) {
-                throw new Error("database row \"" + key + "\" does not exist");
+            if (!Object.keys(this.validDataFormat).includes(Object.keys(searchDict)[key])) {
+                throw new Error("database row \"" + Object.keys(searchDict)[key] + "\" does not exist");
             }
         }
         return new Promise((resolve, reject) => {
@@ -183,7 +183,6 @@ class Database {
             if (validKeys.hasOwnProperty(key)) {
                 return `In ${updateOrInsert}: key "${key}" is not defined`
             }
-
 
             if (this.validDataFormat[key].startsWith("array")) {//check if the value for this key should be an array
                 //check if value for the key of the given object is an array
@@ -307,7 +306,7 @@ class commentsDB extends Database {
 
 class impUserData extends Database {
     constructor() {
-        const temp = {"username":"string", "password":"string", "email":"string"} //<- obviously not save
+        const temp = {"username":"string", "password":"string", "email":"string", "verified":"boolean"} //<- obviously not save
         super("impData", path.join(__dirname, '../resources/database/impUserData.db'), temp);
     }
 

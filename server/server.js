@@ -53,7 +53,9 @@ app.put("/testBody",function (req, res, next) {
 }, sendResponse)
 
 app.get("/queryTest", function (req, res) {
-    console.log(req.query.i);
+    sendMail()
+        .then(result => console.log("Email sent...", result))
+        .catch(error => console.log(error.message))
 })
 
 app.listen(3000);

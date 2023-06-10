@@ -10,6 +10,74 @@ const pwDB = new pw();
 const {notAuthenticated} = require('../middleware/authentication');
 router.use(passport.initialize({}));
 
+const nodemailer = require("nodemailer")
+const {google} = require("googleapis")
+
+const CLIENT_ID = ""
+const CLIENT_SECRET = ""
+const REDIRECT_URI = ""
+const TOKEN = ""
+const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
+oAuth2Client.setCredentials({refresh_token: TOKEN})
+
+function generateRandomString(length) {
+  let result = "";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters.charAt(randomIndex);
+  }
+
+  return result;
+}
+
+async function sendMail(url, email) {
+    try {
+        if (CLIENT_ID === "") {
+            throw new Error("Client secret info not included");
+        }
+        const accessToken = await oAuth2Client.getAccessToken();
+        const transport = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                type: "OAuth2",
+                user: "webprojectlemon@gmail.com",
+                clientId: CLIENT_ID,
+                clientSecret: CLIENT_SECRET,
+                refreshToken: TOKEN,
+                accessToken: accessToken
+            }
+        })
+
+        const mailOptions = {
+            from: "webprojectlemon@gmail.com",
+            to: email, //"webprojectlemon@gmail.com",
+            subject: "Authenticate your email address",
+            text: `Dear user!\n\nPlease click this link to verify your email address ${url}\n\nYour Lemon Team`
+        }
+        return await transport.sendMail(mailOptions)
+    }catch (error) {
+        return error;
+    }
+}
+ router.get("/authenticate/:authenticationKey", function(req, res) {
+    const authenticationKey = req.params["authenticationKey"];
+    let username = authenticationKey.substring(8, authenticationKey.length-8);
+    pwDB.update({"username":username}, {$set:{"verified":true}}, {})
+        .then(resolve => {
+            if (resolve === 1) {
+                res.send("Thank you for verifying your email address. You can now close this tab and enjoy Lemon!");
+                return;
+            }
+            console.log(resolve)
+            res.sendStatus(500)
+        })
+        .catch(error => {
+            console.log(error);
+            res.sendStatus(500)
+        })
+ })
 router.route("/register")
     .post(async function (req, res) {
         /*
@@ -20,7 +88,10 @@ router.route("/register")
          */
         try{
             const hashedPassword = await bcrypt.hashSync(req.body.password, 10).toString();
-            pwDB.insert({"username":req.body.username, "password":hashedPassword, "email":req.body.email}).then(() => {
+            pwDB.insert({"username":req.body.username, "password":hashedPassword, "email":req.body.email, "verified":false}).then(() => {
+                let url = "http://localhost:3000/authenticate/" + generateRandomString(8) + req.body.username + generateRandomString(8)
+                sendMail(url, req.body.email)
+                    .catch(error => console.log(error))
                 res.redirect('/user/login.html');
             }).catch(err => {
                 if (!err.alreadyExists) {
