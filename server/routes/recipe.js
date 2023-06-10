@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require('path');
 
 const router = express.Router();
 const {recipe} = require("../database/database");
@@ -35,6 +36,14 @@ let recipeOfTheDay = {
     "timeToMake":25,
     "difficulty":"medium"
     }
+
+router.get("/update/:recipeID", function(req, res) {
+    res.sendFile(path.join(__dirname + "/../files/recipe/updateRecipe.html"))
+})
+
+router.get("/createRecipe", function(req, res) {
+    res.sendFile(path.join(__dirname + "/../files/recipe/createRecipe.html"))
+})
 
 router.get("/tags", function(req, res, next) {
     res.data = {tags:["vegan", "vegetarian"]};

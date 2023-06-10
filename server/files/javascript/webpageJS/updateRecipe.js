@@ -1,17 +1,31 @@
+import {ingredientsBuilder, methodBuilder, createTag} from "../tools/recipeHelper"
 
+function loadRecipe(recipe) {
+    document.getElementById("title").textContent = recipe["title"];
+    for (let key in recipe["ingredients"]) {
+        ingredientsBuilder().textContent = `${recipe["ingredients"][key]} ${key}`
+    }
+    for (let key in recipe["method"]) {
+        methodBuilder().textContent = `${recipe["ingredients"][key]}`
+    }
+    document.getElementById("timeToMake").textContent = Number(recipe["timeToMake"])
+    document.getElementById("dropdown-button").textContent = recipe["difficulty"]
+    for (let tag in recipe["tags"]) {
+        createTag(tag);
+    }
 
-window.onload = function() {
-    document.getElementById("formTitle").textContent = "update your recipe";
+}
+
+document.addEventListener("load", function() {
+    document.getElementById("formTitle").textContent = "update recipe:";
 
     let xhr = new XMLHttpRequest();
     xhr.onload = function() {
         if (xhr.status === 200) {
-            let data = JSON.parse(xhr.responseText)
-            tags = data["tags"]
-            tags_save = tags;
-            addTagDropdown();
+            loadRecipe(JSON.parse(xhr.responseText))
         }
     }
-    xhr.open("GET", "/recipe/tags");
-    xhr.send();
-}
+    let recipeID = window.location.href.substring(window.location.href.lastIndexOf("/")+1)
+    xhr.open("GET", window.location.origin + "/recipe/" + recipeID)
+    xhr.send()
+})
