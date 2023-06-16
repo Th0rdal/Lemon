@@ -5,6 +5,36 @@ let stepsCounter = 1;
 let tags;
 let tags_save;
 
+function clearEmptyFields() {
+    for (let input of document.getElementById("ingredientsInputDiv").querySelectorAll("input")) {
+        if (input.value === "" && document.getElementById("ingredientsInputDiv").querySelectorAll("input").length > 1) {
+            input.parentElement.remove()
+        }
+    }
+    let counter = 1;
+    for (let input of document.getElementById("methodInputDiv").querySelectorAll("input")) {
+        if (input.value === "" && document.getElementById("methodInputDiv").querySelectorAll("input").length > 1) {
+            input.parentElement.remove()
+        }else {
+            let span = input.parentElement.querySelector("span");
+            span.textContent = "step " + counter.toString();
+            counter++;
+        }
+    }
+}
+function checkDifficulty() {
+    let button = document.getElementById("dropdown-button");
+    if (button.textContent === "Enter difficulty") {
+        button.setCustomValidity("Please choose a difficulty for the recipe");
+    }else {
+        button.setCustomValidity("");
+    }
+    if (!document.getElementById("createRecipeForm").checkValidity()) {
+        document.getElementById("createRecipeForm").reportValidity()
+        return false;
+    }
+    return true;
+}
 function rewriteStepsSpan() {
     stepsCounter = 1;
     for (let input of document.getElementById("methodInputDiv").querySelectorAll("input")) {
@@ -42,7 +72,6 @@ function getFormData() {
     }
     return data;
 }
-
 function ingredientsBuilder() {
     const label = document.createElement("label");
     label.setAttribute("for", "label" + ingredientsCounter.toString())
@@ -82,7 +111,6 @@ function ingredientsBuilder() {
 
     return label;
 }
-
 function methodBuilder() {
     const label = document.createElement("label");
     label.setAttribute("for", "label" + ingredientsCounter.toString())
@@ -219,45 +247,6 @@ window.onload = function() {
         document.getElementById("dropdown-content").style.display = "none";
     })
 
-    document.getElementById("submitButton").addEventListener("click", function() {
-        for (let input of document.getElementById("ingredientsInputDiv").querySelectorAll("input")) {
-            if (input.value === "" && document.getElementById("ingredientsInputDiv").querySelectorAll("input").length > 1) {
-                input.parentElement.remove()
-            }
-        }
-        let counter = 1;
-        for (let input of document.getElementById("methodInputDiv").querySelectorAll("input")) {
-            if (input.value === "" && document.getElementById("methodInputDiv").querySelectorAll("input").length > 1) {
-                input.parentElement.remove()
-            }else {
-                let span = input.parentElement.querySelector("span");
-                span.textContent = "step " + counter.toString();
-                counter++;
-            }
-        }
-
-        let button = document.getElementById("dropdown-button");
-        if (button.textContent === "Enter difficulty") {
-            button.setCustomValidity("Please choose a difficulty for the recipe");
-        }else {
-            button.setCustomValidity("");
-        }
-        if (!document.getElementById("createRecipeForm").checkValidity()) {
-            document.getElementById("createRecipeForm").reportValidity()
-        }
-
-        let data = getFormData();
-        let xhr = new XMLHttpRequest();
-        xhr.onload = function() {
-            console.log("DONE");
-        }
-        xhr.open("PUT", "/recipe")
-        xhr.setRequestHeader("Authorization", getCookie("jwt"))
-        xhr.setRequestHeader("Content-Type", "application/json")
-        xhr.send(JSON.stringify(data));
-
-
-    })
 
     document.getElementById("title").addEventListener("input", function(event) {
         if (event.target.value !== "") {
@@ -281,7 +270,7 @@ window.onload = function() {
         }
     })
 
-    getFormData();
+
 }
 
-module.exports = {ingredientsBuilder, methodBuilder, createTag}
+module.exports = {ingredientsBuilder, methodBuilder, createTag, checkDifficulty, clearEmptyFields, getFormData}

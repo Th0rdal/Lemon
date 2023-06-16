@@ -59,7 +59,7 @@ router.get("/ofTheDay", function (req, res, next) {
     next();
 }, sendResponse)
 
-router.put("/", passport.authenticate('authentication', {session:false}), callIngredientsAPI, function (req, res) {
+router.post("/", passport.authenticate('authentication', {session:false}), callIngredientsAPI, function (req, res) {
         /*
         body: title (str), method (array(string)), ingredients (object(string,number)), creator(string)
                 , nutrition (object(string,number)), tags (array(string)), ratingStars (number)
