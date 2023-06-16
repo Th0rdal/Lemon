@@ -51,12 +51,24 @@ router.route("/register")
         send 500: if there was an error with the database
          */
         try{
+            let entriesFound = await pwDB.findOne({"username":req.body.username});
+            if (entriesFound !== 0) {
+                res.status(401).json({
+                    "errorType": "username",
+                    "message":"username already exists"});
+            }
+            entriesFound = await pwDB.findOne({"email":req.body.email});
+            if (entriesFound !== 0) {
+                res.status(401).json({
+                    "errorType": "email",
+                    "message":"email already exists"});
+            }
             const hashedPassword = await bcrypt.hashSync(req.body.password, 10).toString();
             pwDB.insert({"username":req.body.username, "password":hashedPassword, "email":req.body.email, "verified":false}).then(() => {
                 let url = "http://localhost:3000/authenticate/" + generateRandomString(8) + req.body.username + generateRandomString(8)
                 sendMail(url, req.body.email)
                     .catch(error => console.log(error))
-                res.redirect('/user/login.html');
+                res.sendStatus(204)
             }).catch(err => {
                 if (!err.alreadyExists) {
                     throw new Error("internal server error");

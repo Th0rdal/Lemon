@@ -149,7 +149,19 @@ window.onload = function () {
         let data = getDataFromForm();
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {
-            window.location.href = "/user/login.html";
+            if (xhr.status === 204) {
+                window.location.href = "/user/login.html";
+            }else if (xhr.status === 401) {
+                let error = JSON.parse(xhr.responseText);
+                if (error["errorType"] === "email") {
+                    document.getElementById("email").setCustomValidity(error["message"]);
+                    document.getElementById("email").reportValidity();
+                }else if (error["errorType"] === "username") {
+                    document.getElementById("username").setCustomValidity(error["message"]);
+                    document.getElementById("username").reportValidity();
+                }
+            }
+
         }
         xhr.open("POST", "/register");
         xhr.setRequestHeader("Content-Type", "application/json")
