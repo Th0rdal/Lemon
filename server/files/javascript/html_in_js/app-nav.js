@@ -1,4 +1,4 @@
-import {getCookie, deleteCookie} from "../tools/cookies";
+import {getCookie, deleteCookie} from "http://localhost:3000/javascript/tools/cookies.js"
 
 class AppNav extends HTMLElement {
     connectedCallback() {
