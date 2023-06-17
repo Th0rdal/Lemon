@@ -54,8 +54,6 @@ router.route("/register")
          */
         try{
             let entriesFound = await pwDB.findOne({"username":req.body.username});
-            console.log("test")
-            console.log(entriesFound);
             if (entriesFound !== null && Object.keys(entriesFound).length !== 0) {
                 res.status(401).json({
                     "errorType": "username",
@@ -72,7 +70,6 @@ router.route("/register")
             let userID = undefined;
             await userDB.insert({"username":req.body.username, "postedRecipes":[], "showNutritionValue":true})
             let userEntry = await userDB.findOne({"username":req.body.username, "postedRecipes":[], "showNutritionValue":true})
-            console.log(userEntry)
             if (userEntry !== null && Object.keys(userEntry).length !== 0) {
                 res.sendStatus(500);
                 return;
