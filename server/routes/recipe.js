@@ -23,7 +23,7 @@ let recipeOfTheDay = {
         "ingredient1": 2,
         "ingredient2": 4.5,
         "ingredient3": 5},
-    "creatorID": "asdf",
+    "creatorID": "TVtzOV24dBaE14ah",
     "nutrition": {
         "vitamin1": 5,
         "vitamin2": 5.5,
