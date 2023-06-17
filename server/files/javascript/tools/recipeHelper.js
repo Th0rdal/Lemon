@@ -206,7 +206,7 @@ window.onload = function() {
     xhr.onload = function() {
         if (xhr.status === 200) {
             let data = JSON.parse(xhr.responseText)
-            tags = data["tags"]
+            tags = data["choosableTags"]
             tags_save = tags;
             addTagDropdown();
         }

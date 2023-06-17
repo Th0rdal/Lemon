@@ -46,7 +46,10 @@ router.get("/createRecipe", function(req, res) {
 })
 
 router.get("/tags", function(req, res, next) {
-    res.data = {tags:["vegan", "vegetarian"]};
+    res.data = {
+        "choosableTags":["vegan", "vegetarian"],
+        "nonChoosableTags": ["easy", "medium", "hard"]
+    };
     next();
 
 }, sendResponse)
@@ -68,6 +71,7 @@ router.post("/", passport.authenticate('authentication', {session:false}), callI
          send 500: if the query is having errors
          */
         req.body["timeToMake"] = Number(req.body["timeToMake"])
+        req.body["tags"].append(req.body["difficulty"])
         recipeDB.insert(req.body).then(() => {
             res.sendStatus(204)
         }).catch(err => {
