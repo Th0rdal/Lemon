@@ -41,7 +41,7 @@ window.onload = function () {
         "username":"Max Counterman",
         "email":"max@gmail.com",
     }
-    new FormBuilder(formData, "Register", "Register", prefillValue, true).appendTo(document.getElementById("registerForm"));
+    new FormBuilder(formData, "Register", "Register", prefillValue, {baseID:"registerForm"}).appendTo(document.getElementById("registerForm"));
 
     let span = document.createElement("span");
     span.id = "dot";

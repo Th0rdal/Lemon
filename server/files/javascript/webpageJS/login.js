@@ -3,7 +3,7 @@ import {FormBuilder} from "../builder/FormBuilder.js";
 
 function getDataFromForm() {
     let data = {}
-    let inputElements = document.getElementById("registerForm").querySelectorAll("input");
+    let inputElements = document.getElementById("loginForm").querySelectorAll("input");
     inputElements.forEach(function(input) {
       if (input.type !== "submit") {
           data[input.id] = input.value;
@@ -17,7 +17,7 @@ window.onload = function () {
         "username":"text",
         "password":"password"
     }
-    new FormBuilder(form, "Login", "Log in", {}).appendTo(document.getElementById("loginForm"));
+    new FormBuilder(form, "Login", "Log in", {}, {"baseID":"loginForm"}).appendTo(document.getElementById("loginForm"));
     let tag = document.createElement("input");
     tag.id = "registerID";
     tag.type = "submit";
