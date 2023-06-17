@@ -74,6 +74,7 @@ router.post("/", passport.authenticate('authentication', {session:false}), callI
         req.body["tags"].append(req.body["difficulty"])
         recipeDB.insert(req.body).then(() => {
             res.sendStatus(204)
+            //implement update user db with the new recipe
         }).catch(err => {
             console.log(err)
             res.sendStatus(500)

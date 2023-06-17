@@ -42,6 +42,11 @@ export class FormBuilder  extends Builder {
                 ]
             })
         )
+        this.element.appendChild(
+            super.createElement("div", {
+                "class":"recipesCreated",
+            })
+        )
     }
 }
 

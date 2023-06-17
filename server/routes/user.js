@@ -5,6 +5,11 @@ const {user} = require("../database/database");
 const userDB = new user();
 const {sendResponse} = require('../middleware/formatResponse');
 const passport = require("passport");
+const {join} = require("path");
+
+router.get("/userPage", function(req, res) {
+    res.sendFile(join(__dirname + "/../files/user/user.html"))
+})
 
 router.route("/:userID")
     .get(function (req, res, next) {
