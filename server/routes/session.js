@@ -129,7 +129,7 @@ router.post("/login", notAuthenticated, function (req, res) {
         const payload = {
             username: resolve.username,
             id: resolve._id,
-            user: resolve.userID,
+            userID: resolve.userID,
             email: resolve.email
         }
         const token = jwt.sign(payload, process.env.JWT_KEY, {expiresIn:"1h"})
@@ -137,6 +137,7 @@ router.post("/login", notAuthenticated, function (req, res) {
             success: true,
             message: "Logged in successfully",
             token: "Bearer " + token,
+            userID: resolve.userID,
             id: resolve._id
         })
     })
