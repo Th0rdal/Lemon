@@ -129,6 +129,7 @@ router.post("/login", notAuthenticated, function (req, res) {
         const payload = {
             username: resolve.username,
             id: resolve._id,
+            user: resolve.userID,
             email: resolve.email
         }
         const token = jwt.sign(payload, process.env.JWT_KEY, {expiresIn:"1h"})

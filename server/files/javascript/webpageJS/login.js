@@ -33,7 +33,7 @@ window.onload = function () {
             if (xhr.status === 200) {
                 document.cookie = "jwt=" + response["token"] + ";path=/";
                 document.cookie = "username=" + data["username"] + ";path=/";
-                document.cookie = "userID=" + response["id"] + ";path=/";
+                document.cookie = "userID=" + response["userID"] + ";path=/";
                 window.location.href = "/";
             }else {
                 console.log(response);
