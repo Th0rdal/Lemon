@@ -306,7 +306,7 @@ class commentsDB extends Database {
 
 class impUserData extends Database {
     constructor() {
-        const temp = {"username":"string", "password":"string", "email":"string", "verified":"boolean"} //<- obviously not save
+        const temp = {"username":"string", "password":"string", "email":"string", "verified":"boolean", "userID":"string"} //<- obviously not save
         super("impData", path.join(__dirname, '../resources/database/impUserData.db'), temp);
     }
 

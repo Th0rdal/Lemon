@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken');
 
 const { pw } = require("../database/database");
 const pwDB = new pw();
+const { user } = require("../database/database");
+const userDB = new user();
 const {notAuthenticated} = require('../middleware/authentication');
 
 const {sendMail} = require("../middleware/apiCalls")
@@ -52,21 +54,31 @@ router.route("/register")
          */
         try{
             let entriesFound = await pwDB.findOne({"username":req.body.username});
-            if (entriesFound !== 0) {
+            console.log("test")
+            console.log(entriesFound);
+            if (entriesFound !== null && Object.keys(entriesFound).length !== 0) {
                 res.status(401).json({
                     "errorType": "username",
                     "message":"username already exists"});
                 return;
             }
             entriesFound = await pwDB.findOne({"email":req.body.email});
-            if (entriesFound !== 0) {
+            if (entriesFound !== null && Object.keys(entriesFound).length !== 0) {
                 res.status(401).json({
                     "errorType": "email",
                     "message":"email already exists"});
                 return;
             }
+            let userID = undefined;
+            await userDB.insert({"username":req.body.username, "postedRecipes":[], "showNutritionValue":true})
+            let userEntry = await userDB.findOne({"username":req.body.username, "postedRecipes":[], "showNutritionValue":true})
+            console.log(userEntry)
+            if (userEntry !== null && Object.keys(userEntry).length !== 0) {
+                res.sendStatus(500);
+                return;
+            }
             const hashedPassword = await bcrypt.hashSync(req.body.password, 10).toString();
-            pwDB.insert({"username":req.body.username, "password":hashedPassword, "email":req.body.email, "verified":false}).then(() => {
+            pwDB.insert({"username":req.body.username, "password":hashedPassword, "email":req.body.email, "verified":false, "userID":userEntry._id}).then(() => {
                 let url = "http://localhost:3000/authenticate/" + generateRandomString(8) + req.body.username + generateRandomString(8)
                 sendMail(url, req.body.email)
                     .catch(error => console.log(error))
