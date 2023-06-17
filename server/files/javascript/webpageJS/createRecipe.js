@@ -1,7 +1,7 @@
 import {getCookie} from "../tools/cookies";
 import {clearEmptyFields, checkDifficulty, getFormData} from "../tools/recipeHelper"
 
-document.addEventListener("load", function() {
+document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("formTitle").textContent = "create a new recipe:";
 
     document.getElementById("submitButton").addEventListener("click", function() {

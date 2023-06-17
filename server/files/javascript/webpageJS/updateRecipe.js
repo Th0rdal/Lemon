@@ -37,7 +37,7 @@ function getUpdateData() {
     return newData;
 }
 
-document.addEventListener("load", function() {
+document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("formTitle").textContent = "update recipe:";
 
     let xhr = new XMLHttpRequest();
