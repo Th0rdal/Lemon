@@ -9,15 +9,18 @@ fetch("http://localhost:3000/register", {
     method:"POST",
     headers: {"Content-Type":"application/json"},
     body: JSON.stringify(body)
-}).then(async response => {
-    let data = await response.json()
-    data["status"] = response.status
-    return data
+}).then(async resp => {
+    let data = {}
+    try {
+        data["data"] = await resp.json()
+    } catch (SyntaxError) {}
+    data["status"] = resp.status
+    return data;
 }).then(response => {
     console.log("response...");
     if (response.status === 204) {
         console.log("accepted");
     }else {
-        console.log("error! status code: " + response.status.toString() + "\nerror message: " + response.message);
+        console.log("error! status code: " + response.status.toString() + "\nerror message: " + response.data.message);
     }
 })
