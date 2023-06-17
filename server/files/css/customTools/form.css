@@ -29,7 +29,7 @@ form {
     max-width: 20vw;
 }
 
-.authenticationFormElement > #submitID {
+.authenticationFormElement > .submitButton {
     grid-area: input;
     width: 20vw;
     height: 90%;

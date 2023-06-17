@@ -34,11 +34,11 @@ export class FormBuilder  extends Builder {
             /*super.createParagraph([
             super.createInput("submit", "", "submitID", "", buttonValue)
         ], "authenticationFormElement")*/
-            super.createElement("p", {
+            super.createElement("p", { //submitID
                 "class":"authenticationFormElement",
                 "id": "buttons",
                 "children": [
-                    super.createElement("input", {"id":"submitID", "type": "submit", "value":buttonValue})
+                    super.createElement("input", {"id":options["baseID"] + "Button", "class":"submitButton", "type": "submit", "value":buttonValue})
                 ]
             })
         )

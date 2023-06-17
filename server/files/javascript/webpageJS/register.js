@@ -144,7 +144,7 @@ window.onload = function () {
         }
     });
 
-    document.getElementById("submitID").addEventListener("click", function (event) {
+    document.getElementById("registerButton").addEventListener("click", function (event) {
         event.preventDefault();
         let data = getDataFromForm();
         let xhr = new XMLHttpRequest();

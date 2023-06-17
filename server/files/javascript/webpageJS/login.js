@@ -24,7 +24,7 @@ window.onload = function () {
     tag.value = "Register";
 
     document.getElementById("buttons").appendChild(tag);
-    document.getElementById("submitID").addEventListener("click", function (event) {
+    document.getElementById("loginButton").addEventListener("click", function (event) {
         event.preventDefault();
         let data = getDataFromForm();
         let xhr = new XMLHttpRequest();
