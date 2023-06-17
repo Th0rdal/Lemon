@@ -9,7 +9,7 @@ class AppNav extends HTMLElement {
                         <a href="/">Home</a>
                         <a href="/recipe/filter.html">Filter</a>
                         <a href="/user/login.html" id="loginAnchor">Login</a>
-                        <a hidden id="user">user</a>
+                        <a href="/user/userPage" hidden id="user">user</a>
                     </div>
                 </nav>
             `
@@ -23,7 +23,6 @@ window.addEventListener("load", function() {
     if (jwtCookie !== null) {
         document.getElementById("loginAnchor").textContent = "Logout";
         document.getElementById("user").style.display = "block";
-        document.getElementById("user").href = "/user/" + getCookie("userID")
         document.getElementById("loginAnchor").onclick = function () {
            deleteCookie("jwt");
            deleteCookie("username");
