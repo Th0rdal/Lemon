@@ -31,7 +31,7 @@ const recipeRouter = require("./routes/recipe");
 app.use("/recipe", recipeRouter);
 
 const userRouter = require("./routes/user");
-app.use("/authentication", userRouter);
+app.use("/user", userRouter);
 
 const sessionRouter = require("./routes/session");
 app.use("", sessionRouter)

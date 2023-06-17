@@ -15,7 +15,7 @@ router.route("/:userID")
          */
         userDB.findOne({"_id":req.params.userID}).then(resolve => {
             if (resolve === null) {
-                res.sendStatus(404);
+                res.sendStatus(400);
                 return;
             }
             res.data = resolve;
@@ -46,7 +46,6 @@ router.route("/:userID")
         }else {
             res.sendStatus(403);
         }
-
     }).delete(passport.authenticate('authentication', {session:false}), function (req, res) {
         /*
         send 204: if removed without problem

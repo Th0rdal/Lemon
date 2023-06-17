@@ -56,12 +56,14 @@ router.route("/register")
                 res.status(401).json({
                     "errorType": "username",
                     "message":"username already exists"});
+                return;
             }
             entriesFound = await pwDB.findOne({"email":req.body.email});
             if (entriesFound !== 0) {
                 res.status(401).json({
                     "errorType": "email",
                     "message":"email already exists"});
+                return;
             }
             const hashedPassword = await bcrypt.hashSync(req.body.password, 10).toString();
             pwDB.insert({"username":req.body.username, "password":hashedPassword, "email":req.body.email, "verified":false}).then(() => {
@@ -100,7 +102,7 @@ router.post("/login", notAuthenticated, function (req, res) {
      */
     pwDB.findOne({"username":req.body.username}).then(resolve => {
         if (resolve === null) {
-            res.sendStatus(404).json({
+            res.status(404).json({
                 success: false,
                 message: "No authentication found with this username"
             });
@@ -108,7 +110,7 @@ router.post("/login", notAuthenticated, function (req, res) {
         }
 
         if (!bcrypt.compareSync(req.body.password, resolve.password)) {
-            res.sendStatus(400).json({
+            res.status(400).json({
                 success: false,
                 message: "Password is incorrect"
             })
