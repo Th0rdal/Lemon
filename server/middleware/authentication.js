@@ -13,7 +13,7 @@ let authenticationStrategyOptions = {
 
 const authenticationStrategy = new JwtStrategy(authenticationStrategyOptions, function(jwt_payload, done) {
     /*
-    return: authentication if a authentication was found
+    return: authentication if an authentication was found
     return: err if there was an error
     return: false if no authentication was found
      */

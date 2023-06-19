@@ -67,7 +67,7 @@ router.route("/register")
                     "message":"email already exists"});
                 return;
             }
-            let userID = undefined;
+
             await userDB.insert({"username":req.body.username, "postedRecipes":[], "showNutritionValue":true})
             let userEntry = await userDB.findOne({"username":req.body.username, "postedRecipes":[], "showNutritionValue":true})
             if (userEntry !== null && Object.keys(userEntry).length !== 0) {
@@ -138,7 +138,8 @@ router.post("/login", notAuthenticated, function (req, res) {
             message: "Logged in successfully",
             token: "Bearer " + token,
             userID: resolve.userID,
-            id: resolve._id
+            id: resolve._id,
+            expiresIn: "55"
         })
     })
 })
