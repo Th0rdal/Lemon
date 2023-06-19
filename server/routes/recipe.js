@@ -73,17 +73,15 @@ router.post("/", passport.authenticate('authentication', {session:false}), callI
          send 500: if the query is having errors
          */
         req.body["timeToMake"] = Number(req.body["timeToMake"])
-    console.log(req.body)
         req.body["tags"].push(req.body["difficulty"])
         recipeDB.insert(req.body).then(() => {
-            recipeDB.findOne(req.body).then(resolve => {
+            recipeDB.findOne(req.body).then(async resolve => {
                 if (resolve === null) {
                     deleteRecipe(req.body)
                     res.sendStatus(500);
                     return;
                 }
-                //fixme database is not okeydokey
-                let result = userDB.update({"_id":req.body.creatorID},{"$push":{"postedRecipes":resolve._id}}, {})
+                let result = await userDB.update({"_id": req.body.creatorID}, {"$push": {"postedRecipes": resolve._id}}, {})
                 if (result !== 1) {
                     deleteRecipe(req.body)
                     res.sendStatus(500)
