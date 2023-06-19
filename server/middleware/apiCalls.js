@@ -15,7 +15,6 @@ oAuth2Client.setCredentials({refresh_token: TOKEN})
 
 function callIngredientsAPI(req, res, next) {
     let ingredientsUnparsed = req.body["ingredients"]
-    console.log(ingredientsUnparsed)
     axios({
         method: "post",
         url:"http://127.0.0.1:5000",
