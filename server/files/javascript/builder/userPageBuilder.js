@@ -4,7 +4,7 @@ import {FormBuilder} from "./FormBuilder.js"
 export default class userPageBuilder extends Builder{
     constructor(updateAble, data) {
         super("form");
-        super.configureBaseElement("", "registerForm", "")
+        super.configureBaseElement("", "userPageForm", "")
         this.element.appendChild(
             super.createElement("p", {"class":"formTitle", textContent:"user Page:"})
         )
@@ -31,12 +31,17 @@ export default class userPageBuilder extends Builder{
                 ]
             })
         )
+        this.element.appendChild(
+            super.createElement("input", {"class":"saveOptions", "type":"submit", "value":"save options"})
+        )
         let pwElement = super.createElement("div", {"id":"changePasswordParagraph"})
         this.element.appendChild(pwElement)
         let emailElement = super.createElement("div", {"id":"changeEmail"})
         this.element.appendChild(emailElement)
         new FormBuilder({"password":"password", "confirm_password":"password"}, "change password:", "update Password", {}, {"baseID":"passwordForm"}).appendTo(pwElement);
         new FormBuilder({"email":"text"}, "change email:", "update email", {"email":"testmail"}, {"baseID":"emailForm"}).appendTo(emailElement);
-
+        this.element.appendChild(
+            super.createElement("div", {"id":"recipeCoverWrapper"})
+        )
     }
 }

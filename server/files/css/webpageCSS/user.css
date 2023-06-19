@@ -25,3 +25,83 @@ app-footer {
 main {
     grid-area: main;
 }
+
+#userPageForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#changePasswordParagraph {
+    width: 100%;
+}
+
+#changeEmail {
+    width: 100%;
+}
+
+.authenticationFormElement {
+    justify-content: center;
+    align-items: center;
+    display: grid;
+    grid-template-columns: .3fr .5fr;
+    grid-template-areas: "label input";
+    gap: 5%;
+    margin-bottom: 3%;
+}
+
+.big-dot {
+    display: inline-block;
+    color: red;
+    transform: scale(3);
+    padding-left: 0.2vw;
+}
+
+.authenticationFormElement > label {
+    grid-area: label;
+    justify-self: right;
+}
+
+.authenticationFormElement > input {
+    grid-area: input;
+    max-width: 20vw;
+}
+
+.authenticationFormElement > .submitButton {
+    grid-area: input;
+    width: 20vw;
+    height: 90%;
+}
+
+.authenticationFormElement > #registerID {
+    grid-area: label;
+    width: 9vw;
+    height: 90%;
+    justify-self: right;
+}
+
+#passwordForm > .formTitle {
+    margin-left: 39%;
+}
+
+#emailForm > .formTitle {
+    margin-left: 39%;
+}
+
+#recipeCoverWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow: auto;
+    padding-top: 1vh;
+    gap: 5%;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 3vh;
+}
+
+#recipeCoverWrapper > article{
+    margin-bottom: 2vh;
+}
