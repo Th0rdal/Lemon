@@ -18,16 +18,31 @@ class AppNav extends HTMLElement {
 
 customElements.define("app-nav", AppNav);
 
+function isExpired(jwt) {
+    const payload = JSON.parse(atob(jwt));
+    const expirationTimeStamp = payload.exp;
+    const expirationDate = new Date(expirationTimeStamp * 1000);
+    const currentDate = new Date();
+    return expirationDate < currentDate;
+
+}
+
+function logout() {
+    deleteCookie("jwt");
+   deleteCookie("username");
+   deleteCookie("userID");
+}
+
 window.addEventListener("load", function() {
     let jwtCookie = getCookie("jwt")
     if (jwtCookie !== null) {
+        if (isExpired(jwtCookie)) {
+            logout();
+            return;
+        }
         document.getElementById("loginAnchor").textContent = "Logout";
         document.getElementById("user").style.display = "block";
-        document.getElementById("loginAnchor").onclick = function () {
-           deleteCookie("jwt");
-           deleteCookie("username");
-           deleteCookie("userID");
-        }
+        document.getElementById("loginAnchor").onclick = logout;
         document.getElementById("loginAnchor").href = "/";
     }
 })
