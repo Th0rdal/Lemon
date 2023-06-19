@@ -36,7 +36,6 @@ function generateRandomString(length) {
                 res.send("Thank you for verifying your email address. You can now close this tab and enjoy Lemon!");
                 return;
             }
-            console.log(resolve)
             res.sendStatus(500)
         })
         .catch(error => {
