@@ -5,7 +5,7 @@ let stepsCounter = 1;
 let tags;
 let tags_save;
 
-function clearEmptyFields() {
+export function clearEmptyFields() {
     for (let input of document.getElementById("ingredientsInputDiv").querySelectorAll("input")) {
         if (input.value === "" && document.getElementById("ingredientsInputDiv").querySelectorAll("input").length > 1) {
             input.parentElement.remove()
@@ -22,7 +22,7 @@ function clearEmptyFields() {
         }
     }
 }
-function checkDifficulty() {
+export function checkDifficulty() {
     let button = document.getElementById("dropdown-button");
     if (button.textContent === "Enter difficulty") {
         button.setCustomValidity("Please choose a difficulty for the recipe");
@@ -35,7 +35,7 @@ function checkDifficulty() {
     }
     return true;
 }
-function rewriteStepsSpan() {
+export function rewriteStepsSpan() {
     stepsCounter = 1;
     for (let input of document.getElementById("methodInputDiv").querySelectorAll("input")) {
         let span = input.parentElement.querySelector("span");
@@ -43,7 +43,7 @@ function rewriteStepsSpan() {
         stepsCounter++;
     }
 }
-function getFormData() {
+export function getFormData() {
     let data = {
         "difficulty":document.getElementById("dropdown-button").textContent,
         "ratingStars":0,
@@ -72,7 +72,7 @@ function getFormData() {
     }
     return data;
 }
-function ingredientsBuilder() {
+export function ingredientsBuilder() {
     const label = document.createElement("label");
     label.setAttribute("for", "label" + ingredientsCounter.toString())
     label.id = "label" + ingredientsCounter.toString();
@@ -111,7 +111,7 @@ function ingredientsBuilder() {
 
     return label;
 }
-function methodBuilder() {
+export function methodBuilder() {
     const label = document.createElement("label");
     label.setAttribute("for", "label" + ingredientsCounter.toString())
     label.id = "label" + ingredientsCounter.toString();
@@ -272,5 +272,3 @@ window.onload = function() {
 
 
 }
-
-module.exports = {ingredientsBuilder, methodBuilder, createTag, checkDifficulty, clearEmptyFields, getFormData}

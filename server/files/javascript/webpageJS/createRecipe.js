@@ -1,5 +1,5 @@
-import {getCookie} from "../tools/cookies";
-import {clearEmptyFields, checkDifficulty, getFormData} from "../tools/recipeHelper"
+import {getCookie} from "http://localhost:3000/javascript/tools/cookies.js"
+import {clearEmptyFields, checkDifficulty, getFormData} from "http://localhost:3000/javascript/tools/recipeHelper.js"
 
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("formTitle").textContent = "create a new recipe:";
