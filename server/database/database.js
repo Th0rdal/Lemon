@@ -69,7 +69,6 @@ class Database {
                     if (err) reject(err);
                     resolve(docs);
                 });
-            }).finally(() => {
                 this.mutex.release();
             })
         })
@@ -94,7 +93,6 @@ class Database {
                     if (err) reject(err);
                     resolve(docs);
                 })
-            }).finally(() => {
                 this.mutex.release();
             })
         })
@@ -114,8 +112,8 @@ class Database {
                 throw new Error("database row \"" + Object.keys(searchDict)[key] + "\" does not exist");
             }
         }
-        return new Promise((resolve, reject) => {
-            this.mutex.acquire().then(() => {
+        return new Promise(async (resolve, reject) => {
+            await this.mutex.acquire().then(() => {
                 let check = this.checkSearchData(searchDict);
                 if (check !== "") {
                     reject(check);
@@ -126,11 +124,10 @@ class Database {
                     reject(check)
                     return;
                 }
-                this.database.update(searchDict, updateDict, options, function(err, numReplaced) {
+                this.database.update(searchDict, updateDict, options, function (err, numReplaced) {
                     if (err) reject(err);
                     resolve(numReplaced);
                 })
-            }).finally(() => {
                 this.database.loadDatabase();
                 this.mutex.release()
             })
@@ -156,7 +153,6 @@ class Database {
                     if (err) reject(err);
                     resolve(numRemoved);
                 })
-            }).finally(() => {
                 this.database.loadDatabase();
                 this.mutex.release();
             })
