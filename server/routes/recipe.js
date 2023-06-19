@@ -6,6 +6,8 @@ const {recipe} = require("../database/database");
 const recipeDB = new recipe();
 const {pw} = require("../database/database");
 const pwDB = new pw();
+const {user} = require("../database/database");
+const userDB = new user();
 const {rating} = require("../database/database");
 const ratingDB = new rating();
 const {comments} = require("../database/database");
@@ -71,10 +73,24 @@ router.post("/", passport.authenticate('authentication', {session:false}), callI
          send 500: if the query is having errors
          */
         req.body["timeToMake"] = Number(req.body["timeToMake"])
-        req.body["tags"].append(req.body["difficulty"])
+    console.log(req.body)
+        req.body["tags"].push(req.body["difficulty"])
         recipeDB.insert(req.body).then(() => {
-            res.sendStatus(204)
-            //implement update user db with the new recipe
+            recipeDB.findOne(req.body).then(resolve => {
+                if (resolve === null) {
+                    deleteRecipe(req.body)
+                    res.sendStatus(500);
+                    return;
+                }
+                //fixme database is not okeydokey
+                let result = userDB.update({"_id":req.body.creatorID},{"$push":{"postedRecipes":resolve._id}}, {})
+                if (result !== 1) {
+                    deleteRecipe(req.body)
+                    res.sendStatus(500)
+                    return;
+                }
+                res.sendStatus(204)
+            })
         }).catch(err => {
             console.log(err)
             res.sendStatus(500)
@@ -266,6 +282,15 @@ router.route("/:recipeID/rating")
             })
     })
 
+
+function deleteRecipe(recipe) {
+    recipeDB.remove(recipe).then(resolve => {
+        if (resolve === 1) {
+            return;
+        }
+        console.log("something went very wrong")
+    })
+}
 
 function newRecipeOfTheDay() {
     /*

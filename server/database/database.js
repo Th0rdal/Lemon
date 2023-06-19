@@ -110,7 +110,7 @@ class Database {
         return reject(err): if the database update failed
          */
         for (let key in Object.keys(searchDict)) {
-            if (!Object.keys(this.validDataFormat).includes(Object.keys(searchDict)[key])) {
+            if (!Object.keys(this.validDataFormat).includes(Object.keys(searchDict)[key]) && !this.protectedKeys.includes(Object.keys(searchDict)[key])) {
                 throw new Error("database row \"" + Object.keys(searchDict)[key] + "\" does not exist");
             }
         }
