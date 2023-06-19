@@ -24,16 +24,18 @@ window.onload = function () {
     tag.value = "Register";
 
     document.getElementById("buttons").appendChild(tag);
-    document.getElementById("loginButton").addEventListener("click", function (event) {
+    document.getElementById("loginFormButton").addEventListener("click", function (event) {
         event.preventDefault();
         let data = getDataFromForm();
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {
             let response = JSON.parse(xhr.responseText);
             if (xhr.status === 200) {
-                document.cookie = "jwt=" + response["token"] + ";path=/";
-                document.cookie = "username=" + data["username"] + ";path=/";
-                document.cookie = "userID=" + response["userID"] + ";path=/";
+                let expirationDate = new Date();
+                expirationDate.setTime(expirationDate.getTime() + (Number(response.expiresIn) * 60 * 1000))
+                document.cookie = "jwt=" + response["token"] + ";path=/;expires="+expirationDate.toUTCString();
+                document.cookie = "username=" + data["username"] + ";path=/;expires="+expirationDate.toUTCString();
+                document.cookie = "userID=" + response["userID"] + ";path=/;expires="+expirationDate.toUTCString();
                 window.location.href = "/";
             }else {
                 console.log(response);
