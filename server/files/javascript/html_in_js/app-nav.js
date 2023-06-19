@@ -25,6 +25,8 @@ function logout() {
 }
 
 window.addEventListener("load", function() {
+    document.getElementById("user").href = "/user/userPage/" + getCookie("userID");
+
     let jwtCookie = getCookie("jwt")
     if (jwtCookie !== null) {
         document.getElementById("loginAnchor").textContent = "Logout";
