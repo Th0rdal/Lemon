@@ -1,6 +1,8 @@
 import Builder from "./Builder.js"
 
-export class RecipeCoverBuilder extends Builder{
+var link = 'recipe.html'
+
+export class RecipeCoverBuilder extends Builder {
     constructor(recipe) {
         super("article");
         this.element.appendChild(
@@ -16,13 +18,13 @@ export class RecipeCoverBuilder extends Builder{
         );
 
 
-        //Todo
+        //Todo hier kann man kein huren Link einbauen...
         this.element.appendChild(
             super.createElement("a", {
-            "href": "recepies.html",
-            "textContent": "Details"})
+                "href": link,
+                "textContent": "Details"
+            })
         )
-
 
 
         this.element.appendChild(
@@ -71,20 +73,22 @@ function test() {
         "ingredients": {
             "ingredient1": 2,
             "ingredient2": 4.5,
-            "ingredient3": 5},
+            "ingredient3": 5
+        },
         "creatorID": "asdf",
         "nutrition": {
             "vitamin1": 5,
             "vitamin2": 5.5,
             "vitamin3": 46,
-            "vitamin4": 3.3},
+            "vitamin4": 3.3
+        },
         "tags": ["vegan", "easy"],
         "ratingStars": 5.5,
         "ratingAmount": 500,
         "comments": 20,
-        "timeToMake":25,
-        "image":"../../resources/img/anonymFood.jpg",
-        "difficulty":"medium"
-        }
+        "timeToMake": 25,
+        "image": "../../resources/img/anonymFood.jpg",
+        "difficulty": "medium"
+    }
     new RecipeCoverBuilder(recipeOfTheDay).appendTo(document.getElementById("body"));
 }
