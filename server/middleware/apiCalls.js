@@ -30,6 +30,8 @@ function callIngredientsAPI(req, res, next) {
         console.log(error);
         res.sendStatus(500)
     })
+
+    console.log(parsedIngredients)
 }
 
 async function sendMail(url, email) {

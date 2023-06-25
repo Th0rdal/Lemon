@@ -1,7 +1,7 @@
 #sidebar {
     position: relative;
     z-index: 1;
-    overflow: hidden;
+    overflow: scroll;
     width: 250px;
     text-align: left;
 }
