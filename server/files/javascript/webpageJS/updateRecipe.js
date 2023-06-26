@@ -5,8 +5,8 @@ import {
     clearEmptyFields,
     checkDifficulty,
     getFormData
-} from "../tools/recipeHelper"
-import {getCookie} from "../tools/cookies";
+} from "http://localhost:3000/javascript/tools/recipeHelper.js"
+import {getCookie} from "http://localhost:3000/javascript/tools/cookies.js";
 
 let oldData;
 
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
         xhr.onload = function() {
             console.log("DONE");
         }
-        xhr.open("PATCH", "/recipe/"+recipeID)
+        xhr.open("PATCH", "/recipe/configure/"+recipeID)
         xhr.setRequestHeader("Authorization", getCookie("jwt"))
         xhr.setRequestHeader("Content-Type", "application/json")
         xhr.send(JSON.stringify(data));
