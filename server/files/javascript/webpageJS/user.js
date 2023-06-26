@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         username = body.username
     }
     new userPageBuilder(ownPage, {"username": username}).appendTo(document.getElementById("main"));
+
     let xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.status === 200) {

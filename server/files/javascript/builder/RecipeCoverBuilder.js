@@ -3,7 +3,7 @@ import Builder from "./Builder.js"
 var link = 'recipe.html'
 
 export class RecipeCoverBuilder extends Builder {
-    constructor(recipe) {
+    constructor(recipe, configureAble) {
         super("article")
         this.element.onclick = function () {
             console.log(recipe)
@@ -57,6 +57,7 @@ export class RecipeCoverBuilder extends Builder {
                 ]
             })
         )
+
     }
 }
 
@@ -84,5 +85,5 @@ function test() {
         "image": "../../resources/img/none.jpg",
         "difficulty": "medium"
     }
-    new RecipeCoverBuilder(recipeOfTheDay).appendTo(document.getElementById("body"));
+    new RecipeCoverBuilder(recipeOfTheDay, false).appendTo(document.getElementById("body"));
 }
