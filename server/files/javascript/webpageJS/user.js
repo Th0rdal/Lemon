@@ -6,10 +6,21 @@ import {RecipeCoverBuilder} from "../builder/RecipeCoverBuilder.js";
 document.addEventListener("DOMContentLoaded", function() {
     const userID = window.location.href.substring(window.location.href.lastIndexOf("/")+1)
     let username = "test";
+    let ownPage = false;
     if (userID === getCookie("userID")) {
         username = getCookie("username");
+        ownPage = true;
+    } else {
+        let xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                username = JSON.parse(xhr.responseText).username;
+            }
+        }
+        xhr.open("GET", window.location.origin + "/user/" +userID);
+        xhr.send();
     }
-    new userPageBuilder(false, {"username":username}).appendTo(document.getElementById("main"));
+    new userPageBuilder(ownPage, {"username":username}).appendTo(document.getElementById("main"));
     let xhr = new XMLHttpRequest();
     xhr.onload = function() {
         if (xhr.status === 200) {
