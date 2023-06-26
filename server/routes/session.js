@@ -69,7 +69,7 @@ router.route("/register")
 
             await userDB.insert({"username":req.body.username, "postedRecipes":[], "showNutritionValue":true})
             let userEntry = await userDB.findOne({"username":req.body.username, "postedRecipes":[], "showNutritionValue":true})
-            if (userEntry !== null && Object.keys(userEntry).length !== 0) {
+            if (userEntry !== null && Object.keys(userEntry).length === 0) {
                 res.sendStatus(500);
                 return;
             }
