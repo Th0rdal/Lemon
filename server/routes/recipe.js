@@ -45,6 +45,9 @@ router.get("/createRecipe", function(req, res) {
     res.sendFile(path.join(__dirname + "/../files/recipe/createRecipe.html"))
 })
 
+router.get("/:recipeID", function(req, res) {
+    res.sendFile(path.join(__dirname + "/../files/recipe/recipe.html"))
+})
 router.get("/tags", function(req, res, next) {
     res.data = {
         "choosableTags":["vegan", "vegetarian"],
@@ -93,7 +96,7 @@ router.post("/", passport.authenticate('authentication', {session:false}), callI
         })
     })
 
-router.route("/:recipeID")
+router.route("/configure/:recipeID")
     .get(function (req, res, next) {
         /*
         send: json data of the recipe
