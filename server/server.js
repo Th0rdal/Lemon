@@ -15,7 +15,7 @@ const app = express();
 
 // Serve static content in directory 'files'
 app.use(express.static(path.join(__dirname, 'files')));
-app.use(express.static(path.join(__dirname)));
+//app.use(express.static(path.join(__dirname)));
 app.use(preventStaticSending);
 
 //body parsing
@@ -28,6 +28,12 @@ app.use(parseXML);
 app.use(passport.initialize())
 
 app.use(createIsAuthenticated);
+
+app.get("/resources/img/:name", function(req, res) {
+    name = req.params.name;
+    res.sendFile(path.join(__dirname + "/resources/img/" + name + ".jpg"))
+})
+
 //adding routes
 const recipeRouter = require("./routes/recipe");
 app.use("/recipe", recipeRouter);
@@ -41,6 +47,7 @@ app.use("", sessionRouter)
 const filterRouter = require("./routes/filter.js");
 //const axios = require("axios");
 app.use("", filterRouter);
+
 
 //test endpoints
 //
@@ -63,7 +70,7 @@ app.use("", filterRouter);
 
 app.get('/meals', function (req, res) {
     // Führe die GET-Anfrage an die API aus
-    axios.get('https://www.themealdb.com/api/json/v1/1/random.php')
+    /*axios.get('https://www.themealdb.com/api/json/v1/1/random.php')
         .then(response => {
             const meal = response.data.meals[0];
             // Sende die Antwort an den Client
@@ -73,8 +80,8 @@ app.get('/meals', function (req, res) {
             console.error(error);
             // Behandle den Fehler und sende eine entsprechende Antwort an den Client
             res.status(500).send('Fehler beim Abrufen des zufälligen Gerichts');
-        });
-
+        });*/
+    res.sendFile(path.join(__dirname + "/resources/img/none.jpg"));
 });
 
 
