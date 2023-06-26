@@ -3,44 +3,38 @@ import {getCookie} from "../tools/cookies.js";
 import {RecipeCoverBuilder} from "../builder/RecipeCoverBuilder.js";
 
 
-document.addEventListener("DOMContentLoaded", function() {
-    const userID = window.location.href.substring(window.location.href.lastIndexOf("/")+1)
-    let username = "test";
+document.addEventListener("DOMContentLoaded", async function () {
+    const userID = window.location.href.substring(window.location.href.lastIndexOf("/") + 1)
+    let username = "";
     let ownPage = false;
     if (userID === getCookie("userID")) {
         username = getCookie("username");
         ownPage = true;
     } else {
-        let xhr = new XMLHttpRequest();
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                username = JSON.parse(xhr.responseText).username;
-            }
-        }
-        xhr.open("GET", window.location.origin + "/user/" +userID);
-        xhr.send();
+        let response = await fetch(`http://localhost:3000/user/${userID}`)
+        let body = await response.json();
+        username = body.username
     }
-    new userPageBuilder(ownPage, {"username":username}).appendTo(document.getElementById("main"));
+    new userPageBuilder(ownPage, {"username": username}).appendTo(document.getElementById("main"));
     let xhr = new XMLHttpRequest();
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (xhr.status === 200) {
-            console.log(JSON.parse(xhr.responseText))
             const recipes = JSON.parse(xhr.responseText)["postedRecipes"];
             for (let recipeID of recipes) {
-                console.log(recipeID)
                 let recipeRequest = new XMLHttpRequest();
-                recipeRequest.onload = function() {
+                recipeRequest.onload = function () {
                     if (recipeRequest.status === 200) {
-                        new RecipeCoverBuilder(JSON.parse(recipeRequest.responseText)).appendTo(document.getElementById("recipeCoverWrapper"))
+                        console.log(JSON.parse(recipeRequest.responseText))
+                        new RecipeCoverBuilder(JSON.parse(recipeRequest.responseText), true).appendTo(document.getElementById("recipeCoverWrapper"))
                     }
                 }
-                recipeRequest.open("GET", "http://localhost:3000/recipe/"+recipeID);
+                recipeRequest.open("GET", "http://localhost:3000/recipe/configure/" + recipeID);
                 recipeRequest.send();
 
             }
         }
     }
 
-    xhr.open("GET", "/user/"+userID)
+    xhr.open("GET", "/user/" + userID)
     xhr.send();
 })
