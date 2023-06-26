@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function() {
         username = getCookie("username");
     }
     new userPageBuilder(false, {"username":username}).appendTo(document.getElementById("main"));
-    //implement call api to get user data
     let xhr = new XMLHttpRequest();
     xhr.onload = function() {
         if (xhr.status === 200) {

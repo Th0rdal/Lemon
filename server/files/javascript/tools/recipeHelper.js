@@ -156,7 +156,7 @@ export function methodBuilder() {
     return label;
 }
 
-function createTag(clickedTag) {
+export function createTag(clickedTag) {
     let span = document.createElement("span");
     span.textContent = clickedTag + ", ";
     tags.splice(tags.indexOf(clickedTag), 1);

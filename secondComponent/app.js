@@ -2,7 +2,6 @@
 
 let body = {
     "username": "bot",
-    "email": "webprojectlemon@gmail.com",
     "password": "1BotPassword?"
 };
 let jwt;
