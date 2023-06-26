@@ -7,13 +7,13 @@ export class RecipeCoverBuilder extends Builder {
         super("article")
         this.element.onclick = function () {
             console.log(recipe)
-            window.location.href = "/recipe/" + recipe["_id"]; //todo change to implement the id
+            window.location.href = "/recipe/" + recipe["_id"];
         }
         this.element.appendChild(
             //super.createParagraph([super.createImage(recipe.image, "recipeImage")], "imageWrapper")
             super.createElement("p", {
                 "class": "imageWrapper",
-                "children": [super.createElement("img", {"class": "recipeImage", "src": recipe.image})]
+                "children": [super.createElement("img", {"class": "recipeImage", "src": "http://localhost:3000/resources/img/" + recipe.image})]
             })
         );
         this.element.appendChild(
@@ -81,7 +81,7 @@ function test() {
         "ratingAmount": 500,
         "comments": 20,
         "timeToMake": 25,
-        "image": "../../resources/img/anonymFood.jpg",
+        "image": "../../resources/img/none.jpg",
         "difficulty": "medium"
     }
     new RecipeCoverBuilder(recipeOfTheDay).appendTo(document.getElementById("body"));
