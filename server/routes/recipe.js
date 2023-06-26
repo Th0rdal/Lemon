@@ -34,7 +34,8 @@ let recipeOfTheDay = {
     "ratingAmount": 500,
     "comments": 20,
     "timeToMake":25,
-    "difficulty":"medium"
+    "difficulty":"medium",
+    "_id":"testID"
     }
 
 router.get("/update/:recipeID", function(req, res) {
