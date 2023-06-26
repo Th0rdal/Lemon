@@ -15,12 +15,13 @@ function getDataFromForm() {
 function checkPasswords() {
     const password = document.getElementById("password");
     const confirmPassword = document.getElementById("confirm_password");
-    if (password.value === "") {
+
+    if (!password.checkValidity()) {
         document.getElementById("dot").style.color = "red";
     }else {
         document.getElementById("dot").style.color = "green";
     }
-    if (password.value !== confirmPassword.value) {
+    if (password.value !== confirmPassword.value || !password.checkValidity()) {
         document.getElementById("confirmDot").style.color = "red";
         return false;
     }else {
