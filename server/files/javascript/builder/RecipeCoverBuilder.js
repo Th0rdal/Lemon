@@ -5,6 +5,9 @@ var link = 'recipe.html'
 export class RecipeCoverBuilder extends Builder {
     constructor(recipe) {
         super("article")
+        this.element.onclick = function () {
+            window.location.href = "/recipe/recipe.html"; //todo change to implement the id
+        }
         this.element.appendChild(
             //super.createParagraph([super.createImage(recipe.image, "recipeImage")], "imageWrapper")
             super.createElement("p", {
@@ -16,17 +19,6 @@ export class RecipeCoverBuilder extends Builder {
             //super.createHeadline(recipe.title, "recipeTitle")
             super.createElement("h1", {"class": "recipeTitle", "textContent": recipe.title})
         );
-
-
-        this.element.appendChild(
-            super.createElement("a", {
-                'class': 'linkbox',
-                "textContent": " More details"
-            })
-        ).onclick = function () {
-            window.location.href = "/recipe/recipe.html";
-        }
-
 
         this.element.appendChild(
             /*super.createParagraph([
