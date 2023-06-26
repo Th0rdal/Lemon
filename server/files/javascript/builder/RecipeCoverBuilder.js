@@ -4,7 +4,7 @@ var link = 'recipe.html'
 
 export class RecipeCoverBuilder extends Builder {
     constructor(recipe) {
-        super("article");
+        super("article")
         this.element.appendChild(
             //super.createParagraph([super.createImage(recipe.image, "recipeImage")], "imageWrapper")
             super.createElement("p", {
@@ -18,13 +18,14 @@ export class RecipeCoverBuilder extends Builder {
         );
 
 
-        //Todo hier kann man kein huren Link einbauen...
         this.element.appendChild(
             super.createElement("a", {
-                "href": link,
-                "textContent": "Details"
+                'class': 'linkbox',
+                "textContent": " More details"
             })
-        )
+        ).onclick = function () {
+            window.location.href = "/recipe/recipe.html";
+        }
 
 
         this.element.appendChild(
