@@ -27,7 +27,7 @@ window.onload = function() {
         if (xhr.status === 200) {
             const body = JSON.parse(xhr.responseText)
             console.log(body)
-            new RecipeCoverBuilder(body).appendTo(document.getElementById("recipeCoverWrapper"))
+            new RecipeCoverBuilder(body, false).appendTo(document.getElementById("recipeCoverWrapper"))
         }
     }
     xhr.open("GET", "recipe/ofTheDay");
