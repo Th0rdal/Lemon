@@ -16,39 +16,27 @@ const NotImplementedException = require("../exception/server_exceptions");
 const {callIngredientsAPI} = require("../middleware/apiCalls")
 
 //dummy recipe of the day
-let recipeOfTheDay = {
-    "title": "recipeOfTheDay",
-    "method": ["step1", "step2", "step3"],
-    "ingredients": {
-        "ingredient1": 2,
-        "ingredient2": 4.5,
-        "ingredient3": 5},
-    "creatorID": "TVtzOV24dBaE14ah",
-    "nutrition": {
-        "vitamin1": 5,
-        "vitamin2": 5.5,
-        "vitamin3": 46,
-        "vitamin4": 3.3},
-    "tags": ["vegan", "easy"],
-    "ratingStars": 5.5,
-    "ratingAmount": 500,
-    "comments": 20,
-    "timeToMake":25,
-    "difficulty":"medium",
-    "_id":"testID"
-    }
+let recipeOfTheDay = {"difficulty":"easy",
+    "ratingStars":0,
+    "ratingAmount":0,
+    "comments":0,
+    "nutrition":[],
+    "image":"NONE",
+    "method":["ef"],
+    "ingredients":{"ef":" "},
+    "tags":["vegan","easy"],
+    "creatorID":"N2pdJKbgtR2I4Aw5",
+    "title":"sfd","timeToMake":32,
+    "_id":"9s1SeETEK3HJJCQt",
+    "createdAt":{"$$date":1687800583062},
+    "updatedAt":{"$$date":1687800583062}
+}
 
-router.get("/update/:recipeID", function(req, res) {
-    res.sendFile(path.join(__dirname + "/../files/recipe/updateRecipe.html"))
-})
 
 router.get("/createRecipe", function(req, res) {
     res.sendFile(path.join(__dirname + "/../files/recipe/createRecipe.html"))
 })
 
-router.get("/:recipeID", function(req, res) {
-    res.sendFile(path.join(__dirname + "/../files/recipe/recipe.html"))
-})
 router.get("/tags", function(req, res, next) {
     res.data = {
         "choosableTags":["vegan", "vegetarian"],
@@ -281,7 +269,13 @@ router.route("/:recipeID/rating")
                 res.sendStatus(403)
             })
     })
+router.get("/update/:recipeID", function(req, res) {
+    res.sendFile(path.join(__dirname + "/../files/recipe/updateRecipe.html"))
+})
 
+router.get("/:recipeID", function(req, res) {
+    res.sendFile(path.join(__dirname + "/../files/recipe/recipe.html"))
+})
 
 function deleteRecipe(recipe) {
     recipeDB.remove(recipe).then(resolve => {
