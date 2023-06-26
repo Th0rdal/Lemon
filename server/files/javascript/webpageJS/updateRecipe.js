@@ -51,7 +51,19 @@ document.addEventListener("DOMContentLoaded", function() {
     xhr.open("GET", window.location.origin + "/recipe/" + recipeID)
     xhr.send()
 
+    const button = document.createElement("input")
+    button.value = "delete Recipe"
+    button.type = "submit"
+    button.onclick = function() {
+        let xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+            window.location.href = "/";
+        }
+        xhr.open("DELETE", "recipe/configure/" + recipeID)
+        xhr.send()
+    }
 
+    document.getElementById("createRecipeForm").appendChild(button);
     document.getElementById("submitButton").addEventListener("click", function() {
         clearEmptyFields()
         if (!checkDifficulty()) {
