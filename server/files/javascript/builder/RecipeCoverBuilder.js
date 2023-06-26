@@ -6,7 +6,8 @@ export class RecipeCoverBuilder extends Builder {
     constructor(recipe) {
         super("article")
         this.element.onclick = function () {
-            window.location.href = "/recipe/recipe.html"; //todo change to implement the id
+            console.log(recipe)
+            window.location.href = "/recipe/" + recipe["_id"]; //todo change to implement the id
         }
         this.element.appendChild(
             //super.createParagraph([super.createImage(recipe.image, "recipeImage")], "imageWrapper")
