@@ -1,6 +1,4 @@
 
-
-
 article {
     margin-left: 2%;
     border: 1px solid orange;
@@ -50,3 +48,10 @@ article {
     font-size: 18px;
     margin-left: 2%;
 }
+
+.linkbox {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+

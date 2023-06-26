@@ -37,6 +37,8 @@ main {
     padding-top: var(--main-padding);
 }
 
+
+
 app-footer {
     grid-area: footer;
 }
