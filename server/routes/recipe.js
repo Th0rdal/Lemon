@@ -14,6 +14,7 @@ const {sendResponse} = require("../middleware/formatResponse");
 const passport = require('passport');
 const NotImplementedException = require("../exception/server_exceptions");
 const {callIngredientsAPI} = require("../middleware/apiCalls")
+const {createWriteStream, writeFile} = require("fs");
 
 //dummy recipe of the day
 let recipeOfTheDay = {"difficulty":"easy",
@@ -64,6 +65,9 @@ router.post("/", passport.authenticate('authentication', {session:false}), callI
          */
         req.body["timeToMake"] = Number(req.body["timeToMake"])
         req.body["tags"].push(req.body["difficulty"])
+        let image = req.body.imageToUpload
+        console.log(image)
+        delete req.body.imageToUpload
         recipeDB.insert(req.body).then(() => {
             recipeDB.findOne(req.body).then(async resolve => {
                 if (resolve === null) {
@@ -77,6 +81,10 @@ router.post("/", passport.authenticate('authentication', {session:false}), callI
                     res.sendStatus(500)
                     return;
                 }
+                const imageBuffer= Buffer.from(image["image"], "base64")
+                writeFile(__dirname + "/../resources/img/"+resolve._id+image["ending"], imageBuffer, err => {
+                    console.error(err);
+                })
                 res.sendStatus(204)
             })
         }).catch(err => {
@@ -160,7 +168,7 @@ router.route("/configure/:recipeID")
 
     })
 
-router.route("/:recipe/comment")
+router.route("/:recipeID/comment")
     .post( passport.authenticate('authentication', {session:false}), function (req, res) {
         /*
         body: rating (string), comments (string)

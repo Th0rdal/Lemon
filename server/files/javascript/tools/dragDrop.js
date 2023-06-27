@@ -1,16 +1,21 @@
 
 let dropArea = null;
 let fileList = null;
-
+let fileToUpload = null
+let fileEnding = null
 // Handle file upload
 function handleDrop(e) {
-  const files = e.dataTransfer.files; // Get the dropped files
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    fileList.innerHTML += `<div>${file.name}</div>`; // Display the file names
+    const files = e.dataTransfer.files; // Get the dropped files
+    const file = files[0];
+    fileList.innerHTML = `<div>${file.name}</div>`; // Display the file names
     // Perform additional actions like uploading the file to the server
-      console.log("UPLOADED")
-  }
+    const reader = new FileReader();
+    reader.onload = () => {
+        const base64Image = reader.result.split(",")[1];
+        let ending = file.name.substring(file.name.lastIndexOf("."))
+        fileToUpload = {image: base64Image, ending:ending}
+    }
+    reader.readAsDataURL(file);
 }
 
 // Prevent default drag and drop behavior
@@ -51,3 +56,5 @@ window.addEventListener("load", function() {
     // Handle file drop
     dropArea.addEventListener('drop', handleDrop, false);
 })
+
+export {fileToUpload}

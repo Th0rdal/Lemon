@@ -1,5 +1,6 @@
 import {getCookie} from "http://localhost:3000/javascript/tools/cookies.js"
 import {clearEmptyFields, checkDifficulty, getFormData} from "http://localhost:3000/javascript/tools/recipeHelper.js"
+import {fileToUpload} from "http://localhost:3000/javascript/tools/dragDrop.js"
 
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("formTitle").textContent = "create a new recipe:";
@@ -11,6 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         let data = getFormData();
+        data["imageToUpload"] = fileToUpload
+        console.log(data)
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {
             console.log("DONE");
