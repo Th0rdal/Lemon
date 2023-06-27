@@ -11,6 +11,8 @@ const CLIENT_SECRET = ""
 const REDIRECT_URI = ""
 const TOKEN = ""
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
+
+const API_KEY = ""
 oAuth2Client.setCredentials({refresh_token: TOKEN})
 
 function callIngredientsAPI(req, res, next) {
@@ -30,6 +32,31 @@ function callIngredientsAPI(req, res, next) {
         console.log(error);
         res.sendStatus(500)
     })
+}
+
+async function callNutritionAPI(req, res, next) {
+    if (API_KEY === "") {
+        next();
+    }
+    console.log(req.body["ingredients"])
+    for (let ingredient in req.body["ingredients"]) {
+        let response = await axios({
+            method: "get",
+            url: "https://api.nal.usda.gov/fdc/v1/foods/search",
+            params: {
+                "api_key": API_KEY,
+                "query": ingredient
+            }
+        })
+        req.body.nutrition = {}
+        console.log(response.data)
+        for (let nutrient of response.data.foods[0].foodNutrients) {
+            console.log(nutrient)
+            req.body.nutrition[nutrient.nutrientName] = nutrient.value * Number(req.body["ingredients"][ingredient].substring(0, req.body["ingredients"][ingredient].lastIndexOf(" ")))
+        }
+    }
+    next();
+
 }
 
 async function sendMail(url, email) {
@@ -62,4 +89,4 @@ async function sendMail(url, email) {
     }
 }
 
-module.exports = {callIngredientsAPI, sendMail}
+module.exports = {callIngredientsAPI, sendMail, callNutritionAPI}

@@ -13,7 +13,7 @@ const commentsDB = new comments();
 const {sendResponse} = require("../middleware/formatResponse");
 const passport = require('passport');
 const NotImplementedException = require("../exception/server_exceptions");
-const {callIngredientsAPI} = require("../middleware/apiCalls")
+const {callIngredientsAPI, callNutritionAPI} = require("../middleware/apiCalls")
 const {createWriteStream, writeFile} = require("fs");
 
 //dummy recipe of the day
@@ -55,7 +55,7 @@ router.get("/ofTheDay", function (req, res, next) {
     next();
 }, sendResponse)
 
-router.post("/", passport.authenticate('authentication', {session:false}), callIngredientsAPI, function (req, res) {
+router.post("/", passport.authenticate('authentication', {session:false}), callIngredientsAPI, callNutritionAPI, function (req, res) {
         /*
         body: title (str), method (array(string)), ingredients (object(string,number)), creator(string)
                 , nutrition (object(string,number)), tags (array(string)), ratingStars (number)
@@ -78,6 +78,9 @@ router.post("/", passport.authenticate('authentication', {session:false}), callI
                 if (result !== 1) {
                     deleteRecipe(req.body)
                     res.sendStatus(500)
+                    return;
+                }
+                if (image === null) {
                     return;
                 }
                 const imageBuffer= Buffer.from(image["image"], "base64")
