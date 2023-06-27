@@ -49,9 +49,7 @@ async function callNutritionAPI(req, res, next) {
             }
         })
         req.body.nutrition = {}
-        console.log(response.data)
         for (let nutrient of response.data.foods[0].foodNutrients) {
-            console.log(nutrient)
             req.body.nutrition[nutrient.nutrientName] = nutrient.value * Number(req.body["ingredients"][ingredient].substring(0, req.body["ingredients"][ingredient].lastIndexOf(" ")))
         }
     }
