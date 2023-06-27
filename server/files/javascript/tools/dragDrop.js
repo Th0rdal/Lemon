@@ -7,6 +7,10 @@ let fileEnding = null
 function handleDrop(e) {
     const files = e.dataTransfer.files; // Get the dropped files
     const file = files[0];
+    let ending = file.name.substring(file.name.lastIndexOf("."))
+    if (ending !== "jpg") {
+        return;
+    }
     fileList.innerHTML = `<div>${file.name}</div>`; // Display the file names
     // Perform additional actions like uploading the file to the server
     const reader = new FileReader();
@@ -39,6 +43,7 @@ window.addEventListener("load", function() {
     dropArea = document.getElementById('drop-area');
     fileList = document.getElementById('file-list');
 
+    fileList.innerHTML = `<div>.jpg only</div>`
     // Prevent default behavior for drag events
     dropArea.addEventListener('dragenter', preventDefault, false);
     dropArea.addEventListener('dragover', preventDefault, false);
