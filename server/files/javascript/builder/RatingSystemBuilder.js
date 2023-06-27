@@ -13,7 +13,6 @@ export class RatingSystemBuilder extends Builder {
                 required:false
             })
             tempElement.addEventListener("click", function(event) {
-                console.log(event.target.name)
                 let xhr = new XMLHttpRequest();
                 xhr.onload = function() {
                     window.location.reload();

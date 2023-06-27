@@ -84,9 +84,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         let data = getUpdateData();
         let xhr = new XMLHttpRequest();
-        xhr.onload = function() {
-            console.log("DONE");
-        }
         xhr.open("PATCH", "/recipe/configure/"+recipeID)
         xhr.setRequestHeader("Authorization", getCookie("jwt"))
         xhr.setRequestHeader("Content-Type", "application/json")

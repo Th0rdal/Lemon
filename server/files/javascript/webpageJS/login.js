@@ -44,10 +44,7 @@ window.onload = function () {
                 document.cookie = "username=" + data["username"] + ";path=/;expires="+expirationDate.toUTCString();
                 document.cookie = "userID=" + response["userID"] + ";path=/;expires="+expirationDate.toUTCString();
                 window.location.href = "/";
-            }else {
-                console.log(response);
             }
-
         }
         xhr.open("POST", "/login");
         xhr.setRequestHeader("Content-Type", "application/json");

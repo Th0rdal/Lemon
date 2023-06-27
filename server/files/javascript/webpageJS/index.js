@@ -26,7 +26,6 @@ window.onload = function() {
     xhr.onload = function() {
         if (xhr.status === 200) {
             const body = JSON.parse(xhr.responseText)
-            console.log(body)
             new RecipeCoverBuilder(body, false).appendTo(document.getElementById("recipeCoverWrapper"))
         }
     }

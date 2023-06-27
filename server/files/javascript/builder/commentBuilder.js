@@ -49,7 +49,6 @@ export class commentBuilder  extends Builder {
                 xhr.open("DELETE", window.location.href + "/comment");
                 xhr.setRequestHeader("Authorization", getCookie("jwt"))
                 xhr.setRequestHeader("Content-Type", "application/json")
-                console.log(comment)
                 xhr.send(JSON.stringify(comment))
             })
             this.element.appendChild(button)

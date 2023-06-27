@@ -138,7 +138,6 @@ fetch('/recipe/configure/' + recipeID)
         div.id = "commentDiv"
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {
-            console.log(JSON.parse(xhr.responseText))
             for (let comment of JSON.parse(xhr.responseText)) {
                 if (comment.creatorID === getCookie("userID")) {
                     new commentBuilder(comment, true).appendTo(div)

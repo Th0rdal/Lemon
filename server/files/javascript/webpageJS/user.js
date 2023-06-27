@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 let recipeRequest = new XMLHttpRequest();
                 recipeRequest.onload = function () {
                     if (recipeRequest.status === 200) {
-                        console.log(JSON.parse(recipeRequest.responseText))
                         new RecipeCoverBuilder(JSON.parse(recipeRequest.responseText), true).appendTo(document.getElementById("recipeCoverWrapper"))
                     }
                 }
@@ -85,8 +84,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         event.preventDefault();
         let pw = document.getElementById("password");
         let cPW = document.getElementById("confirm_password")
-        console.log(pw.value)
-        console.log(cPW.value)
         if (!document.getElementById("password").checkValidity() || pw.value !== cPW.value) {
             document.getElementById("password").reportValidity();
             return;
@@ -95,7 +92,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         xhr.onload = function() {
             window.location.reload();
         }
-        console.log("send")
         xhr.open("PATCH", "/user/"+getCookie("userID")+"/imp")
         let data = {"password":document.getElementById("password").value}
         xhr.setRequestHeader("Authorization", getCookie("jwt"))
@@ -156,7 +152,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         xhr.onload = function() {
             window.location.reload();
         }
-        console.log("send")
         xhr.open("PATCH", "/user/"+getCookie("userID")+"/imp")
         let data = {"email":document.getElementById("email").value}
         xhr.setRequestHeader("Authorization", getCookie("jwt"))

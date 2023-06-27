@@ -258,7 +258,6 @@ router.route("/:recipeID/rating")
             newRatingStars = newRatingStars + t.ratingStar
         }
         newRatingStars = newRatingStars / recipe.ratingAmount+increment;
-        console.log(newRatingStars)
         await recipeDB.update({"_id":req.params.recipeID}, {"$set":{"ratingStars":newRatingStars, "ratingAmount":recipe.ratingAmount+increment}}, {})
         res.sendStatus(204)
     })

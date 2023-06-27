@@ -43,7 +43,6 @@ router.route("/:userID")
         send 500: if there was an error with the database
          */
         if (req.user.userID === req.params.userID) {
-            console.log(req.body)
             await userDB.update({"_id": req.params.userID}, {"$set":req.body}, {}).then(resolve => {
                 if (resolve === 1) {
                     res.sendStatus(204);

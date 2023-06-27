@@ -6,7 +6,6 @@ export class RecipeCoverBuilder extends Builder {
     constructor(recipe, configureAble) {
         super("article")
         this.element.onclick = function () {
-            console.log(recipe)
             window.location.href = "/recipe/" + recipe["_id"];
         }
         this.element.appendChild(

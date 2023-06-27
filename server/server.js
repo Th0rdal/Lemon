@@ -49,43 +49,6 @@ const {createWriteStream} = require("fs");
 //const axios = require("axios");
 app.use("", filterRouter);
 
-
-//test endpoints
-//
-// app.get("/protected", passport.authenticate('authentication', {session: false}), function (req, res) {
-//     console.log("test");
-//     res.send("finished");
-// })
-//
-// app.put("/testBody", function (req, res, next) {
-//     console.log("newBody")
-//     //res.send("DONE");
-//     next()
-// }, sendResponse)
-//
-// app.get("/queryTest", function (req, res) {
-//     sendMail()
-//         .then(result => console.log("Email sent...", result))
-//         .catch(error => console.log(error.message))
-// })
-
-app.get('/meals', function (req, res) {
-    // Führe die GET-Anfrage an die API aus
-    /*axios.get('https://www.themealdb.com/api/json/v1/1/random.php')
-        .then(response => {
-            const meal = response.data.meals[0];
-            // Sende die Antwort an den Client
-            res.send(meal);
-        })
-        .catch(error => {
-            console.error(error);
-            // Behandle den Fehler und sende eine entsprechende Antwort an den Client
-            res.status(500).send('Fehler beim Abrufen des zufälligen Gerichts');
-        });*/
-    res.sendFile(path.join(__dirname + "/resources/img/none.jpg"));
-});
-
-
 app.listen(3000, function (){
     console.log("Server now listening on http://localhost:3000/");
 })

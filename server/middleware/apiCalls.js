@@ -39,7 +39,6 @@ async function callNutritionAPI(req, res, next) {
         next();
         return;
     }
-    console.log(req.body["ingredients"])
     for (let ingredient in req.body["ingredients"]) {
         let response = await axios({
             method: "get",

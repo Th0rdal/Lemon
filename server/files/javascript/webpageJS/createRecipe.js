@@ -14,9 +14,6 @@ document.addEventListener("DOMContentLoaded", function() {
         let data = getFormData();
         data["imageToUpload"] = fileToUpload
         let xhr = new XMLHttpRequest();
-        xhr.onload = function() {
-            console.log("DONE");
-        }
         xhr.open("POST", "/recipe")
         xhr.setRequestHeader("Authorization", getCookie("jwt"))
         xhr.setRequestHeader("Content-Type", "application/json")
