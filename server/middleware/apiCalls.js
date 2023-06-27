@@ -37,6 +37,7 @@ function callIngredientsAPI(req, res, next) {
 async function callNutritionAPI(req, res, next) {
     if (API_KEY === "") {
         next();
+        return;
     }
     console.log(req.body["ingredients"])
     for (let ingredient in req.body["ingredients"]) {
