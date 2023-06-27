@@ -87,6 +87,7 @@ router.post("/", passport.authenticate('authentication', {session:false}), callI
                 writeFile(__dirname + "/../resources/img/"+resolve._id+image["ending"], imageBuffer, err => {
                     console.error(err);
                 })
+                await recipeDB.update({"_id": resolve._id}, {$set: {"image": resolve._id}}, {})
                 res.sendStatus(204)
             })
         }).catch(err => {
