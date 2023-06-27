@@ -1,10 +1,7 @@
 //import {RecipeCoverBuilder} from "../builder/RecipeCoverBuilder";
 
 let recipeID = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
-//const userID = window.location.href.substring(window.location.href.lastIndexOf("/") + 1)
 
-
-// let test = "YGzgKCZRDcjY2Z0n"
 
 fetch('/recipe/configure/' + recipeID)
     .then(response => {
@@ -15,17 +12,60 @@ fetch('/recipe/configure/' + recipeID)
         }
     })
     .then(async data => {
-        console.log('1')
+
         const bodyElement = document.querySelector("main")
         let articleElement = document.createElement("article");
 
-        console.log('2')
+
+        //Bild
+        var imageElement = document.createElement('img');
+        imageElement.src = data.image;
+        articleElement.appendChild(imageElement);
+
+
         //Name of recipe
         let nameTitle = document.createElement('h1');
         nameTitle.textContent = data.title;
         articleElement.appendChild(nameTitle)
 
-        console.log('3')
+
+        // Bewertung
+        var ratingElement = document.createElement('p');
+        ratingElement.textContent = "Rating: " + data.ratingStars + " stars (" + data.ratingAmount + " ratings)";
+        articleElement.appendChild(ratingElement);
+
+
+        // Schwierigkeit
+        var difficultyElement = document.createElement('p');
+        difficultyElement.textContent = "Difficulty: " + data.difficulty;
+        articleElement.appendChild(difficultyElement);
+
+
+        // Nährwerte
+        if (typeof data.nutrition === 'object' && Object.keys(data.nutrition).length > 0) {
+            var nutrition = document.createElement('p');
+            nutrition.textContent = "Nährwerte: ";
+
+            var nutritionUL = document.createElement('ul');
+
+
+            Object.keys(data.nutrition).forEach(key => {
+                var nutritionLI = document.createElement('li');
+                nutritionLI.textContent = key + ": " + data.nutrition[key];
+                nutritionUL.appendChild(nutritionLI);
+            });
+
+            articleElement.appendChild(nutrition);
+            articleElement.appendChild(nutritionUL);
+        }
+
+
+        //Zubereitungszeit
+        var timeElement = document.createElement('p');
+        timeElement.textContent = "Time to make: " + data.timeToMake + " minutes";
+        articleElement.appendChild(timeElement);
+
+
         //Methoden of recipe
         let methodsHow = document.createElement('h2');
         methodsHow.textContent = "Zubereitung";
@@ -39,22 +79,22 @@ fetch('/recipe/configure/' + recipeID)
         articleElement.appendChild(methodsHow);
         articleElement.appendChild(methodsHowUL);
 
-        console.log('4')
+
         //Ingredients of recipe
         let ingredients = document.createElement('h2');
-        ingredients.textContent = "Zubereitung";
+        ingredients.textContent = "Zutaten";
 
         let ingredientsUL = document.createElement('ul');
         Object.keys(data.ingredients).forEach(key => {
             let ingredientsLI = document.createElement('li');
-            ingredientsLI.textContent = key + ': ' + data.ingredients[key];
+            ingredientsLI.textContent = key + data.ingredients[key];
             ingredientsUL.appendChild(ingredientsLI);
         });
 
         articleElement.appendChild(ingredients);
         articleElement.appendChild(ingredientsUL);
 
-        console.log('5')
+
         //User
         let username = ""
         let response = await fetch(`http://localhost:3000/user/${data.creatorID}`)
@@ -67,6 +107,12 @@ fetch('/recipe/configure/' + recipeID)
         articleElement.appendChild(user);
 
 
+        // Kommentar
+        var commentsElement = document.createElement('p');
+        commentsElement.textContent = "Comments: " + data.comments;
+        articleElement.appendChild(commentsElement);
+
+
         bodyElement.append(articleElement);
     })
     .catch(error => {
@@ -75,4 +121,3 @@ fetch('/recipe/configure/' + recipeID)
     });
 
 
-// window.location.hrefsubstring(window.href.lastIndexOf('/'))
