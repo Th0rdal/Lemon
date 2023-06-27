@@ -66,7 +66,6 @@ router.post("/", passport.authenticate('authentication', {session:false}), callI
         req.body["timeToMake"] = Number(req.body["timeToMake"])
         req.body["tags"].push(req.body["difficulty"])
         let image = req.body.imageToUpload
-        console.log(image)
         delete req.body.imageToUpload
         recipeDB.insert(req.body).then(() => {
             recipeDB.findOne(req.body).then(async resolve => {

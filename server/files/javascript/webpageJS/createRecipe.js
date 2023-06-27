@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         let data = getFormData();
         data["imageToUpload"] = fileToUpload
-        console.log(data)
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {
             console.log("DONE");
