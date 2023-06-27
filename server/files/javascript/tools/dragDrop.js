@@ -8,7 +8,7 @@ function handleDrop(e) {
     const files = e.dataTransfer.files; // Get the dropped files
     const file = files[0];
     let ending = file.name.substring(file.name.lastIndexOf("."))
-    if (ending !== "jpg") {
+    if (ending !== ".jpg") {
         return;
     }
     fileList.innerHTML = `<div>${file.name}</div>`; // Display the file names
