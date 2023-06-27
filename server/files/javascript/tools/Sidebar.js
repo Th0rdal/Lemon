@@ -6,6 +6,7 @@ function toggleSidebar() {
 
 
 }
+//todo make sidebar load content from json file
 function toggleCheckboxes(optionId) {
     let checkboxList = document.getElementById(optionId).querySelector("div[id$='CheckboxList']");
     checkboxList.style.display = checkboxList.style.display === "none" ? "block" : "none";

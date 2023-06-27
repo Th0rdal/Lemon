@@ -8,7 +8,8 @@ function preventStaticSending(req, res, next) {
     const blockedExtensions = process.env.BLOCKED_EXTENSIONS.split(",");
     const fileExtension = req.path.split('.').pop();
     if (blockedExtensions.includes(fileExtension)) {
-        return res.status(403);
+        res.sendStatus(403);
+        return;
     }
     next();
 }

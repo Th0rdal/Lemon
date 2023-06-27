@@ -1,0 +1,4 @@
+https://pypi.org/project/ingredient-parser-nlp/ (powers my own api)
+
+
+https://github.com/louischatriot/nedb#creatingloading-a-database

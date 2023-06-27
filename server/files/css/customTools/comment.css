@@ -1,0 +1,27 @@
+
+#commentDiv {
+    margin-top: 2vh;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    justify-content: center;
+    text-align: center;
+}
+
+.comments {
+    background-color: gray;
+    border: 1px solid gray;
+    border-radius: 40px;
+    align-items: center;
+}
+
+.commentName {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.deleteButton {
+    text-align: center;
+}

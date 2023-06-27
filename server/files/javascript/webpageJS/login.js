@@ -3,7 +3,7 @@ import {FormBuilder} from "../builder/FormBuilder.js";
 
 function getDataFromForm() {
     let data = {}
-    let inputElements = document.getElementById("registerForm").querySelectorAll("input");
+    let inputElements = document.getElementById("loginForm").querySelectorAll("input");
     inputElements.forEach(function(input) {
       if (input.type !== "submit") {
           data[input.id] = input.value;
@@ -17,27 +17,34 @@ window.onload = function () {
         "username":"text",
         "password":"password"
     }
-    new FormBuilder(form, "Login", "Log in", {}).appendTo(document.getElementById("loginForm"));
+    new FormBuilder(form, "Login", "Log in", {}, {"baseID":"loginForm"}).appendTo(document.getElementById("loginForm"));
     let tag = document.createElement("input");
     tag.id = "registerID";
     tag.type = "submit";
     tag.value = "Register";
 
     document.getElementById("buttons").appendChild(tag);
-    document.getElementById("submitID").addEventListener("click", function (event) {
+    document.getElementById("loginFormButton").addEventListener("click", function (event) {
         event.preventDefault();
         let data = getDataFromForm();
+        if (!document.getElementById("username").checkValidity()) {
+            document.getElementById("username").reportValidity();
+            return;
+        }else if (!document.getElementById("password").checkValidity()) {
+            document.getElementById("password").reportValidity();
+            return;
+        }
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {
             let response = JSON.parse(xhr.responseText);
             if (xhr.status === 200) {
-                document.cookie = "jwt=" + response["token"] + ";path=/";
-                document.cookie = "username=" + data["username"] + ";path=/";
+                let expirationDate = new Date();
+                expirationDate.setTime(expirationDate.getTime() + (Number(response.expiresIn) * 60 * 1000))
+                document.cookie = "jwt=" + response["token"] + ";path=/;expires="+expirationDate.toUTCString();
+                document.cookie = "username=" + data["username"] + ";path=/;expires="+expirationDate.toUTCString();
+                document.cookie = "userID=" + response["userID"] + ";path=/;expires="+expirationDate.toUTCString();
                 window.location.href = "/";
-            }else {
-                console.log(response);
             }
-
         }
         xhr.open("POST", "/login");
         xhr.setRequestHeader("Content-Type", "application/json");

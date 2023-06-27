@@ -20,7 +20,7 @@ class Database {
             this.validArrayKeys = ["$set", "$push", "$addToSet", "$pop", "$pull", "$where"]
             this.mutex = new mutex();   //create new mutes
             this.validDataFormat = validDataFormat;
-            this.protectedKeys = ["_id"];
+            this.protectedKeys = ["_id", "createdAt", "updatedAt"];
             this.database = new Datastore({"filename": path, "autoload": true, "timestampData":true});    //connect to database
             Database.instance[name] = this;
         }
@@ -57,19 +57,18 @@ class Database {
         return promise(array): all objects found that matches the searchDict
         return reject(err):  if the database access failed
          */
-        return new Promise((resolve, reject) => {
-            this.mutex.acquire().then(() => {
+        return new Promise(async (resolve, reject) => {
+            await this.mutex.acquire().then(() => {
                 let check = this.checkSearchData(searchDict)
                 if (check !== "") {
                     reject(check);
                     return;
                 }
                 this.database.loadDatabase();
-                this.database.find(searchDict, function(err, docs) {
+                this.database.find(searchDict, function (err, docs) {
                     if (err) reject(err);
                     resolve(docs);
                 });
-            }).finally(() => {
                 this.mutex.release();
             })
         })
@@ -82,19 +81,18 @@ class Database {
         return promise(object): the first object found that matches the searchDict
         return reject(err): if the database access failed
          */
-        return new Promise((resolve, reject) => {
-            this.mutex.acquire().then(() => {
+        return new Promise(async (resolve, reject) => {
+            await this.mutex.acquire().then(() => {
                 let check = this.checkSearchData(searchDict)
                 if (check !== "") {
                     reject(check);
                     return;
                 }
                 this.database.loadDatabase();
-                this.database.findOne(searchDict, function(err, docs) {
+                this.database.findOne(searchDict, function (err, docs) {
                     if (err) reject(err);
                     resolve(docs);
                 })
-            }).finally(() => {
                 this.mutex.release();
             })
         })
@@ -110,12 +108,12 @@ class Database {
         return reject(err): if the database update failed
          */
         for (let key in Object.keys(searchDict)) {
-            if (!Object.keys(this.validDataFormat).includes(key)) {
-                throw new Error("database row \"" + key + "\" does not exist");
+            if (!Object.keys(this.validDataFormat).includes(Object.keys(searchDict)[key]) && !this.protectedKeys.includes(Object.keys(searchDict)[key])) {
+                throw new Error("database row \"" + Object.keys(searchDict)[key] + "\" does not exist");
             }
         }
-        return new Promise((resolve, reject) => {
-            this.mutex.acquire().then(() => {
+        return new Promise(async (resolve, reject) => {
+            await this.mutex.acquire().then(() => {
                 let check = this.checkSearchData(searchDict);
                 if (check !== "") {
                     reject(check);
@@ -126,11 +124,10 @@ class Database {
                     reject(check)
                     return;
                 }
-                this.database.update(searchDict, updateDict, options, function(err, numReplaced) {
+                this.database.update(searchDict, updateDict, options, function (err, numReplaced) {
                     if (err) reject(err);
                     resolve(numReplaced);
                 })
-            }).finally(() => {
                 this.database.loadDatabase();
                 this.mutex.release()
             })
@@ -145,18 +142,17 @@ class Database {
         return resolve(Number): amount of lines deleted
         return reject(err): if the removal failed
          */
-        return new Promise((resolve, reject) => {
-            this.mutex.acquire().then(() => {
+        return new Promise(async (resolve, reject) => {
+            await this.mutex.acquire().then(async () => {
                 let check = this.checkSearchData(searchDict)
                 if (check !== "") {
                     reject(check);
                     return;
                 }
-                this.database.remove(searchDict, options, function (err, numRemoved) {
+                await this.database.remove(searchDict, options, function (err, numRemoved) {
                     if (err) reject(err);
                     resolve(numRemoved);
                 })
-            }).finally(() => {
                 this.database.loadDatabase();
                 this.mutex.release();
             })
@@ -183,7 +179,6 @@ class Database {
             if (validKeys.hasOwnProperty(key)) {
                 return `In ${updateOrInsert}: key "${key}" is not defined`
             }
-
 
             if (this.validDataFormat[key].startsWith("array")) {//check if the value for this key should be an array
                 //check if value for the key of the given object is an array
@@ -259,9 +254,9 @@ class Database {
     }
 
     async isCreator(user, objectID) {
-        return new Promise((resolve, reject) => {
-            this.findOne({"_id": objectID}).then(resolve => {
-                if (resolve.creatorID === user._id) {
+        return new Promise(async (resolve, reject) => {
+            await this.findOne({"_id": objectID}).then(result => {
+                if (result.creatorID === user.userID) {
                     resolve();
                 }
                 reject();
@@ -276,7 +271,7 @@ class Database {
 class recipeDB extends Database {   //class for the recipe database
     constructor() {
         const temp = {
-            "title":"string", "method":"array(string)", "ingredients":"object(string,number)"
+            "title":"string", "method":"array(string)", "ingredients":"object(string,string)"
             ,"creatorID":"string", "nutrition":"object(string,number)", "tags":"array(string)", "ratingStars":"number"
             ,"ratingAmount":"number", "comments":"number", "timeToMake":"number", "difficulty":"string", "image":"string"};
         super("recipe", path.join(__dirname, '../resources/database/recipe.db'), temp);
@@ -293,7 +288,7 @@ class userDB extends Database {
 
 class ratingDB extends Database {
     constructor() {
-        const temp = {"creatorID":"string", "ratingStar":"number"};
+        const temp = {"creatorID":"string", "ratingStar":"number", "recipeID":"string"};
         super("rating", path.join(__dirname, '../resources/database/ratings.db'), temp);
     }
 }
@@ -307,7 +302,7 @@ class commentsDB extends Database {
 
 class impUserData extends Database {
     constructor() {
-        const temp = {"username":"string", "password":"string", "email":"string"} //<- obviously not save
+        const temp = {"username":"string", "password":"string", "email":"string", "verified":"boolean", "userID":"string"} //<- obviously not save
         super("impData", path.join(__dirname, '../resources/database/impUserData.db'), temp);
     }
 

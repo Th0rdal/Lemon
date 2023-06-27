@@ -2,26 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <script type="module" src="../javascript/webpageJS/login.js"></script>
+    <title>Recipe creation</title>
+
+    <script src="../javascript/html_in_js/app-header.js"></script>
     <script type="module" src="../javascript/html_in_js/app-nav.js"></script>
     <script src="../javascript/html_in_js/app-footer.js"></script>
-    <script src="../javascript/html_in_js/app-header.js"></script>
+    <script src="../javascript/html_in_js/app-recipeForm.js"></script>
+    <script src="../javascript/tools/dragDrop.js"></script>
+    <script type="module" src="../javascript/tools/recipeHelper.js"></script>
+    <script type="module" src="../javascript/webpageJS/updateRecipe.js"></script>
+
     <link rel="stylesheet" href="../css/root.css">
     <link rel="stylesheet" href="../css/customTools/header.css">
-    <link rel="stylesheet" href="../css/customTools/form.css">
-    <link rel="stylesheet" href="../css/customTools/app-footer.css">
     <link rel="stylesheet" href="../css/customTools/app-nav.css">
+    <link rel="stylesheet" href="../css/customTools/app-footer.css">
     <link rel="stylesheet" href="../css/Sidebar/colorOnlySidebar.css">
-    <link rel="stylesheet" href="../css/webpageCSS/authentication.css">
+    <link rel="stylesheet" href="../css/webpageCSS/createRecipe.css">
 
 </head>
 <body id="body" class="container">
 <app-header></app-header>
-
 <div class="sidebar"></div>
-<div id="loginForm" class="formDiv">
-</div>
+<main>
+
+    <app-recipe-form></app-recipe-form>
+
+</main>
 <app-footer></app-footer>
 </body>
 </html>

@@ -1,3 +1,4 @@
+import {getCookie, deleteCookie} from "http://localhost:3000/javascript/tools/cookies.js"
 
 class AppNav extends HTMLElement {
     connectedCallback() {
@@ -8,6 +9,7 @@ class AppNav extends HTMLElement {
                         <a href="/">Home</a>
                         <a href="/recipe/filter.html">Filter</a>
                         <a href="/user/login.html" id="loginAnchor">Login</a>
+                        <a href="/user/userPage" hidden id="user">user</a>
                     </div>
                 </nav>
             `
@@ -16,19 +18,21 @@ class AppNav extends HTMLElement {
 
 customElements.define("app-nav", AppNav);
 
-window.addEventListener("load", function() {
-    let cookies = document.cookie.split(";");
-    document.onclick = function() {};
-    for (let index in cookies) {
-        if (cookies[index].trim().startsWith("jwt")) {
-           document.getElementById("loginAnchor").textContent = "Logout";
-           document.onclick = function () {
-               document.cookie = "jwt=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-           }
-           document.getElementById("loginAnchor").href = "/";
-           return;
-        }
-    }
+function logout() {
+    deleteCookie("jwt");
+    deleteCookie("username");
+    deleteCookie("userID");
+}
 
+window.addEventListener("load", function() {
+    document.getElementById("user").href = "/user/userPage/" + getCookie("userID");
+
+    let jwtCookie = getCookie("jwt")
+    if (jwtCookie !== null) {
+        document.getElementById("loginAnchor").textContent = "Logout";
+        document.getElementById("user").style.display = "block";
+        document.getElementById("loginAnchor").onclick = logout;
+        document.getElementById("loginAnchor").href = "/";
+    }
 })
 

@@ -15,19 +15,19 @@ function getDataFromForm() {
 function checkPasswords() {
     const password = document.getElementById("password");
     const confirmPassword = document.getElementById("confirm_password");
-    if (password.value === "") {
+
+    if (!password.checkValidity()) {
         document.getElementById("dot").style.color = "red";
     }else {
         document.getElementById("dot").style.color = "green";
     }
-    if (password.value !== confirmPassword.value) {
+    if (password.value !== confirmPassword.value || !password.checkValidity()) {
         document.getElementById("confirmDot").style.color = "red";
         return false;
     }else {
         document.getElementById("confirmDot").style.color = "green";
         return true;
     }
-
 }
 
 window.onload = function () {
@@ -41,7 +41,7 @@ window.onload = function () {
         "username":"Max Counterman",
         "email":"max@gmail.com",
     }
-    new FormBuilder(formData, "Register", "Register", prefillValue, true).appendTo(document.getElementById("registerForm"));
+    new FormBuilder(formData, "Register", "Register", prefillValue, {baseID:"registerForm"}).appendTo(document.getElementById("registerForm"));
 
     let span = document.createElement("span");
     span.id = "dot";
@@ -144,12 +144,34 @@ window.onload = function () {
         }
     });
 
-    document.getElementById("submitID").addEventListener("click", function (event) {
+    document.getElementById("registerFormButton").addEventListener("click", function (event) {
         event.preventDefault();
         let data = getDataFromForm();
+        if (!document.getElementById("username").checkValidity()) {
+            document.getElementById("username").reportValidity();
+            return;
+        }else if (!document.getElementById("email").checkValidity()) {
+            document.getElementById("email").reportValidity();
+            return;
+        }else if (!checkPasswords()) {
+            document.getElementById("password").reportValidity();
+            return;
+        }
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {
-            window.location.href = "/user/login.html";
+            if (xhr.status === 204) {
+                //window.location.href = "/user/login.html";
+            }else if (xhr.status === 401) {
+                let error = JSON.parse(xhr.responseText);
+                if (error["errorType"] === "email") {
+                    document.getElementById("email").setCustomValidity(error["message"]);
+                    document.getElementById("email").reportValidity();
+                }else if (error["errorType"] === "username") {
+                    document.getElementById("username").setCustomValidity(error["message"]);
+                    document.getElementById("username").reportValidity();
+                }
+            }
+
         }
         xhr.open("POST", "/register");
         xhr.setRequestHeader("Content-Type", "application/json")

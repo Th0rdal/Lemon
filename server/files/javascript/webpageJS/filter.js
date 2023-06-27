@@ -1,11 +1,11 @@
-import {RecipeCoverBuilder} from "./builder/RecipeCoverBuilder.js";
+import {RecipeCoverBuilder} from "../builder/RecipeCoverBuilder.js";
 
 function loadRecipes(xhr) {
 
     if (xhr.status === 200) {
         const body = JSON.parse(xhr.responseText)
         for (let index in body) {
-            new RecipeCoverBuilder(body[index]).appendTo(document.getElementById("recipeCoverWrapper"))
+            new RecipeCoverBuilder(body[index], false).appendTo(document.getElementById("recipeCoverWrapper"))
         }
     }
 }

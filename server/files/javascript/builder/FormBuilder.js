@@ -1,9 +1,12 @@
 import Builder from "./Builder.js"
 
 export class FormBuilder  extends Builder {
-    constructor(formObject, title, buttonValue, prefillValue={}) {
+    constructor(formObject, title, buttonValue, prefillValue, options) {
         super("form");
-        super.configureBaseElement("", "registerForm", "")
+        if (options["baseID"] === undefined) {
+            options["baseID"] = "form"
+        }
+        super.configureBaseElement("", options["baseID"], "")
         this.element.appendChild(
             //super.createParagraph([], "formTitle", "", title)
             super.createElement("p", {"class":"formTitle", "textContent": title})
@@ -31,12 +34,17 @@ export class FormBuilder  extends Builder {
             /*super.createParagraph([
             super.createInput("submit", "", "submitID", "", buttonValue)
         ], "authenticationFormElement")*/
-            super.createElement("p", {
+            super.createElement("p", { //submitID
                 "class":"authenticationFormElement",
                 "id": "buttons",
                 "children": [
-                    super.createElement("input", {"id":"submitID", "type": "submit", "value":buttonValue})
+                    super.createElement("input", {"id":options["baseID"] + "Button", "class":"submitButton", "type": "submit", "value":buttonValue})
                 ]
+            })
+        )
+        this.element.appendChild(
+            super.createElement("div", {
+                "class":"recipesCreated",
             })
         )
     }
