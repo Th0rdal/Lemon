@@ -20,7 +20,7 @@ export class commentBuilder  extends Builder {
             })
         )
         let timeStamp = comment.createdAt.substring(0, comment.createdAt.lastIndexOf(".") - 3)
-        timeStamp = timeStamp.replace("T", " ")
+        timeStamp = timeStamp.replace("T", " ").replaceAll("-", " ")
         this.element.appendChild(
             super.createElement("label", {
                 "class": "commentCreated",

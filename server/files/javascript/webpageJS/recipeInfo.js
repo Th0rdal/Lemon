@@ -40,7 +40,7 @@ fetch('/recipe/configure/' + recipeID)
 
         let user = document.createElement('a');
         user.textContent = username;
-        user.href = "https://example.com/profile/" + data.creatorID; // Hier den Link zur Benutzerprofilseite einfügen
+        user.href = "/user/userPage/" + data.creatorID; // Hier den Link zur Benutzerprofilseite einfügen
         articleElement.appendChild(user);
 
 
@@ -121,6 +121,7 @@ fetch('/recipe/configure/' + recipeID)
         let button = document.createElement("input");
         button.value = "send comment";
         button.type = "submit"
+        button.id = "textBoxInput"
         button.addEventListener("click", function() {
             let xhr = new XMLHttpRequest();
             xhr.open("POST", "/recipe/" + recipeID + "/comment")
@@ -133,20 +134,22 @@ fetch('/recipe/configure/' + recipeID)
         })
         bodyElement.append(button)
 
+        let div = document.createElement("div")
+        div.id = "commentDiv"
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {
             console.log(JSON.parse(xhr.responseText))
             for (let comment of JSON.parse(xhr.responseText)) {
                 if (comment.creatorID === getCookie("userID")) {
-                    new commentBuilder(comment, true).appendTo(bodyElement)
+                    new commentBuilder(comment, true).appendTo(div)
                     continue;
                 }
-                new commentBuilder(comment, false).appendTo(bodyElement)
+                new commentBuilder(comment, false).appendTo(div)
             }
         }
         xhr.open("GET", "/recipe/"+recipeID+"/comments")
         xhr.send()
-
+        bodyElement.appendChild(div)
     })
     .catch(error => {
         console.error(error);
