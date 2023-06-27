@@ -2,7 +2,7 @@ const express = require("express");
 const path = require('path');
 
 const router = express.Router();
-const {recipe} = require("../database/database");
+let {recipe} = require("../database/database");
 const recipeDB = new recipe();
 const {user} = require("../database/database");
 const userDB = new user();
@@ -172,15 +172,17 @@ router.route("/configure/:recipeID")
     })
 
 router.route("/:recipeID/comment")
-    .post( passport.authenticate('authentication', {session:false}), function (req, res) {
+    .post( passport.authenticate('authentication', {session:false}), async function (req, res) {
         /*
         body: rating (string), comments (string)
         send 204: if request was successful
         send 500: if there was an error with the database access
         */
-        commentsDB.insert(Object.assign({"recipeID":req.params.recipeID}, req.body)).then(() =>
+        commentsDB.insert(Object.assign({"recipeID": req.params.recipeID}, req.body)).then(async () => {
+            let recipe = await recipeDB.findOne({"_id": req.params.recipeID})
+            await recipeDB.update({"_id": req.params.recipeID}, {"$set": {"comments": recipe.comments + 1}}, {})
             res.sendStatus(204)
-        ).catch(err => {
+        }).catch(err => {
             console.log(err);
             res.sendStatus(500);
         })
@@ -196,13 +198,15 @@ router.route("/:recipeID/comment")
         await commentsDB.isCreator(req.user, req.body._id)
             .then(() => {
                 commentsDB.remove({"_id":req.body._id}, {})
-                    .then(resolve => {
+                    .then(async resolve => {
                         if (resolve === 1) {
+                            let recipe = await recipeDB.findOne({"_id": req.params.recipeID})
+                            await recipeDB.update({"_id": req.params.recipeID}, {"$set": {"comments": recipe.comments - 1}}, {})
                             res.sendStatus(204);
-                        }else if (resolve > 1) {
+                        } else if (resolve > 1) {
                             res.sendStatus(500);
                             throw new Error("Something went wrong. deleted 2 elements with the same ID");
-                        }else {
+                        } else {
                             res.sendStatus(404)
                         }
                     })
@@ -226,60 +230,38 @@ router.get("/:recipeID/comments", function (req, res, next) {
     })
 }, sendResponse)
 
-router.get("/:recipeID/ratings", function (req, res, next) {
-    /*
-    send: json data of the ratings of the recipe
-    send 500: if there was an error retrieving the data
-     */
-    ratingDB.find({"recipeID":req.params.recipeID}).then(resolve => {
-        res.data = resolve;
-        next();
-    }).catch(err => {
-        console.log(err)
-        res.sendStatus(500);
-    })
-}, sendResponse)
-
 router.route("/:recipeID/rating")
-    .put(passport.authenticate('authentication', {session:false}), function (req, res) {
+    .put(passport.authenticate('authentication', {session:false}), async function (req, res) {
         /*
         body: recipeID (string), userID (string), ratingStar (number)
         send 204: if the request was successful
         send 500: if there was an error with database access
          */
-        ratingDB.insert(Object.assign({"_id":req.params.recipeID}, req.body)).then(() => {
-            res.sendStatus(204);
-        }).catch(err => {
-            console.log(err);
-            res.sendStatus(500)
-        })
-    })
-    .delete(passport.authenticate('authentication', {session:false}), function (req, res) {
-        /*
-        body: id of the comment to remove (important id key must be _id)
-        send 204: delete was successful
-        send 403: if the authentication does not have permission
-        send 404: comment id could not be found
-        send 500: if multiple recipes were removed (should never happen)
-         */
-        ratingDB.isCreator(req.user, req.query._id)
-            .then(() => {
-                ratingDB.remove(req.body, {})
-                    .then(resolve => {
-                        console.log(resolve)
-                        if (resolve === 1) {
-                            res.sendStatus(204);
-                        }else if (resolve > 1) {
-                            res.sendStatus(500);
-                            throw new Error("Something went wrong. deleted 2 elements with the same ID");
-                        }else {
-                            res.sendStatus(404)
-                        }
-                    })
+        let increment = 0
+        let existingRating = await ratingDB.findOne({"recipeID": req.params.recipeID, "creatorID": req.body.creatorID})
+        if (existingRating === null) {
+            ratingDB.insert(Object.assign({"recipeID": req.params.recipeID}, req.body)).catch(err => {
+                console.log(err);
+                res.sendStatus(500)
             })
-            .catch(() => {
-                res.sendStatus(403)
-            })
+            increment = 1
+        }else {
+            let update = await ratingDB.update({"recipeID": req.params.recipeID, "creatorID": req.body.creatorID}, {"$set":{"ratingStar":req.body.ratingStar}}, {})
+            if (update === 0) {
+                res.sendStatus(500)
+                return;
+            }
+        }
+        let recipe = await recipeDB.findOne({"_id":req.params.recipeID})
+        let x = await ratingDB.find({"recipeID":req.params.recipeID})
+        let newRatingStars = 0;
+        for (let t of x) {
+            newRatingStars = newRatingStars + t.ratingStar
+        }
+        newRatingStars = newRatingStars / recipe.ratingAmount+increment;
+        console.log(newRatingStars)
+        await recipeDB.update({"_id":req.params.recipeID}, {"$set":{"ratingStars":newRatingStars, "ratingAmount":recipe.ratingAmount+increment}}, {})
+        res.sendStatus(204)
     })
 router.get("/update/:recipeID", function(req, res) {
     res.sendFile(path.join(__dirname + "/../files/recipe/updateRecipe.html"))

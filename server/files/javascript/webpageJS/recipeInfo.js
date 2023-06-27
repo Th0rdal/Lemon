@@ -2,6 +2,7 @@
 
 import {getCookie} from "../tools/cookies.js";
 import {commentBuilder} from "../builder/commentBuilder.js";
+import {RatingSystemBuilder} from "../builder/RatingSystemBuilder.js";
 
 let recipeID = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
 
@@ -48,6 +49,7 @@ fetch('/recipe/configure/' + recipeID)
         ratingElement.textContent = "Rating: " + data.ratingStars + " stars (" + data.ratingAmount + " ratings)";
         articleElement.appendChild(ratingElement);
 
+        new RatingSystemBuilder(5, data._id, getCookie("userID")).appendTo(articleElement)
 
         // Schwierigkeit
         let difficultyElement = document.createElement('p');
@@ -127,6 +129,7 @@ fetch('/recipe/configure/' + recipeID)
             xhr.setRequestHeader("Authorization", getCookie("jwt"))
             xhr.setRequestHeader("Content-Type", "application/json")
             xhr.send(JSON.stringify(data))
+            window.location.reload()
         })
         bodyElement.append(button)
 

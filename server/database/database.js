@@ -288,7 +288,7 @@ class userDB extends Database {
 
 class ratingDB extends Database {
     constructor() {
-        const temp = {"creatorID":"string", "ratingStar":"number"};
+        const temp = {"creatorID":"string", "ratingStar":"number", "recipeID":"string"};
         super("rating", path.join(__dirname, '../resources/database/ratings.db'), temp);
     }
 }

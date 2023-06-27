@@ -1,14 +1,31 @@
 import Builder from "./Builder.js"
+import {getCookie} from "../tools/cookies.js";
 
-class RatingSystemBuilder extends Builder {
+export class RatingSystemBuilder extends Builder {
 
-    constructor(starAmount) {
+    constructor(starAmount, recipeID, creatorID) {
         super("div");
         super.configureBaseElement("rating");
         for (let i = 0; i < starAmount*2; i++) {
-            this.element.appendChild(
-                super.createElement("input", {type:"radio", name:"star", required:false})
-            )
+            let tempElement = super.createElement("input", {
+                type:"radio",
+                name:"star_"+Number(starAmount*2 - i),
+                required:false
+            })
+            tempElement.addEventListener("click", function(event) {
+                console.log(event.target.name)
+                let xhr = new XMLHttpRequest();
+                xhr.onload = function() {
+                    window.location.reload();
+                }
+                xhr.open("PUT", "/recipe/" + recipeID + "/rating")
+                xhr.setRequestHeader("Authorization", getCookie("jwt"))
+                xhr.setRequestHeader("Content-Type", "application/json")
+                let rating = event.target.name.substring(event.target.name.lastIndexOf("_")+1)
+                let data = {"creatorID":creatorID, "ratingStar":Number(rating)/2}
+                xhr.send(JSON.stringify(data))
+            })
+            this.element.appendChild(tempElement)
         }
     }
 }
