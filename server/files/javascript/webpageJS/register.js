@@ -160,7 +160,7 @@ window.onload = function () {
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {
             if (xhr.status === 204) {
-                //window.location.href = "/user/login.html";
+                window.location.href = "/user/login.html";
             }else if (xhr.status === 401) {
                 let error = JSON.parse(xhr.responseText);
                 if (error["errorType"] === "email") {
