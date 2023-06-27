@@ -15,9 +15,10 @@ export default class userPageBuilder extends Builder{
                     "type":"submit",
                     "value":"create Recipe"
                 })
-            tempElement.onclick = function() {
+            tempElement.addEventListener("click", event => {
+                event.preventDefault();
                 window.location.href = "/recipe/createRecipe.html"
-            }
+            })
             this.element.appendChild(
                 super.createElement("p", {
                     "id":"usernameParagraph",
@@ -26,7 +27,7 @@ export default class userPageBuilder extends Builder{
                             "class":"standardFont",
                             "id":"username",
                             "type":"text",
-                            "placeholder": data["username"],
+                            "value": data["username"],
                             "required":true
                         })
                     ]
