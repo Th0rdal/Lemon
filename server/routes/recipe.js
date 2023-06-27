@@ -178,7 +178,7 @@ router.route("/:recipeID/comment")
         send 204: if request was successful
         send 500: if there was an error with the database access
         */
-        commentsDB.insert(Object.assign({"_id":req.params.recipeID}, req.body)).then(() =>
+        commentsDB.insert(Object.assign({"recipeID":req.params.recipeID}, req.body)).then(() =>
             res.sendStatus(204)
         ).catch(err => {
             console.log(err);
@@ -195,7 +195,7 @@ router.route("/:recipeID/comment")
          */
         await commentsDB.isCreator(req.user, req.body._id)
             .then(() => {
-                commentsDB.remove(req.body, {})
+                commentsDB.remove({"_id":req.body._id}, {})
                     .then(resolve => {
                         if (resolve === 1) {
                             res.sendStatus(204);
@@ -266,6 +266,7 @@ router.route("/:recipeID/rating")
             .then(() => {
                 ratingDB.remove(req.body, {})
                     .then(resolve => {
+                        console.log(resolve)
                         if (resolve === 1) {
                             res.sendStatus(204);
                         }else if (resolve > 1) {

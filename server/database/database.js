@@ -20,7 +20,7 @@ class Database {
             this.validArrayKeys = ["$set", "$push", "$addToSet", "$pop", "$pull", "$where"]
             this.mutex = new mutex();   //create new mutes
             this.validDataFormat = validDataFormat;
-            this.protectedKeys = ["_id"];
+            this.protectedKeys = ["_id", "createdAt", "updatedAt"];
             this.database = new Datastore({"filename": path, "autoload": true, "timestampData":true});    //connect to database
             Database.instance[name] = this;
         }
@@ -57,15 +57,15 @@ class Database {
         return promise(array): all objects found that matches the searchDict
         return reject(err):  if the database access failed
          */
-        return new Promise((resolve, reject) => {
-            this.mutex.acquire().then(() => {
+        return new Promise(async (resolve, reject) => {
+            await this.mutex.acquire().then(() => {
                 let check = this.checkSearchData(searchDict)
                 if (check !== "") {
                     reject(check);
                     return;
                 }
                 this.database.loadDatabase();
-                this.database.find(searchDict, function(err, docs) {
+                this.database.find(searchDict, function (err, docs) {
                     if (err) reject(err);
                     resolve(docs);
                 });
@@ -81,15 +81,15 @@ class Database {
         return promise(object): the first object found that matches the searchDict
         return reject(err): if the database access failed
          */
-        return new Promise((resolve, reject) => {
-            this.mutex.acquire().then(() => {
+        return new Promise(async (resolve, reject) => {
+            await this.mutex.acquire().then(() => {
                 let check = this.checkSearchData(searchDict)
                 if (check !== "") {
                     reject(check);
                     return;
                 }
                 this.database.loadDatabase();
-                this.database.findOne(searchDict, function(err, docs) {
+                this.database.findOne(searchDict, function (err, docs) {
                     if (err) reject(err);
                     resolve(docs);
                 })
@@ -142,14 +142,14 @@ class Database {
         return resolve(Number): amount of lines deleted
         return reject(err): if the removal failed
          */
-        return new Promise((resolve, reject) => {
-            this.mutex.acquire().then(() => {
+        return new Promise(async (resolve, reject) => {
+            await this.mutex.acquire().then(async () => {
                 let check = this.checkSearchData(searchDict)
                 if (check !== "") {
                     reject(check);
                     return;
                 }
-                this.database.remove(searchDict, options, function (err, numRemoved) {
+                await this.database.remove(searchDict, options, function (err, numRemoved) {
                     if (err) reject(err);
                     resolve(numRemoved);
                 })
@@ -254,9 +254,9 @@ class Database {
     }
 
     async isCreator(user, objectID) {
-        return new Promise((resolve, reject) => {
-            this.findOne({"_id": objectID}).then(resolve => {
-                if (resolve.creatorID === user._id) {
+        return new Promise(async (resolve, reject) => {
+            await this.findOne({"_id": objectID}).then(result => {
+                if (result.creatorID === user.userID) {
                     resolve();
                 }
                 reject();

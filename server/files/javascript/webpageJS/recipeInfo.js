@@ -1,5 +1,8 @@
 //import {RecipeCoverBuilder} from "../builder/RecipeCoverBuilder";
 
+import {getCookie} from "../tools/cookies.js";
+import {commentBuilder} from "../builder/commentBuilder.js";
+
 let recipeID = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
 
 
@@ -18,8 +21,8 @@ fetch('/recipe/configure/' + recipeID)
 
 
         //Bild
-        var imageElement = document.createElement('img');
-        imageElement.src = data.image;
+        let imageElement = document.createElement('img');
+        imageElement.src = "/resources/img/"+data.image;
         articleElement.appendChild(imageElement);
 
 
@@ -28,29 +31,44 @@ fetch('/recipe/configure/' + recipeID)
         nameTitle.textContent = data.title;
         articleElement.appendChild(nameTitle)
 
+        //User
+        let username = ""
+        let response = await fetch(`http://localhost:3000/user/${data.creatorID}`)
+        let body = await response.json();
+        username = body.username
+
+        let user = document.createElement('a');
+        user.textContent = username;
+        user.href = "https://example.com/profile/" + data.creatorID; // Hier den Link zur Benutzerprofilseite einfügen
+        articleElement.appendChild(user);
+
 
         // Bewertung
-        var ratingElement = document.createElement('p');
+        let ratingElement = document.createElement('p');
         ratingElement.textContent = "Rating: " + data.ratingStars + " stars (" + data.ratingAmount + " ratings)";
         articleElement.appendChild(ratingElement);
 
 
         // Schwierigkeit
-        var difficultyElement = document.createElement('p');
+        let difficultyElement = document.createElement('p');
         difficultyElement.textContent = "Difficulty: " + data.difficulty;
         articleElement.appendChild(difficultyElement);
 
+        //Zubereitungszeit
+        let timeElement = document.createElement('p');
+        timeElement.textContent = "Time to make: " + data.timeToMake + " minutes";
+        articleElement.appendChild(timeElement);
 
         // Nährwerte
         if (typeof data.nutrition === 'object' && Object.keys(data.nutrition).length > 0) {
-            var nutrition = document.createElement('p');
+            let nutrition = document.createElement('p');
             nutrition.textContent = "Nährwerte: ";
 
-            var nutritionUL = document.createElement('ul');
+            let nutritionUL = document.createElement('ul');
 
 
             Object.keys(data.nutrition).forEach(key => {
-                var nutritionLI = document.createElement('li');
+                let nutritionLI = document.createElement('li');
                 nutritionLI.textContent = key + ": " + data.nutrition[key];
                 nutritionUL.appendChild(nutritionLI);
             });
@@ -60,11 +78,18 @@ fetch('/recipe/configure/' + recipeID)
         }
 
 
-        //Zubereitungszeit
-        var timeElement = document.createElement('p');
-        timeElement.textContent = "Time to make: " + data.timeToMake + " minutes";
-        articleElement.appendChild(timeElement);
+        //Ingredients of recipe
+        let ingredients = document.createElement('h2');
+        ingredients.textContent = "Zutaten";
 
+        let ingredientsUL = document.createElement('ul');
+        Object.keys(data.ingredients).forEach(key => {
+            let ingredientsLI = document.createElement('li');
+            ingredientsLI.textContent = key + data.ingredients[key];
+            ingredientsUL.appendChild(ingredientsLI);
+        });
+        articleElement.appendChild(ingredients);
+        articleElement.appendChild(ingredientsUL);
 
         //Methoden of recipe
         let methodsHow = document.createElement('h2');
@@ -79,41 +104,46 @@ fetch('/recipe/configure/' + recipeID)
         articleElement.appendChild(methodsHow);
         articleElement.appendChild(methodsHowUL);
 
-
-        //Ingredients of recipe
-        let ingredients = document.createElement('h2');
-        ingredients.textContent = "Zutaten";
-
-        let ingredientsUL = document.createElement('ul');
-        Object.keys(data.ingredients).forEach(key => {
-            let ingredientsLI = document.createElement('li');
-            ingredientsLI.textContent = key + data.ingredients[key];
-            ingredientsUL.appendChild(ingredientsLI);
-        });
-
-        articleElement.appendChild(ingredients);
-        articleElement.appendChild(ingredientsUL);
-
-
-        //User
-        let username = ""
-        let response = await fetch(`http://localhost:3000/user/${data.creatorID}`)
-        let body = await response.json();
-        username = body.username
-        console.log('6')
-        let user = document.createElement('a');
-        user.textContent = username;
-        user.href = "https://example.com/profile/" + data.creatorID; // Hier den Link zur Benutzerprofilseite einfügen
-        articleElement.appendChild(user);
-
-
         // Kommentar
-        var commentsElement = document.createElement('p');
+        let commentsElement = document.createElement('p');
         commentsElement.textContent = "Comments: " + data.comments;
         articleElement.appendChild(commentsElement);
 
 
         bodyElement.append(articleElement);
+
+        let textBox = document.createElement("textarea")
+        textBox.rows = 5;
+        textBox.id = "textBox"
+        bodyElement.append(textBox)
+        let button = document.createElement("input");
+        button.value = "send comment";
+        button.type = "submit"
+        button.addEventListener("click", function() {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "/recipe/" + recipeID + "/comment")
+            let comment = document.getElementById("textBox").value;
+            let data = {"creatorID":getCookie("userID"), "comment":comment}
+            xhr.setRequestHeader("Authorization", getCookie("jwt"))
+            xhr.setRequestHeader("Content-Type", "application/json")
+            xhr.send(JSON.stringify(data))
+        })
+        bodyElement.append(button)
+
+        let xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+            console.log(JSON.parse(xhr.responseText))
+            for (let comment of JSON.parse(xhr.responseText)) {
+                if (comment.creatorID === getCookie("userID")) {
+                    new commentBuilder(comment, true).appendTo(bodyElement)
+                    continue;
+                }
+                new commentBuilder(comment, false).appendTo(bodyElement)
+            }
+        }
+        xhr.open("GET", "/recipe/"+recipeID+"/comments")
+        xhr.send()
+
     })
     .catch(error => {
         console.error(error);
