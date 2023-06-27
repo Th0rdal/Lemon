@@ -27,6 +27,13 @@ window.onload = function () {
     document.getElementById("loginFormButton").addEventListener("click", function (event) {
         event.preventDefault();
         let data = getDataFromForm();
+        if (!document.getElementById("username").checkValidity()) {
+            document.getElementById("username").reportValidity();
+            return;
+        }else if (!document.getElementById("password").checkValidity()) {
+            document.getElementById("password").reportValidity();
+            return;
+        }
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {
             let response = JSON.parse(xhr.responseText);

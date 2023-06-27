@@ -12,7 +12,6 @@ const {comments} = require("../database/database");
 const commentsDB = new comments();
 const {sendResponse} = require("../middleware/formatResponse");
 const passport = require('passport');
-const NotImplementedException = require("../exception/server_exceptions");
 const {callIngredientsAPI, callNutritionAPI} = require("../middleware/apiCalls")
 const {createWriteStream, writeFile} = require("fs");
 

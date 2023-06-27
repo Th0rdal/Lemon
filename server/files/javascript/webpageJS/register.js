@@ -28,7 +28,6 @@ function checkPasswords() {
         document.getElementById("confirmDot").style.color = "green";
         return true;
     }
-
 }
 
 window.onload = function () {
@@ -148,10 +147,20 @@ window.onload = function () {
     document.getElementById("registerFormButton").addEventListener("click", function (event) {
         event.preventDefault();
         let data = getDataFromForm();
+        if (!document.getElementById("username").checkValidity()) {
+            document.getElementById("username").reportValidity();
+            return;
+        }else if (!document.getElementById("email").checkValidity()) {
+            document.getElementById("email").reportValidity();
+            return;
+        }else if (!checkPasswords()) {
+            document.getElementById("password").reportValidity();
+            return;
+        }
         let xhr = new XMLHttpRequest();
         xhr.onload = function() {
             if (xhr.status === 204) {
-                window.location.href = "/user/login.html";
+                //window.location.href = "/user/login.html";
             }else if (xhr.status === 401) {
                 let error = JSON.parse(xhr.responseText);
                 if (error["errorType"] === "email") {

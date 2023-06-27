@@ -44,7 +44,7 @@ export default class userPageBuilder extends Builder{
                 })
             )
             this.element.appendChild(
-                super.createElement("input", {"class":"saveOptions", "type":"submit", "value":"save options"})
+                super.createElement("input", {"class":"saveOptions", "id":"saveOptions", "type":"submit", "value":"save options"})
             )
             let pwElement = super.createElement("div", {"id":"changePasswordParagraph"})
             this.element.appendChild(pwElement)
