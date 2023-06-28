@@ -6,10 +6,10 @@ const router = express.Router();
 const nodemailer = require("nodemailer")
 const {google} = require("googleapis")
 
-const CLIENT_ID = ""
-const CLIENT_SECRET = ""
-const REDIRECT_URI = ""
-const TOKEN = ""
+const CLIENT_ID = "972571660984-clavejj9hkj4j64nssm21g7vp46i70qh.apps.googleusercontent.com"
+const CLIENT_SECRET = "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"
+const REDIRECT_URI = "https://developers.google.com/oauthplayground"
+const TOKEN = "1//04pJ3X7HiI_UWCgYIARAAGAQSNwF-L9IrA4CDwK8K-xt-cqu1pKVI8d8bEjRCi2AYNGPd58c53DNpbeaj9tr7Q4snMUA4HtlMOgM"
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
 
 const API_KEY = "W8JauylDBqE7bqr2vPOax9wgV8GAlezjBQg54k2a"

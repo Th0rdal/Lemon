@@ -2,7 +2,7 @@
 
 let body = {
     "username": "bot",
-    "password": "1BotPassword?"
+    "password": "1Password?"
 };
 let jwt;
 fetch("http://localhost:3000/login", {

@@ -16,20 +16,36 @@ const {callIngredientsAPI, callNutritionAPI} = require("../middleware/apiCalls")
 const {createWriteStream, writeFile} = require("fs");
 
 //dummy recipe of the day
-let recipeOfTheDay = {"difficulty":"easy",
+let recipeOfTheDay = {
+    "difficulty":"easy",
     "ratingStars":0,
     "ratingAmount":0,
     "comments":0,
-    "nutrition":[],
+    "nutrition":{
+        "Protein":22.2,
+        "Total lipid (fat)":3.7,
+        "Carbohydrate, by difference":155.6,
+        "Energy":740,"Sugars, total including NLEA":3.7,
+        "Fiber, total dietary":7.4,
+        "Calcium, Ca":0,
+        "Iron, Fe":2.66,
+        "Potassium, K":296,
+        "Sodium, Na":704,
+        "Vitamin A, IU":0,
+        "Vitamin C, total ascorbic acid":0,
+        "Cholesterol":0,
+        "Fatty acids, total trans":0,
+        "Fatty acids, total saturated":0},
     "image":"NONE",
-    "method":["ef"],
-    "ingredients":{"ef":" "},
-    "tags":["vegan","easy"],
-    "creatorID":"N2pdJKbgtR2I4Aw5",
-    "title":"sfd","timeToMake":32,
-    "_id":"9s1SeETEK3HJJCQt",
-    "createdAt":{"$$date":1687800583062},
-    "updatedAt":{"$$date":1687800583062}
+    "method":["boil water","cook noodles"],
+    "ingredients":{"noodles":"200 g"},
+    "tags":["easy"],
+    "creatorID":"ULRULHps12aRL3E0",
+    "title":"noodles",
+    "timeToMake":23,
+    "_id":"yDhhbJRY65ribS8k",
+    "createdAt":{"$$date":1687940815204},
+    "updatedAt":{"$$date":1687940815204}
 }
 
 
