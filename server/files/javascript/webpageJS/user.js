@@ -70,11 +70,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         event.preventDefault();
         let xhr = new XMLHttpRequest();
         xhr.open("PATCH", "/user/"+getCookie("userID"))
-        let bool = false;
-        if (document.getElementById("optionsInput").value === "on") {
-            bool = true;
-        }
-        let data = {"showNutritionValue":bool}
+        let data = {"showNutritionValue":document.getElementById("optionsInput").checked}
         xhr.setRequestHeader("Authorization", getCookie("jwt"))
         xhr.setRequestHeader("Content-Type", "application/json")
         xhr.send(JSON.stringify(data))

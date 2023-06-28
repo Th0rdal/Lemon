@@ -12,7 +12,7 @@ const REDIRECT_URI = ""
 const TOKEN = ""
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
 
-const API_KEY = ""
+const API_KEY = "W8JauylDBqE7bqr2vPOax9wgV8GAlezjBQg54k2a"
 oAuth2Client.setCredentials({refresh_token: TOKEN})
 
 function callIngredientsAPI(req, res, next) {
@@ -50,7 +50,7 @@ async function callNutritionAPI(req, res, next) {
         })
         req.body.nutrition = {}
         for (let nutrient of response.data.foods[0].foodNutrients) {
-            req.body.nutrition[nutrient.nutrientName] = nutrient.value * Number(req.body["ingredients"][ingredient].substring(0, req.body["ingredients"][ingredient].lastIndexOf(" ")))
+            req.body.nutrition[nutrient.nutrientName] = nutrient.value * (Number(req.body["ingredients"][ingredient].substring(0, req.body["ingredients"][ingredient].lastIndexOf(" ")))/100)
         }
     }
     next();

@@ -62,7 +62,7 @@ fetch('/recipe/configure/' + recipeID)
         articleElement.appendChild(timeElement);
 
         // Nährwerte
-        if (typeof data.nutrition === 'object' && Object.keys(data.nutrition).length > 0) {
+        if (body.showNutritionValue) {
             let nutrition = document.createElement('p');
             nutrition.textContent = "Nährwerte: ";
 
@@ -79,7 +79,6 @@ fetch('/recipe/configure/' + recipeID)
             articleElement.appendChild(nutritionUL);
         }
 
-
         //Ingredients of recipe
         let ingredients = document.createElement('h2');
         ingredients.textContent = "Zutaten";
@@ -87,7 +86,7 @@ fetch('/recipe/configure/' + recipeID)
         let ingredientsUL = document.createElement('ul');
         Object.keys(data.ingredients).forEach(key => {
             let ingredientsLI = document.createElement('li');
-            ingredientsLI.textContent = key + data.ingredients[key];
+            ingredientsLI.textContent = key + " " + data.ingredients[key];
             ingredientsUL.appendChild(ingredientsLI);
         });
         articleElement.appendChild(ingredients);
